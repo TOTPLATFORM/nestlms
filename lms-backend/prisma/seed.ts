@@ -1,9 +1,13 @@
 import { PrismaClient } from '@prisma/client';
 import { initialSeed } from './seeds/initial.seed';
+import { languageSeed } from './seeds/language.seed';
 
 const prisma = new PrismaClient({ log: ['query'] });
 
 async function main() {
+  // First seed languages as they might be required by other seeds
+  await languageSeed(prisma);
+  // Then run other initial seeds
   await initialSeed(prisma);
 }
 
