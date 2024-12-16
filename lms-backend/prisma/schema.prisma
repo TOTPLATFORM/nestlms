@@ -1,0 +1,651 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int       @id @default(autoincrement())
+  email       String    @unique @db.VarChar(255)
+  password    String    @db.VarChar(255)
+  first_name  String?
+  last_name   String?
+  user_name   String?   @unique @db.VarChar(255)
+  unique_code String?   @unique @db.VarChar(255)
+  phone       String?   @db.VarChar(180)
+  photo       String?   @db.VarChar(500)
+  country     String?   @db.VarChar(180)
+  birth_date  DateTime?
+  roles       String    @default("")
+  status      Int       @default(0) @db.SmallInt
+
+  email_verified Int @default(0) @db.SmallInt
+  phone_verified Int @default(0) @db.SmallInt
+  gender         Int @default(1) @db.SmallInt
+
+  provider    String?
+  provider_id String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  UserTokens              UserTokens[]
+  UserVerificationCodes   UserVerificationCodes[]
+  MyUploads               MyUploads[]
+  MyImages                MyImages[]
+  UserKycVerificationList UserKycVerificationList[]
+  Course                  Course[]
+  course_id               Int?
+  Review                  Review[]
+  CourseEnrollment        CourseEnrollment[]
+  Student                 InstructorFollower[]      @relation("Student")
+  Instructor              InstructorFollower[]      @relation("Instructor")
+  Notification            Notification[]
+  Quiz                    Quiz[]
+  QuizQuestion            QuizQuestion[]
+  QuizQuestionAnswer      QuizQuestionAnswer[]
+  CartEnrollment          CartEnrollment[]
+  QuizStudent             UserQuiz[]                @relation("QuizStudent")
+  QuizInstructor          UserQuiz[]                @relation("QuizInstructor")
+  QuizAnswerStudent       UserQuizAnswer[]          @relation("QuizAnswerStudent")
+  CartItem                CartItem[]
+  InstructorApplication   InstructorApplication[]
+  InstructorSettings      InstructorSettings[]
+  UserLession             UserLession[]
+  Wallet                  Wallet[]
+  WithdrawTransaction     WithdrawTransaction[]
+  Blog                    Blog[]
+  BlogComment             BlogComment[]
+  LiveClassInstructor     LiveClass[]               @relation("LiveClassInstructor")
+  StudentWishList         WishList[]                @relation("StudentWishList")
+}
+
+model InstructorApplication {
+  id         Int      @id @default(autoincrement())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int      @unique
+  status     Int      @default(0) @db.SmallInt
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model MyImages {
+  id         Int      @id @default(autoincrement())
+  prompt     String   @db.LongText()
+  image_url  String
+  image_name String
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model MyUploads {
+  id           Int      @id @default(autoincrement())
+  fieldname    String   @db.VarChar(255)
+  originalname String   @db.VarChar(255)
+  mimetype     String   @db.VarChar(255)
+  file_path    String   @db.VarChar(255)
+  filename     String   @db.VarChar(255)
+  user         User     @relation(fields: [user_id], references: [id])
+  user_id      Int
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+}
+
+model AdminSettings {
+  id    Int    @id @default(autoincrement())
+  slug  String @unique
+  value String @db.Text()
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Category {
+  id          Int           @id @default(autoincrement())
+  name        String        @unique
+  slug        String        @unique
+  logo        String
+  status      Int           @default(1)
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @updatedAt
+  SubCategory SubCategory[]
+  Course      Course[]
+}
+
+model SubCategory {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  slug        String   @unique
+  logo        String
+  status      Int      @default(1)
+  category    Category @relation(fields: [category_id], references: [id])
+  category_id Int
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  Course      Course[]
+}
+
+model Course {
+  id                  Int                @id @default(autoincrement())
+  name                String             @unique
+  slug                String?            @unique
+  status              Int?               @default(1)
+  duration            Int?               @default(0)
+  short_description   String?            @db.Text()
+  description         String?            @db.LongText()
+  private_status      Boolean?           @default(false)
+  course_level        Int?               @default(1)
+  is_free             Boolean?           @default(false)
+  price               Decimal?
+  payable_price       Decimal?
+  discount_status     Boolean?           @default(false)
+  discount_type       Int?               @default(0)
+  discount_value      Decimal?           @default(0)
+  thumbnail_link      String?
+  cover_image_link    String?
+  demo_video          String?
+  video_upload_source Int?               @default(0)
+  meta_title          String?
+  meta_keyword        String?
+  meta_description    String?
+  what_you_will_learn String?            @db.LongText()
+  requirments         String?            @db.LongText()
+  category            Category?          @relation(fields: [category_id], references: [id])
+  category_id         Int?
+  sub_category        SubCategory?       @relation(fields: [sub_category_id], references: [id])
+  sub_category_id     Int?
+  User                User?              @relation(fields: [instructorId], references: [id])
+  instructorId        Int?
+  created_at          DateTime?          @default(now())
+  updated_at          DateTime?          @updatedAt
+  Lesson              Lesson[]
+  Review              Review[]
+  CourseEnrollment    CourseEnrollment[]
+  Section             Section[]
+  CartItem            CartItem[]
+  Quiz                Quiz[]
+  QuizQuestion        QuizQuestion[]
+  UserQuiz            UserQuiz[]
+  UserLession         UserLession[]
+  LiveClass           LiveClass[]
+  WishList            WishList[]
+}
+
+model CourseEnrollment {
+  id               Int             @id @default(autoincrement())
+  user             User            @relation(fields: [user_id], references: [id])
+  user_id          Int
+  course           Course          @relation(fields: [course_id], references: [id])
+  course_id        Int
+  CartEnrollment   CartEnrollment? @relation(fields: [cartEnrollmentId], references: [id])
+  cartEnrollmentId Int?
+  is_completed     Boolean         @default(false)
+  created_at       DateTime        @default(now())
+  updated_at       DateTime        @updatedAt
+
+  UserLession UserLession[]
+}
+
+model CartItem {
+  id         Int      @id @default(autoincrement())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+  course     Course   @relation(fields: [courseId], references: [id])
+  courseId   Int
+  isCart     Boolean  @default(true)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@unique([userId, courseId], name: "idx_user_course_unique")
+  @@index([userId], name: "idx_user_id")
+  @@index([courseId], name: "idx_course_id")
+}
+
+model CartEnrollment {
+  id                Int                @id @default(autoincrement())
+  user              User               @relation(fields: [user_id], references: [id])
+  user_id           Int
+  original_price    Decimal?
+  discounted_price  Decimal?
+  payable_price     Decimal?
+  payment_method    Int?
+  promotion_applied String?            @db.LongText()
+  payment_info      String?            @db.Text
+  payment_status    Int?               @default(0) @db.SmallInt
+  CourseEnrollment  CourseEnrollment[]
+  created_at        DateTime           @default(now())
+  updated_at        DateTime           @updatedAt
+}
+
+model Lesson {
+  id                  Int           @id @default(autoincrement())
+  title               String
+  description         String?       @db.Text()
+  video_upload_source Int
+  video_url           String        @db.Text()
+  Course              Course?       @relation(fields: [course_id], references: [id])
+  course_id           Int
+  created_at          DateTime      @default(now())
+  updated_at          DateTime      @updatedAt
+  Section             Section?      @relation(fields: [section_id], references: [id])
+  section_id          Int
+  UserLession         UserLession[]
+}
+
+model Section {
+  id         Int      @id @default(autoincrement())
+  title      String
+  course     Course   @relation(fields: [course_id], references: [id])
+  course_id  Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  Lesson     Lesson[]
+  Quiz       Quiz[]
+
+  UserLession UserLession[]
+}
+
+model Review {
+  id         Int      @id @default(autoincrement())
+  content    String
+  rating     Int
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+  course     Course   @relation(fields: [course_id], references: [id])
+  course_id  Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model UserTokens {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  refreshToken String   @db.LongText()
+  family       String   @unique
+  browserInfo  String?  @db.LongText()
+  expiresAt    DateTime
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserVerificationCodes {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  code       String   @unique @db.VarChar(10)
+  status     Int      @default(0) @db.SmallInt
+  type       Int      @default(1) @db.SmallInt
+  expired_at DateTime
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model KycVerificationList {
+  id               Int     @id @default(autoincrement())
+  name             String  @db.VarChar(255)
+  description      String? @db.Text()
+  status           Int     @default(0) @db.SmallInt
+  is_text_required Int     @default(0) @db.SmallInt
+  is_file_required Int     @default(0) @db.SmallInt
+  verification_for Int     @default(0) @db.SmallInt
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  UserKycVerificationList UserKycVerificationList[]
+}
+
+model UserKycVerificationList {
+  id       Int     @id @default(autoincrement())
+  text     String? @db.Text()
+  status   Int     @default(2) @db.SmallInt
+  file_url String? @db.VarChar(255)
+
+  User   User? @relation(fields: [userId], references: [id])
+  userId Int?
+
+  KycVerificationList   KycVerificationList? @relation(fields: [kycVerificationListId], references: [id])
+  kycVerificationListId Int?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Faq {
+  id       Int    @id @default(autoincrement())
+  type     Int    @default(0) @db.SmallInt
+  question String @db.Text
+  answer   String @db.LongText
+  status   Int    @default(0) @db.SmallInt
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Coupon {
+  id               Int       @id @default(autoincrement())
+  title            String    @db.VarChar(255)
+  code             String    @db.VarChar(255)
+  discount_type    Int       @db.SmallInt
+  discount_amount  Decimal   @default(0) @db.Decimal(18, 2)
+  minimum_purchase Decimal   @default(0) @db.Decimal(18, 2)
+  start_date       DateTime  @default(now())
+  end_date         DateTime?
+  uses_type        Int       @default(0) @db.SmallInt
+  uses_limit       Int?      @db.Int
+  status           Int       @default(1) @db.SmallInt
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Subscriber {
+  id    Int    @id @default(autoincrement())
+  email String @db.VarChar(255)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model InstructorFollower {
+  id Int @id @default(autoincrement())
+
+  Student User? @relation("Student", fields: [userId], references: [id])
+  userId  Int?
+
+  Instructor   User? @relation("Instructor", fields: [instructorId], references: [id])
+  instructorId Int?
+
+  following_status Int @default(1) @db.SmallInt
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Notification {
+  id           Int     @id @default(autoincrement())
+  User         User    @relation(fields: [userId], references: [id])
+  userId       Int
+  title        String  @db.VarChar(255)
+  body         String  @db.Text()
+  redirect_url String? @db.Text
+  is_seen      Int     @default(0) @db.SmallInt
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Quiz {
+  id       Int    @id @default(autoincrement())
+  Course   Course @relation(fields: [courseId], references: [id])
+  courseId Int
+
+  Section   Section? @relation(fields: [sectionId], references: [id])
+  sectionId Int?
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
+
+  title                String @db.VarChar(255)
+  time                 Int?   @db.Int()
+  max_attempts         Int    @db.Int
+  pass_mark            Int    @db.Int
+  expiry_days          Int    @db.Int
+  display_qus_randomly Int    @default(0) @db.SmallInt
+  display_limited_qus  Int    @default(0) @db.SmallInt
+  qus_limit            Int    @db.Int
+  certificate_included Int    @db.SmallInt
+  status               Int    @default(0) @db.SmallInt
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  QuizQuestion       QuizQuestion[]
+  QuizQuestionAnswer QuizQuestionAnswer[]
+  UserQuiz           UserQuiz[]
+  UserQuizAnswer     UserQuizAnswer[]
+}
+
+model QuizQuestion {
+  id        Int     @id @default(autoincrement())
+  title     String  @db.VarChar(255)
+  mark      Int     @db.Int
+  file_type Int     @default(0) @db.Int
+  file_url  String? @db.VarChar(255)
+
+  Course   Course @relation(fields: [courseId], references: [id])
+  courseId Int
+  Quiz     Quiz   @relation(fields: [quizId], references: [id])
+  quizId   Int
+  User     User   @relation(fields: [userId], references: [id])
+  userId   Int
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  QuizQuestionAnswer QuizQuestionAnswer[]
+  UserQuizAnswer     UserQuizAnswer[]
+}
+
+model QuizQuestionAnswer {
+  id             Int          @id @default(autoincrement())
+  title          String       @db.VarChar(255)
+  is_correct     Int          @default(0) @db.SmallInt()
+  file_url       String?      @db.VarChar(255)
+  Quiz           Quiz         @relation(fields: [quizId], references: [id])
+  quizId         Int
+  QuizQuestion   QuizQuestion @relation(fields: [quizQuestionId], references: [id])
+  quizQuestionId Int
+  User           User         @relation(fields: [userId], references: [id])
+  userId         Int
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model UserQuiz {
+  id             Int    @id @default(autoincrement())
+  QuizStudent    User   @relation("QuizStudent", fields: [studentId], references: [id])
+  studentId      Int
+  QuizInstructor User   @relation("QuizInstructor", fields: [instructorId], references: [id])
+  instructorId   Int
+  Quiz           Quiz   @relation(fields: [quizId], references: [id])
+  quizId         Int
+  Course         Course @relation(fields: [courseId], references: [id])
+  courseId       Int
+  total_marks    Int    @default(0) @db.Int
+  pass_mark      Int    @default(0) @db.Int
+  is_completed   Int    @default(0) @db.SmallInt
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  UserQuizAnswer UserQuizAnswer[]
+}
+
+model UserQuizAnswer {
+  id                Int          @id @default(autoincrement())
+  QuizAnswerStudent User         @relation("QuizAnswerStudent", fields: [studentId], references: [id])
+  studentId         Int
+  Quiz              Quiz         @relation(fields: [quizId], references: [id])
+  quizId            Int
+  QuizQuestion      QuizQuestion @relation(fields: [quizQuestionId], references: [id])
+  quizQuestionId    Int
+  UserQuiz          UserQuiz     @relation(fields: [userQuizId], references: [id])
+  userQuizId        Int
+  answer            String       @db.Text
+  mark              Int          @db.Int
+  is_correct        Int          @default(0) @db.SmallInt()
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model InstructorSettings {
+  id     Int    @id @default(autoincrement())
+  User   User   @relation(fields: [userId], references: [id])
+  userId Int
+  slug   String @unique
+  value  String @db.Text()
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model UserLession {
+  id                 Int              @id @default(autoincrement())
+  User               User             @relation(fields: [userId], references: [id])
+  userId             Int
+  Course             Course           @relation(fields: [courseId], references: [id])
+  courseId           Int
+  CourseEnrollment   CourseEnrollment @relation(fields: [courseEnrollmentId], references: [id])
+  courseEnrollmentId Int
+  Lesson             Lesson           @relation(fields: [lessonId], references: [id])
+  lessonId           Int
+  Section            Section          @relation(fields: [sectionId], references: [id])
+  sectionId          Int
+  is_completed       Boolean          @default(false)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Wallet {
+  id                     Int     @id @default(autoincrement())
+  User                   User    @relation(fields: [userId], references: [id])
+  userId                 Int
+  balance                Decimal @default(0) @db.Decimal(18, 2)
+  total_withdrawn_amount Decimal @default(0) @db.Decimal(18, 2)
+  total_pending_withdraw Decimal @default(0) @db.Decimal(18, 2)
+  is_admin_wallet        Boolean @default(false)
+  admin_earning          Decimal @default(0) @db.Decimal(18, 2)
+
+  created_at          DateTime              @default(now())
+  updated_at          DateTime              @updatedAt
+  WithdrawTransaction WithdrawTransaction[]
+}
+
+model WithdrawTransaction {
+  id                        Int     @id @default(autoincrement())
+  User                      User    @relation(fields: [userId], references: [id])
+  userId                    Int
+  Wallet                    Wallet  @relation(fields: [walletId], references: [id])
+  walletId                  Int
+  requested_amount          Decimal @default(0) @db.Decimal(18, 2)
+  admin_fee_amount          Decimal @default(0) @db.Decimal(18, 2)
+  requested_payment_details String  @db.Text()
+  status                    Int     @default(0) @db.SmallInt
+  payment_accepted_document String? @db.VarChar(255)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model BlogCategory {
+  id         Int       @id @default(autoincrement())
+  name       String    @unique
+  status     Int?      @default(1)
+  parent_id  Int?      @default(0)
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
+
+  Blogs Blog[]
+}
+
+model BlogTag {
+  id         Int       @id @default(autoincrement())
+  name       String    @unique
+  status     Int?      @default(1)
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
+}
+
+model Blog {
+  id               Int       @id @default(autoincrement())
+  title            String    @db.VarChar(255)
+  slug             String?   @unique @db.VarChar(255)
+  status           Int?      @default(1)
+  authorId         Int
+  blogCategoryId   Int
+  tag              String?   @db.Text()
+  allow_comment    Boolean?  @default(false)
+  is_featured      Boolean?  @default(false)
+  thumbnail_link   String?
+  cover_image_link String?
+  description      String?   @db.LongText()
+  views            Int?      @default(0)
+  publish_at       DateTime? @default(now())
+
+  meta_title       String? @db.Text()
+  meta_keyword     String? @db.Text()
+  meta_description String? @db.LongText()
+  meta_img         String?
+
+  BlogCategory BlogCategory  @relation(fields: [blogCategoryId], references: [id])
+  User         User?         @relation(fields: [authorId], references: [id])
+  comments     BlogComment[]
+
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
+}
+
+model BlogComment {
+  id       Int    @id @default(autoincrement())
+  message  String @db.VarChar(255)
+  status   Int?   @default(0)
+  blog_id  Int
+  is_reply Int?   @default(0)
+  reply_to Int?   @default(0)
+
+  Blog Blog? @relation(fields: [blog_id], references: [id])
+
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
+  User       User?     @relation(fields: [userId], references: [id])
+  userId     Int?
+}
+
+model LiveClass {
+  id                  Int      @id @default(autoincrement())
+  title               String   @db.VarChar(255)
+  LiveClassInstructor User     @relation("LiveClassInstructor", fields: [instructor_id], references: [id])
+  instructor_id       Int
+  Course              Course   @relation(fields: [courseId], references: [id])
+  courseId            Int
+  channel_name        String   @unique() @db.VarChar(255)
+  status              Int      @default(0) @db.SmallInt()
+  start_date_time     DateTime
+
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
+}
+
+model WishList {
+  id              Int       @id @default(autoincrement())
+  StudentWishList User      @relation("StudentWishList", fields: [studentId], references: [id])
+  studentId       Int
+  Course          Course    @relation(fields: [courseId], references: [id])
+  courseId        Int
+  status          Int       @default(0) @db.SmallInt()
+  created_at      DateTime? @default(now())
+  updated_at      DateTime? @updatedAt
+}
+
+model SocialMedia {
+  id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(255)
+  image_url  String   @db.VarChar(255)
+  status     Int      @default(0) @db.SmallInt()
+  link       String   @db.VarChar(255)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
