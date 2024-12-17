@@ -40,7 +40,7 @@ export default function NavbarUi({ setSidebarOpen, sidebarOpen }: any) {
             <span className="sr-only">Your Company</span>
             <img
               className="h-[30px] w-auto md:h-[52px]"
-              src={settings?.site_logo || "/images/logo.png"}
+              src={settings?.site_logo || "/images/logo.webp"}
               alt=""
             />
           </Link>

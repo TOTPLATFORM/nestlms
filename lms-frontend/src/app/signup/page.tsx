@@ -69,7 +69,7 @@ export default function SignUp() {
                 className="h-screen"
               />
             </div>
-            <div className="dark:bg-[#060818] relative flex min-h-screen items-center justify-center px-4 py-10 sm:px-16">
+            <div className="relative flex min-h-screen items-center justify-center px-4 py-10 sm:px-16 dark:bg-[#060818]">
               <div className="relative w-full max-w-[670px] rounded-md ">
                 <div>
                   <div className="mx-auto w-full max-w-[540px]">
@@ -78,7 +78,7 @@ export default function SignUp() {
                         <span className="sr-only">Your Company</span>
                         <img
                           className="h-[45px] w-auto"
-                          src={settings?.site_logo || "/images/logo.png"}
+                          src={settings?.site_logo || "/images/logo.webp"}
                           alt=""
                         />
                       </Link>
@@ -259,7 +259,7 @@ export default function SignUp() {
                       Don't have an account ?&nbsp;
                       <Link
                         href="/login"
-                        className="hover:text-[#4a5562] uppercase text-[#4a5562] underline transition dark:hover:text-white"
+                        className="uppercase text-[#4a5562] underline transition hover:text-[#4a5562] dark:hover:text-white"
                       >
                         SIGN IN
                       </Link>

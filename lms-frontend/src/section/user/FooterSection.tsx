@@ -46,7 +46,7 @@ export default function FooterSection() {
                 <span className="sr-only">Your Company</span>
                 <img
                   className="h-[57px] w-auto"
-                  src={settings?.site_footer_logo || "/images/logo-white.png"}
+                  src={settings?.site_footer_logo || "/images/logo-white.webp"}
                   alt=""
                 />
               </Link>

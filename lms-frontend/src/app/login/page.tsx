@@ -20,8 +20,16 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 const demoUsers = [
-  { name: "Student", email: "youssef.karim@totplatform.com", password: "student123" },
-  { name: "Instructor", email: "ahmad.hassan@totplatform.com", password: "instructor123" },
+  {
+    name: "Student",
+    email: "youssef.karim@totplatform.com",
+    password: "student123",
+  },
+  {
+    name: "Instructor",
+    email: "ahmad.hassan@totplatform.com",
+    password: "instructor123",
+  },
   { name: "Admin", email: "admin@totplatform.com", password: "admin123" },
 ];
 
@@ -79,7 +87,7 @@ export default function Login() {
               />
             </div>
 
-            <div className="dark:bg-[#060818] relative flex min-h-screen items-center justify-center px-4 py-10 sm:px-16">
+            <div className="relative flex min-h-screen items-center justify-center px-4 py-10 sm:px-16 dark:bg-[#060818]">
               <div className="relative w-full max-w-[570px] rounded-md ">
                 <div>
                   <div className="mx-auto w-full max-w-[440px]">
@@ -88,7 +96,7 @@ export default function Login() {
                         <span className="sr-only">Your Company</span>
                         <img
                           className="h-[45px] w-auto"
-                          src={settings?.site_logo || "/images/logo.png"}
+                          src={settings?.site_logo || "/images/logo.webp"}
                           alt=""
                         />
                       </Link>
@@ -168,7 +176,7 @@ export default function Login() {
                       Don't have an account ?&nbsp;
                       <Link
                         href="/signup"
-                        className="hover:text-[#4a5562] uppercase text-[#4a5562] underline transition dark:hover:text-white"
+                        className="uppercase text-[#4a5562] underline transition hover:text-[#4a5562] dark:hover:text-white"
                       >
                         SIGN UP
                       </Link>
@@ -176,7 +184,7 @@ export default function Login() {
                     <div className="mt-4 text-center dark:text-white">
                       <Link
                         href="/forget-password"
-                        className=" hover:text-[#4a5562] text-[#4a5562] underline transition dark:hover:text-white"
+                        className=" text-[#4a5562] underline transition hover:text-[#4a5562] dark:hover:text-white"
                       >
                         Forget Your Password?
                       </Link>

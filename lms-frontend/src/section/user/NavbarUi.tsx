@@ -77,8 +77,8 @@ export default function NavbarUi({ setOpenCart }: any) {
           <Link href="/" className="-m-1.5 p-1.5 py-5">
             <span className="sr-only">Your Company</span>
             <img
-              className="h-[30px] w-auto md:h-[45px] "
-              src={settings?.site_logo || "/images/logo.png"}
+              className="h-[60px] w-auto md:h-[75px] "
+              src={settings?.site_logo || "/images/logo.webp"}
               alt=""
             />
           </Link>
@@ -324,7 +324,7 @@ export default function NavbarUi({ setOpenCart }: any) {
                 <span className="sr-only">Your Company</span>
                 <img
                   className="h-[45px] w-auto"
-                  src={settings?.site_logo || "/images/logo.png"}
+                  src={settings?.site_logo || "/images/logo.webp"}
                   alt=""
                 />
               </Link>

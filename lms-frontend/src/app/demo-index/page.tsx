@@ -21,7 +21,7 @@ export default function DemoHomePage() {
               <span className="sr-only">Your Company</span>
               <img
                 className="h-[30px] w-auto md:h-[45px] "
-                src={"/images/logo.png"}
+                src={"/images/logo.webp"}
                 alt=""
               />
             </a>
@@ -74,9 +74,7 @@ export default function DemoHomePage() {
                 <MdOutlineArrowRightAlt size={18} />
               </a>
               <a
-                href={
-                  "https://totplatform.com/"
-                }
+                href={"https://totplatform.com/"}
                 className="shadow-primary/50 text-primary flex h-[54px] items-center  justify-center gap-3 rounded-full bg-white px-8 py-[15px] font-bold shadow-lg"
                 target="_blank"
               >

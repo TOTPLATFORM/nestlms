@@ -10,7 +10,7 @@ export function openGraph({
   templateTitle,
   description,
 
-  logo = "https://og.<your-domain>/images/logo.png",
+  logo = "https://og.<your-domain>/images/logo.webp",
 }: OpenGraphType): string {
   const ogLogo = encodeURIComponent(logo);
   const ogSiteName = encodeURIComponent(siteName.trim());
