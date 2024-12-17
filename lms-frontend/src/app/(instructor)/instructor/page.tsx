@@ -21,7 +21,7 @@ export default function instructor() {
           <h2 className="mb-4 text-2xl font-bold">Instructor Dashboard</h2>
           <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             <div className="custom-shadow flex items-start rounded-sm bg-white p-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full border border-blue-100 bg-primary/10">
+              <div className="bg-primary/10 flex h-12 w-12 items-center justify-center rounded-full border border-blue-100">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6 text-blue-400"
@@ -33,7 +33,7 @@ export default function instructor() {
                   <Book />
                 </svg>
               </div>
-              <div className="ml-4">
+              <div className="ms-4">
                 <h2 className="font-semibold">
                   {data?.courses ? data?.courses : 0} Courses
                 </h2>
@@ -57,7 +57,7 @@ export default function instructor() {
                   />
                 </svg>
               </div>
-              <div className="ml-4">
+              <div className="ms-4">
                 <h2 className="font-semibold">
                   {data?.students ? data?.students : 0}{" "}
                   {data?.students > 1 ? "Student's" : "Student"}
@@ -82,7 +82,7 @@ export default function instructor() {
                   />
                 </svg>
               </div>
-              <div className="ml-4">
+              <div className="ms-4">
                 <h2 className="font-semibold">
                   {data?.instructor_wallet?.total_withdrawn_amount
                     ? data?.instructor_wallet?.total_withdrawn_amount
@@ -105,7 +105,7 @@ export default function instructor() {
                   <Star />
                 </svg>
               </div>
-              <div className="ml-4">
+              <div className="ms-4">
                 <h2 className="font-semibold">
                   {data?.review_count ? data?.review_count : 0} Reviews
                 </h2>
