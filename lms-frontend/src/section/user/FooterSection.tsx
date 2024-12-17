@@ -37,7 +37,7 @@ export default function FooterSection() {
     }
   };
   return (
-    <section className="relative bg-green-900 pt-28">
+    <section className="relative bg-blue-900 pt-28">
       <div className="container text-[#E6E8E9]">
         <div className="grid grid-cols-1 gap-8 pb-28 md:grid-cols-2 lg:grid-cols-4 lg:gap-6">
           <div>
