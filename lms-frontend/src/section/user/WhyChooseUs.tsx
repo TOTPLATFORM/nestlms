@@ -15,9 +15,8 @@ export default function WhyChooseUs({ landing_data }: any) {
               Why Choose Us
             </h4>
             <h2 className="py-2 text-4xl font-bold lg:text-5xl">
-              {landing_data?.landing_choose_us_first_title
-                ? landing_data?.landing_choose_us_first_title
-                : "Find More About Us E-Learning Experience"}
+              {landing_data?.landing_choose_us_first_title || 
+                "Find More About Us E-Learning Experience"}
             </h2>
           </div>
           <div className="mb-5 mt-6 p-2 lg:p-10">
@@ -26,9 +25,8 @@ export default function WhyChooseUs({ landing_data }: any) {
               <div className="mr-[20px] aspect-[12/16] h-[400px] md:h-[500px] overflow-hidden rounded-[20px]">
                 <CustomImage
                   imageUrl={
-                    landing_data?.landing_choose_us_first_image_url
-                      ? landing_data?.landing_choose_us_first_image_url
-                      : "/images/laptop-girl.png"
+                    landing_data?.landing_choose_us_first_image_url || 
+                    "/images/laptop-girl.png"
                   }
                 />
               </div>
@@ -46,14 +44,11 @@ export default function WhyChooseUs({ landing_data }: any) {
             </div>
             <div>
               <h2 className="mb-4 text-[20px] font-bold">
-                {landing_data?.landing_choose_us_first_title
-                  ? landing_data?.landing_choose_us_first_title
-                  : "Flexible Learning"}
+                {landing_data?.landing_choose_us_first_title || "Flexible Learning"}
               </h2>
               <p className="text-sm">
-                {landing_data?.landing_choose_us_list_first_description
-                  ? landing_data?.landing_choose_us_list_first_description
-                  : "Providing multiple means of engage representation, and expression for all students to learn."}
+                {landing_data?.landing_choose_us_list_first_description || 
+                  "Providing multiple means of engage representation, and expression for all students to learn."}
               </p>
             </div>
           </div>
@@ -65,14 +60,11 @@ export default function WhyChooseUs({ landing_data }: any) {
             </div>
             <div>
               <h2 className="mb-4 text-[20px] font-bold">
-                {landing_data?.landing_choose_us_list_second_title
-                  ? landing_data?.landing_choose_us_list_second_title
-                  : "Flexible Learning"}
+                {landing_data?.landing_choose_us_list_second_title || "Flexible Learning"}
               </h2>
               <p className="text-sm">
-                {landing_data?.landing_choose_us_list_second_description
-                  ? landing_data?.landing_choose_us_list_second_description
-                  : "Providing multiple means of engage representation, and expression for all students to learn."}
+                {landing_data?.landing_choose_us_list_second_description || 
+                  "Providing multiple means of engage representation, and expression for all students to learn."}
               </p>
             </div>
           </div>
@@ -84,14 +76,11 @@ export default function WhyChooseUs({ landing_data }: any) {
             </div>
             <div>
               <h2 className="mb-4 text-[20px] font-bold">
-                {landing_data?.landing_choose_us_list_third_title
-                  ? landing_data?.landing_choose_us_list_third_title
-                  : "Flexible Learning"}
+                {landing_data?.landing_choose_us_list_third_title || "Flexible Learning"}
               </h2>
               <p className="text-sm">
-                {landing_data.landing_choose_us_list_third_description
-                  ? landing_data.landing_choose_us_list_third_description
-                  : "Providing multiple means of engage representation, and expression for all students to learn."}
+                {landing_data?.landing_choose_us_list_third_description || 
+                  "Providing multiple means of engage representation, and expression for all students to learn."}
               </p>
             </div>
           </div>
@@ -103,14 +92,11 @@ export default function WhyChooseUs({ landing_data }: any) {
             </div>
             <div>
               <h2 className="mb-4 text-[20px] font-bold">
-                {landing_data?.landing_choose_us_list_fourth_title
-                  ? landing_data?.landing_choose_us_list_fourth_title
-                  : "Flexible Learning"}
+                {landing_data?.landing_choose_us_list_fourth_title || "Flexible Learning"}
               </h2>
               <p className="text-sm">
-                {landing_data?.landing_choose_us_list_fourth_description
-                  ? landing_data?.landing_choose_us_list_fourth_description
-                  : "Providing multiple means of engage representation, and expression for all students to learn."}
+                {landing_data?.landing_choose_us_list_fourth_description || 
+                  "Providing multiple means of engage representation, and expression for all students to learn."}
               </p>
             </div>
           </div>

@@ -12,9 +12,7 @@ export default function HowItWork({ landing_data }: any) {
             How it Work
           </span>
           <h2 className="mb-2 text-4xl font-bold lg:text-5xl">
-            {landing_data?.landing_how_it_work_first_title
-              ? landing_data?.landing_how_it_work_first_title
-              : "Check How We Work in Easy Steps"}
+            {landing_data?.landing_how_it_work_first_title || "Check How We Work in Easy Steps"}
           </h2>
         </div>
         <div className="before:bg-primary after:bg-primary relative before:absolute before:left-0 before:top-[95px] before:h-[12px] before:w-[12px] before:-translate-y-[50%] before:rounded-full after:absolute after:right-0 after:top-[95px] after:h-[12px] after:w-[12px] after:-translate-y-[50%] after:rounded-full">
@@ -26,8 +24,8 @@ export default function HowItWork({ landing_data }: any) {
                   <div className="h-full w-full -rotate-45 scale-150 overflow-hidden rounded-[6px]">
                     <CustomImage
                       imageUrl={
-                        landing_data.landing_how_it_work_list_first_image_url
-                          ? landing_data.landing_how_it_work_list_first_image_url
+                        landing_data?.landing_how_it_work_list_first_image_url
+                          ? landing_data?.landing_how_it_work_list_first_image_url
                           : "/images/how-this-works.png"
                       }
                     />
@@ -39,14 +37,10 @@ export default function HowItWork({ landing_data }: any) {
               </div>
               <div className="mt-10">
                 <h3 className="pb-2 text-xl font-bold text-black">
-                  {landing_data?.landing_how_it_work_list_first_title
-                    ? landing_data?.landing_how_it_work_list_first_title
-                    : "Discover and Enroll"}
+                  {landing_data?.landing_how_it_work_list_first_title || "Discover and Enroll"}
                 </h3>
                 <p className="text-[#4A5355]">
-                  {landing_data?.landing_how_it_work_list_first_description
-                    ? landing_data?.landing_how_it_work_list_first_description
-                    : "Navigate through an extensive array of courses effortlessly. Discover subjects that pique your interest and enroll with just a few clicks. TutorLab's user-friendly interface ensures a stress-free course selection process, setting the stage for an engaging and dynamic learning adventure."}
+                  {landing_data?.landing_how_it_work_list_first_description || "Navigate through an extensive array of courses effortlessly. Discover subjects that pique your interest and enroll with just a few clicks. TOT Platform's user-friendly interface ensures a stress-free course selection process, setting the stage for an engaging and dynamic learning adventure."}
                 </p>
               </div>
             </NegativeXAxisAnimation>
@@ -57,8 +51,8 @@ export default function HowItWork({ landing_data }: any) {
                   <div className="h-full w-full -rotate-45 scale-150 overflow-hidden rounded-[6px]">
                     <CustomImage
                       imageUrl={
-                        landing_data.landing_how_it_work_list_second_image_url
-                          ? landing_data.landing_how_it_work_list_second_image_url
+                        landing_data?.landing_how_it_work_list_second_image_url
+                          ? landing_data?.landing_how_it_work_list_second_image_url
                           : "/images/how-this-works.png"
                       }
                     />
@@ -70,14 +64,10 @@ export default function HowItWork({ landing_data }: any) {
               </div>
               <div className="mt-10">
                 <h3 className="pb-2 text-xl font-bold text-black">
-                  {landing_data?.landing_how_it_work_list_second_title
-                    ? landing_data?.landing_how_it_work_list_second_title
-                    : "Engage and Learn"}
+                  {landing_data?.landing_how_it_work_list_second_title || "Engage and Learn"}
                 </h3>
                 <p className="text-[#4A5355]">
-                  {landing_data?.landing_how_it_work_list_second_description
-                    ? landing_data?.landing_how_it_work_list_second_description
-                    : "Dive into your chosen courses with lightning-fast video loading, interactive assessments, and a responsive design that adapts to your device. Immerse yourself in an environment designed for optimal comprehension and engagement. TutorLab's commitment to an enriching learning experience ensures that knowledge acquisition is both enjoyable and effective."}
+                  {landing_data?.landing_how_it_work_list_second_description || "Dive into your chosen courses with lightning-fast video loading, interactive assessments, and a responsive design that adapts to your device. Immerse yourself in an environment designed for optimal comprehension and engagement. TOT Platform's commitment to an enriching learning experience ensures that knowledge acquisition is both enjoyable and effective."}
                 </p>
               </div>
             </div>
@@ -88,8 +78,8 @@ export default function HowItWork({ landing_data }: any) {
                   <div className="h-full w-full -rotate-45 scale-150 overflow-hidden rounded-[6px]">
                     <CustomImage
                       imageUrl={
-                        landing_data.landing_how_it_work_list_third_image_url
-                          ? landing_data.landing_how_it_work_list_third_image_url
+                        landing_data?.landing_how_it_work_list_third_image_url
+                          ? landing_data?.landing_how_it_work_list_third_image_url
                           : "/images/how-this-works.png"
                       }
                     />
@@ -101,14 +91,10 @@ export default function HowItWork({ landing_data }: any) {
               </div>
               <div className="mt-10">
                 <h3 className="pb-2 text-xl font-bold text-black">
-                  {landing_data?.landing_how_it_work_list_third_title
-                    ? landing_data?.landing_how_it_work_list_third_title
-                    : "Empowerment for Instructors"}
+                  {landing_data?.landing_how_it_work_list_third_title || "Empowerment for Instructors"}
                 </h3>
                 <p className="text-[#4A5355]">
-                  {landing_data?.landing_how_it_work_list_third_description
-                    ? landing_data?.landing_how_it_work_list_third_description
-                    : "For educators seeking to share their expertise, joining as an instructor on TutorLab is a breeze. The platform provides a hassle-free onboarding process, enabling instructors to effortlessly create and manage courses, quizzes, and content. TutorLab empowers educators to focus on what they do best – teaching – while the system takes care of the rest."}
+                  {landing_data?.landing_how_it_work_list_third_description || "For educators seeking to share their expertise, joining as an instructor on TOT Platform is a breeze. The platform provides a hassle-free onboarding process, enabling instructors to effortlessly create and manage courses, quizzes, and content. TOT Platform empowers educators to focus on what they do best – teaching – while the system takes care of the rest."}
                 </p>
               </div>
             </PositiveXAxisAnimation>

@@ -104,6 +104,25 @@ export class TranslationService {
     return message?.value;
   }
 
+  async getAllSystemMessages(languageId: number) {
+    const messages = await this.prisma.systemMessage.findMany({
+      where: {
+        language_id: languageId,
+      },
+      select: {
+        key: true,
+        value: true,
+        category: true,
+      },
+    });
+
+    // Convert array of messages to an object with keys
+    return messages.reduce((acc, curr) => {
+      acc[curr.key] = curr.value;
+      return acc;
+    }, {});
+  }
+
   async setSystemMessage(
     key: string,
     languageId: number,

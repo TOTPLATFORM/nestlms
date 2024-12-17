@@ -10,9 +10,9 @@ const nextConfig = {
       },
       {
         protocol: "http",
-        hostname: "localhost",
-        port: "3005",
-        pathname: "/storage/**",
+        hostname: "*",
+        port: "",
+        pathname: "**",
       },
     ],
   },

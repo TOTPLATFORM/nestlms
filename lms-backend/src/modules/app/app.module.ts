@@ -1,9 +1,10 @@
 import { Module, NestModule, RequestMethod, MiddlewareConsumer } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { LanguageInterceptor } from '../../shared/interceptors/language.interceptor';
 
 import { PrismaModule } from '../prisma/prisma.module';
 import { AuthModule } from '../auth/auth.module';
-import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, Reflector } from '@nestjs/core';
 import { LanguageMiddleware } from '../../shared/middlewares/language.middleware';
 import { JwtAuthGuard } from 'src/shared/guards/jwt-auth.guard';
 import { MailConfig } from 'src/shared/configs/mail.config';
@@ -75,11 +76,19 @@ import { TranslationModule } from '../../shared/services/translation.module';
   providers: [
     {
       provide: APP_GUARD,
-      useClass: JwtAuthGuard,
+      useFactory: (reflector: Reflector) => {
+        const guard = new JwtAuthGuard(reflector);
+        return guard;
+      },
+      inject: [Reflector],
     },
     {
       provide: APP_INTERCEPTOR,
       useClass: BigIntTransformInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LanguageInterceptor,
     },
   ],
 })

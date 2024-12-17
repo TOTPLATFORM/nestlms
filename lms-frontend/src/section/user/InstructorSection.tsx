@@ -45,7 +45,7 @@ export default function InstructorSection({ instructor_list }: any) {
               className="w-full"
             >
               <CarouselContent>
-                {instructor_list.map((item: any, index: any) => (
+                {instructor_list?.map((item: any, index: any) => (
                   <CarouselItem
                     key={index}
                     className="md:basis-1/2 xl:basis-1/3"

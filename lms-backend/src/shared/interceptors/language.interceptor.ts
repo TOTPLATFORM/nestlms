@@ -4,8 +4,8 @@ import {
   ExecutionContext,
   CallHandler,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, from } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { LanguageService } from '../../modules/language/language.service';
 import { TranslationService } from '../services/translation.service';
 
@@ -35,10 +35,10 @@ export class LanguageInterceptor implements NestInterceptor {
     request.language = language;
 
     return next.handle().pipe(
-      map(async (data) => {
+      switchMap(data => {
         // If the response is an array, handle each item
         if (Array.isArray(data)) {
-          const translatedItems = await Promise.all(
+          return from(Promise.all(
             data.map(async (item) => {
               if (item && item.id) {
                 const translations = await this.translationService.getTranslations(
@@ -50,21 +50,21 @@ export class LanguageInterceptor implements NestInterceptor {
               }
               return item;
             }),
-          );
-          return translatedItems;
+          ));
         }
 
         // If the response is an object with an id, handle single item
         if (data && data.id) {
-          const translations = await this.translationService.getTranslations(
-            this.getTableName(request),
-            data.id,
-            language.id,
+          return from(
+            this.translationService.getTranslations(
+              this.getTableName(request),
+              data.id,
+              language.id,
+            ).then(translations => ({ ...data, translations }))
           );
-          return { ...data, translations };
         }
 
-        return data;
+        return from(Promise.resolve(data));
       }),
     );
   }

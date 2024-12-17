@@ -15,6 +15,7 @@ import "react-perfect-scrollbar/dist/css/styles.css";
 import ProgressBarComp from "@/components/progress-bar/ProgressBarComp";
 import { Provider } from "react-redux";
 import store from "../store/index";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 import GlobalLayout from "@/components/layout/global.layout";
 import { commonSettingsApi } from "@/service/common";
 import RootLoader from "@/components/RootLoader";
@@ -51,22 +52,24 @@ export default function RootLayout({
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
         />
-        <title>{data?.meta_title || "TutorLab"}</title>
+        <title>{data?.meta_title || "TOT Platform"}</title>
         <meta
           name="description"
-          content={data?.meta_description || "TutorLab"}
+          content={data?.meta_description || "TOT Platform"}
         />
-        <meta name="keywords" content={data?.meta_description || "TutorLab"} />
-        <meta name="author" content={data?.meta_keywords || "TutorLab"} />
+        <meta name="keywords" content={data?.meta_description || "TOT Platform"} />
+        <meta name="author" content={data?.meta_keywords || "TOT Platform"} />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
       <body className="font-primary">
         <main>
           <Provider store={store}>
             <QueryClientProvider client={queryClient}>
-              <GlobalLayout>{children}</GlobalLayout>
-              <ProgressBarComp />
-              <ToastContainer />
+              <LanguageProvider>
+                <GlobalLayout>{children}</GlobalLayout>
+                <ProgressBarComp />
+                <ToastContainer />
+              </LanguageProvider>
             </QueryClientProvider>
           </Provider>
         </main>

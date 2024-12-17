@@ -14,7 +14,7 @@ export default function DemoHomePage() {
         >
           <div className="col-span-6 flex gap-x-2 lg:col-span-2 lg:flex-1">
             <a
-              href="https://tutorlab.tradexpro.org/"
+              href="https://totplatform.com/"
               className="-m-1.5 p-1.5 py-5"
               target="_blank"
             >
@@ -29,7 +29,7 @@ export default function DemoHomePage() {
 
           <div className="col-span-6 flex flex-1 items-center  justify-end gap-x-2 lg:col-span-2 2xl:col-span-1">
             <a
-              href={`https://codecanyon.net/item/tutorlab-learning-management-system-saas-platform/50396294`}
+              href={`https://totplatform.com`}
               className="text-sm font-semibold leading-6 text-gray-900"
               target="_blank"
             >
@@ -42,7 +42,7 @@ export default function DemoHomePage() {
               </Button>
             </a>
             <a
-              href={`https://tutorlab.tradexpro.org/`}
+              href={`https://totplatform.com/`}
               className="hidden text-sm font-semibold leading-6 text-gray-900 sm:block"
               target="_blank"
             >
@@ -58,7 +58,7 @@ export default function DemoHomePage() {
               className="pb-[30px] pt-2.5 text-4xl font-medium -tracking-[0.64px] text-[#212529] md:text-[40px] min-[1200px]:text-[56px]"
               style={{ lineHeight: "1.1" }}
             >
-              TutorLab - Learning Management System Saas Platform
+              TOT Platform - Learning Management System Saas Platform
             </h2>
             <p className="pb-[40px] text-lg text-[#4A5355]">
               Architect client-centered total linkage for intuitive
@@ -66,7 +66,7 @@ export default function DemoHomePage() {
             </p>
             <div className="relative z-10 flex flex-col gap-8 sm:flex-row sm:items-center">
               <a
-                href={"https://tutorlab.tradexpro.org/"}
+                href={"https://totplatform.com/"}
                 className="bg-primary shadow-primary/50 flex h-[54px] items-center  justify-center gap-3 rounded-full px-8 py-[15px] text-white shadow-lg"
                 target="_blank"
               >
@@ -75,7 +75,7 @@ export default function DemoHomePage() {
               </a>
               <a
                 href={
-                  "https://codecanyon.net/item/tutorlab-learning-management-system-saas-platform/50396294"
+                  "https://totplatform.com/"
                 }
                 className="shadow-primary/50 text-primary flex h-[54px] items-center  justify-center gap-3 rounded-full bg-white px-8 py-[15px] font-bold shadow-lg"
                 target="_blank"

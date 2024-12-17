@@ -32,9 +32,8 @@ export default function HeroSection({ landing_data }: any) {
                 : "Perfect Place For Your Education Next Level"}
             </h2>
             <p className="pb-[40px] text-lg text-[#4A5355]">
-              {landing_data.landing_main_banner_first_description?.description
-                ? landing_data.landing_main_banner_first_description.description
-                : "Architect client-centered total linkage for intuitive benefits.restore convergence before real-time partnerships."}
+              {landing_data?.landing_main_banner_first_description?.description || 
+                "Architect client-centered total linkage for intuitive benefits.restore convergence before real-time partnerships."}
             </p>
             <div className="flex items-center gap-8">
               <Link

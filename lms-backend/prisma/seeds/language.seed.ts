@@ -4,120 +4,94 @@ export async function languageSeed(prisma: PrismaClient) {
   try {
     console.log('Seeding languages...');
 
-    // Create English language (default)
-    await prisma.language.upsert({
-      where: { code: 'en' },
-      update: {},
-      create: {
+    // Create default languages
+    const languages = [
+      {
         code: 'en',
         name: 'English',
         direction: 'ltr',
         is_default: true,
         status: 1,
-        locale_code: 'en-US',
-        flag_icon: 'flag-en.png'
+        flag_icon: '/images/flags/flag-en.svg',
+        locale_code: 'en-US'
       },
-    });
-
-    // Create Arabic language
-    await prisma.language.upsert({
-      where: { code: 'ar' },
-      update: {},
-      create: {
+      {
         code: 'ar',
-        name: 'العربية',
+        name: 'Arabic',
         direction: 'rtl',
         is_default: false,
         status: 1,
-        locale_code: 'ar-SA',
-        flag_icon: 'flag-ar.png'
-      },
-    });
+        flag_icon: '/images/flags/flag-ar.svg',
+        locale_code: 'ar-SA'
+      }
+    ];
 
-    // Add system messages for both languages
-    const languages = await prisma.language.findMany();
-    
     for (const lang of languages) {
-      // Common messages for English
-      if (lang.code === 'en') {
-        await prisma.systemMessage.createMany({
-          skipDuplicates: true,
-          data: [
-            {
-              language_id: lang.id,
-              key: 'common.welcome',
-              value: 'Welcome',
-              category: 'common'
-            },
-            {
-              language_id: lang.id,
-              key: 'common.error',
-              value: 'An error occurred',
-              category: 'error'
-            },
-            {
-              language_id: lang.id,
-              key: 'common.success',
-              value: 'Operation successful',
-              category: 'success'
-            },
-            {
-              language_id: lang.id,
-              key: 'auth.login.success',
-              value: 'Login successful',
-              category: 'auth'
-            },
-            {
-              language_id: lang.id,
-              key: 'auth.register.success',
-              value: 'Registration successful',
-              category: 'auth'
-            }
-          ]
-        });
-      }
-      
-      // Common messages for Arabic
-      if (lang.code === 'ar') {
-        await prisma.systemMessage.createMany({
-          skipDuplicates: true,
-          data: [
-            {
-              language_id: lang.id,
-              key: 'common.welcome',
-              value: 'مرحباً',
-              category: 'common'
-            },
-            {
-              language_id: lang.id,
-              key: 'common.error',
-              value: 'حدث خطأ',
-              category: 'error'
-            },
-            {
-              language_id: lang.id,
-              key: 'common.success',
-              value: 'تمت العملية بنجاح',
-              category: 'success'
-            },
-            {
-              language_id: lang.id,
-              key: 'auth.login.success',
-              value: 'تم تسجيل الدخول بنجاح',
-              category: 'auth'
-            },
-            {
-              language_id: lang.id,
-              key: 'auth.register.success',
-              value: 'تم التسجيل بنجاح',
-              category: 'auth'
-            }
-          ]
-        });
-      }
+      await prisma.language.create({
+        data: lang
+      });
     }
 
-    console.log('Language seed completed successfully');
+    // Create some common system messages
+    const systemMessages = [
+      {
+        key: 'common.welcome',
+        category: 'general',
+        translations: {
+          en: 'Welcome to TOT Platform',
+          ar: 'مرحباً بكم في TOT Platform'
+        }
+      },
+      {
+        key: 'auth.login.success',
+        category: 'auth',
+        translations: {
+          en: 'Successfully logged in',
+          ar: 'تم تسجيل الدخول بنجاح'
+        }
+      },
+      {
+        key: 'course.enroll.success',
+        category: 'course',
+        translations: {
+          en: 'Successfully enrolled in course',
+          ar: 'تم التسجيل في الدورة بنجاح'
+        }
+      }
+    ];
+
+    // Get the created languages
+    const english = await prisma.language.findUnique({ where: { code: 'en' } });
+    const arabic = await prisma.language.findUnique({ where: { code: 'ar' } });
+
+    if (!english || !arabic) {
+      throw new Error('Failed to create languages');
+    }
+
+    // Create system messages with translations
+    for (const msg of systemMessages) {
+      // Create English message
+      await prisma.systemMessage.create({
+        data: {
+          language_id: english.id,
+          key: msg.key,
+          value: msg.translations.en,
+          category: msg.category
+        }
+      });
+
+      // Create Arabic message
+      await prisma.systemMessage.create({
+        data: {
+          language_id: arabic.id,
+          key: msg.key,
+          value: msg.translations.ar,
+          category: msg.category
+        }
+      });
+    }
+
+    console.log('Languages and system messages seeding completed');
   } catch (error) {
     console.error('Error seeding languages:', error);
     throw error;

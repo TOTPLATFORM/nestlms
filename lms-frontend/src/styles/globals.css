@@ -16,6 +16,61 @@
     @apply bg-[#060818];
   }
 
+  /* RTL Support */
+  html[dir="rtl"] {
+    text-align: right;
+  }
+
+  html[dir="rtl"] .ltr-only {
+    display: none;
+  }
+
+  html[dir="ltr"] .rtl-only {
+    display: none;
+  }
+
+  html[dir="rtl"] .reverse-flex {
+    flex-direction: row-reverse;
+  }
+
+  html[dir="rtl"] .reverse-grid {
+    direction: rtl;
+  }
+
+  html[dir="rtl"] .text-start {
+    text-align: right;
+  }
+
+  html[dir="rtl"] .text-end {
+    text-align: left;
+  }
+
+  html[dir="rtl"] .ms-auto {
+    margin-right: auto !important;
+    margin-left: 0 !important;
+  }
+
+  html[dir="rtl"] .me-auto {
+    margin-left: auto !important;
+    margin-right: 0 !important;
+  }
+
+  html[dir="rtl"] .ps-0 {
+    padding-right: 0 !important;
+  }
+
+  html[dir="rtl"] .pe-0 {
+    padding-left: 0 !important;
+  }
+
+  html[dir="rtl"] .ms-0 {
+    margin-right: 0 !important;
+  }
+
+  html[dir="rtl"] .me-0 {
+    margin-left: 0 !important;
+  }
+
   .lms-react-select .lms-react__control {
     @apply border-input focus:border-input hover:border-input min-h-[2.5rem] !rounded-lg focus:shadow-none;
   }
