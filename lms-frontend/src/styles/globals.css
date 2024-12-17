@@ -202,8 +202,8 @@
   height: 0;
   margin: 8px;
   box-sizing: border-box;
-  border: 32px solid #2ed573;
-  border-color: #2ed573 transparent #2ed573 transparent;
+  border: 32px solid #00199c;
+  border-color: #00199c transparent #00199c transparent;
   animation: loader-css-animate 1.2s infinite;
 }
 .custom-scrollbar::-webkit-scrollbar {
@@ -240,4 +240,10 @@
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
+}
+
+[dir="rtl"] {
+  .arrow-icon {
+    transform: rotate(180deg);
+  }
 }

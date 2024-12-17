@@ -24,6 +24,7 @@ import NotificationDropdown from "@/components/dropdown/notification";
 import { useGetSearchCourseListsForNavbar } from "@/hooks/user/public/course.category.hook";
 import NoItem from "@/components/NoItem";
 import CustomImage from "@/components/CustomImage";
+import { MdOutlineArrowRightAlt } from "react-icons/md";
 
 export default function NavbarUi({ setOpenCart }: any) {
   const { isLoading, logout } = useLogout();
@@ -77,8 +78,8 @@ export default function NavbarUi({ setOpenCart }: any) {
           <Link href="/" className="-m-1.5 p-1.5 py-5">
             <span className="sr-only">Your Company</span>
             <img
-              className="h-[30px] w-auto md:h-[45px] "
-              src={settings?.site_logo || "/images/logo.png"}
+              className="h-[60px] w-auto md:h-[75px] "
+              src={settings?.site_logo || "/images/logo.webp"}
               alt=""
             />
           </Link>
@@ -257,9 +258,9 @@ export default function NavbarUi({ setOpenCart }: any) {
           {!isLoggedIn && (
             <Link
               href={`/login`}
-              className="text-sm font-semibold leading-6 text-gray-900"
+              className="flex items-center gap-1 text-sm font-semibold leading-6 text-gray-900"
             >
-              Log in <span aria-hidden="true">&rarr;</span>
+              Log in <MdOutlineArrowRightAlt size={18} className="arrow-icon" />
             </Link>
           )}
           {isLoggedIn && (
@@ -324,7 +325,7 @@ export default function NavbarUi({ setOpenCart }: any) {
                 <span className="sr-only">Your Company</span>
                 <img
                   className="h-[45px] w-auto"
-                  src={settings?.site_logo || "/images/logo.png"}
+                  src={settings?.site_logo || "/images/logo.webp"}
                   alt=""
                 />
               </Link>

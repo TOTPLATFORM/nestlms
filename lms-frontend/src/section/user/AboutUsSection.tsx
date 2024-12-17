@@ -91,7 +91,7 @@ export default function AboutUsSection({ landing_data }: any) {
                   className="bg-primary flex items-center justify-center gap-3 rounded-[6px] px-12 py-[15px] text-white"
                 >
                   <p className="font-bold capitalize">Discover Our Courses</p>
-                  <MdOutlineArrowRightAlt size={18} />
+                  <MdOutlineArrowRightAlt size={18} className="arrow-icon" />
                 </Link>
               </div>
             </PositiveXAxisAnimation>

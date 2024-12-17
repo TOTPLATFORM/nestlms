@@ -46,7 +46,7 @@ export default function VerticalBlog({ details }: any) {
             className="hover:text-primary flex items-center gap-x-1 text-[#4A5355]"
           >
             <p className="font-bold capitalize">Details</p>
-            <MdOutlineArrowRightAlt size={18} />
+            <MdOutlineArrowRightAlt size={18} className="arrow-icon" />
           </Link>
         </div>
       </div>

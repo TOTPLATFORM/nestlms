@@ -6,7 +6,7 @@ export default function ProgressBarComp() {
   return (
     <ProgressBar
       height="2px"
-      color="#2ed573"
+      color="#1FAEE7"
       options={{ showSpinner: false }}
       shallowRouting
     />
