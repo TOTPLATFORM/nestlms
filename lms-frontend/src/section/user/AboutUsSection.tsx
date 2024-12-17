@@ -15,12 +15,13 @@ export default function AboutUsSection({ landing_data }: any) {
           <div className="relative col-span-3">
             <NegativeXAxisAnimation>
               <div className="relative">
-                <div className=" overflow-hidden rounded-[8px] lg:max-w-[450px]">
+                <div className=" overflow-hidden rounded-[8px] lg:max-w-[600px]">
                   <CustomImage
+                    className="w-full"
                     imageUrl={
                       landing_data?.landing_about_us_first_image_url
                         ? landing_data?.landing_about_us_first_image_url
-                        : "/images/image-1.jpeg"
+                        : "/images/customer-service.png"
                     }
                   />
                 </div>
@@ -48,13 +49,13 @@ export default function AboutUsSection({ landing_data }: any) {
               </div>
 
               <div className="absolute -bottom-[100px] right-0  hidden max-w-[450px] lg:block">
-                <CustomImage
+                {/* <CustomImage
                   imageUrl={
                     landing_data?.landing_about_us_second_image_url
                       ? landing_data?.landing_about_us_second_image_url
                       : "/images/image-2.jpeg"
                   }
-                />
+                /> */}
               </div>
             </NegativeXAxisAnimation>
           </div>
