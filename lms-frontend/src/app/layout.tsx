@@ -52,12 +52,15 @@ export default function RootLayout({
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
         />
-        <title>{data?.meta_title || "TOT Platform"}</title>
+        <title>{data?.meta_title || "أكاديمية المياه "}</title>
         <meta
           name="description"
           content={data?.meta_description || "TOT Platform"}
         />
-        <meta name="keywords" content={data?.meta_description || "TOT Platform"} />
+        <meta
+          name="keywords"
+          content={data?.meta_description || "TOT Platform"}
+        />
         <meta name="author" content={data?.meta_keywords || "TOT Platform"} />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
