@@ -71,7 +71,7 @@ export default function DemoHomePage() {
                 target="_blank"
               >
                 <p>View Demo </p>
-                <MdOutlineArrowRightAlt size={18} />
+                <MdOutlineArrowRightAlt size={18} className="arrow-icon" />
               </a>
               <a
                 href={"https://totplatform.com/"}

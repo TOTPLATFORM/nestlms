@@ -89,7 +89,7 @@ export default function NewCategorySection() {
                   className="text-primary flex items-center justify-center gap-3 rounded-[6px] bg-white px-6 py-[7px]"
                 >
                   <p className="font-bold capitalize">Explore</p>
-                  <MdOutlineArrowRightAlt size={18} />
+                  <MdOutlineArrowRightAlt size={18} className="arrow-icon" />
                 </Link>
               </div>
             </div>

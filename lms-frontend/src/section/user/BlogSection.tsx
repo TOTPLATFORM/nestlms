@@ -30,7 +30,7 @@ export default function BlogSection({ blogs }: any) {
               <Link className="text-white" href={"/blogs"}>
                 View All
               </Link>
-              <ArrowRight className="h-5 w-5 text-white" />
+              <ArrowRight className="arrow-icon h-5 w-5 text-white" />
             </div>
           </div>
           <Carousel

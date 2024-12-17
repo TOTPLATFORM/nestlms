@@ -32,7 +32,8 @@ export default function HeroSection({ landing_data }: any) {
                 : "Perfect Place For Your Education Next Level"}
             </h2>
             <p className="pb-[40px] text-lg text-[#4A5355]">
-              {landing_data?.landing_main_banner_first_description?.description || 
+              {landing_data?.landing_main_banner_first_description
+                ?.description ||
                 "Architect client-centered total linkage for intuitive benefits.restore convergence before real-time partnerships."}
             </p>
             <div className="flex items-center gap-8">
@@ -41,7 +42,7 @@ export default function HeroSection({ landing_data }: any) {
                 className="bg-primary shadow-primary/50 flex h-[54px] items-center  justify-center gap-3 rounded-full px-8 py-[15px] text-white shadow-lg"
               >
                 <p>View Course </p>
-                <MdOutlineArrowRightAlt size={18} />
+                <MdOutlineArrowRightAlt size={18} className="arrow-icon" />
               </Link>
             </div>
           </NegativeXAxisAnimation>

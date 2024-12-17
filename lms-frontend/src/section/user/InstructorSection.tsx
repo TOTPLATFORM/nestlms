@@ -33,7 +33,7 @@ export default function InstructorSection({ instructor_list }: any) {
               <Link className="text-white" href={"/tutors"}>
                 View All
               </Link>
-              <ArrowRight className="h-5 w-5 text-white" />
+              <ArrowRight className="arrow-icon h-5 w-5 text-white" />
             </div>
           </div>
 
