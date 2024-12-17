@@ -88,7 +88,7 @@ export const useLoginHandler = () => {
     try {
       const response = await mutateAsync(data);
       processResponse(response);
-
+      console.log("response", response);
       if (response.success) {
         Cookies.set("token", response?.data?.accessToken);
         Cookies.set("is_admin", response?.data?.user_roles?.is_admin);

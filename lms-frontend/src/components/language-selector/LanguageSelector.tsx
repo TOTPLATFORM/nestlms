@@ -24,7 +24,7 @@ export default function LanguageSelector() {
         <Button variant="ghost" className="h-8 w-8 px-0">
           {currentLanguage.flag_icon && (
             <Image
-              src={`/images/flags/${currentLanguage.flag_icon}`}
+              src={currentLanguage.flag_icon}
               alt={currentLanguage.name}
               width={24}
               height={24}
@@ -45,7 +45,7 @@ export default function LanguageSelector() {
           >
             {language.flag_icon && (
               <Image
-                src={`/images/flags/${language.flag_icon}`}
+                src={language.flag_icon}
                 alt={language.name}
                 width={20}
                 height={20}

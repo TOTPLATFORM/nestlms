@@ -56,7 +56,7 @@ export const useGetblogList = () => {
     queryKey: ["courseListsForPublic", limit, page, queryParams],
     queryFn: () => getblogList(page, limit, queryParams),
   });
-
+  console.log("data", data);
   return {
     data,
     isLoading,

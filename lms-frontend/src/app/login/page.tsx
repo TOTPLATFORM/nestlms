@@ -20,9 +20,9 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 const demoUsers = [
-  { name: "Student", email: "student@email.com", password: "123456" },
-  { name: "Instructor", email: "instructor@email.com", password: "123456" },
-  { name: "Admin", email: "admin@email.com", password: "123456" },
+  { name: "Student", email: "student@totplatform.com", password: "student123" },
+  { name: "Instructor", email: "instructor@totplatform.com", password: "instructor123" },
+  { name: "Admin", email: "admin@totplatform.com", password: "admin123" },
 ];
 
 export default function Login() {

@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { instructorsData, studentsData, instructorBios, instructorExpertise } from './data/users.data';
+import { coreConstant } from 'src/shared/helpers/coreConstant';
 
 export async function usersSeed(prisma: PrismaClient) {
   try {
@@ -15,7 +16,7 @@ export async function usersSeed(prisma: PrismaClient) {
         first_name: 'Admin',
         last_name: 'User',
         user_name: 'admin',
-        roles: 'admin',
+        roles: `${coreConstant.ROLES.ADMIN},${coreConstant.ROLES.SUPER_ADMIN}`,
         status: 1,
         email_verified: 1,
         phone_verified: 1
@@ -43,7 +44,7 @@ export async function usersSeed(prisma: PrismaClient) {
           first_name: instructor.first_name,
           last_name: instructor.last_name,
           user_name: instructor.user_name,
-          roles: 'instructor',
+          roles: `${coreConstant.ROLES.INSTRUCTOR},${coreConstant.ROLES.STUDENT}`,
           status: 1,
           email_verified: 1,
           phone_verified: 1,
@@ -138,7 +139,7 @@ export async function usersSeed(prisma: PrismaClient) {
           first_name: student.first_name,
           last_name: student.last_name,
           user_name: student.user_name,
-          roles: 'student',
+          roles: `${coreConstant.ROLES.STUDENT}`,
           status: 1,
           email_verified: 1,
           phone_verified: 1,

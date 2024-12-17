@@ -11,7 +11,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const demoUsers = [
-  { name: "Admin", email: "admin@email.com", password: "123456" },
+  { name: "Admin", email: "admin@totplatform.com", password: "admin123" },
 ];
 export default function Login() {
   const { form, handleLogin, isLoading } = useLoginHandler();

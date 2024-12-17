@@ -19,7 +19,7 @@ export function useTranslation() {
       try {
         setIsLoading(true);
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/translations/system-messages?language=${currentLanguage.code}`
+          `${process.env.NEXT_PUBLIC_BASE_URL}/public/languages/system-messages?language=${currentLanguage.code}`
         );
         const data = await response.json();
         setTranslations(data);
