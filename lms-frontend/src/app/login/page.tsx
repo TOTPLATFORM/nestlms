@@ -20,8 +20,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 const demoUsers = [
-  { name: "Student", email: "student@totplatform.com", password: "student123" },
-  { name: "Instructor", email: "instructor@totplatform.com", password: "instructor123" },
+  { name: "Student", email: "youssef.karim@totplatform.com", password: "student123" },
+  { name: "Instructor", email: "ahmad.hassan@totplatform.com", password: "instructor123" },
   { name: "Admin", email: "admin@totplatform.com", password: "admin123" },
 ];
 
@@ -35,7 +35,7 @@ export default function Login() {
   const { gLoading, handleGoogleLogin, mutateGoogle } = useSignin();
 
   const selectDemoUser = (email: string, password: string) => {
-    if (email == "admin@email.com") {
+    if (email == "admin@totplatform.com") {
       router.push("/admin/login");
       return;
     }
