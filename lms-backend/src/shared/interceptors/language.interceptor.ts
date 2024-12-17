@@ -24,8 +24,9 @@ export class LanguageInterceptor implements NestInterceptor {
     const langCode = request.headers['accept-language'] || 'en';
 
     // Get language from header or use default
-    const language = await this.languageService.findByCode(langCode) 
-      || await this.languageService.getDefaultLanguage();
+    const language =
+      (await this.languageService.findByCode(langCode)) ||
+      (await this.languageService.getDefaultLanguage());
 
     if (!language) {
       return next.handle();
@@ -35,35 +36,35 @@ export class LanguageInterceptor implements NestInterceptor {
     request.language = language;
 
     return next.handle().pipe(
-      switchMap(data => {
+      switchMap((data) => {
         // If the response is an array, handle each item
         if (Array.isArray(data)) {
-          return from(Promise.all(
-            data.map(async (item) => {
-              if (item && item.id) {
-                const translations = await this.translationService.getTranslations(
-                  this.getTableName(request),
-                  item.id,
-                  language.id,
-                );
-                return { ...item, translations };
-              }
-              return item;
-            }),
-          ));
-        }
-
-        // If the response is an object with an id, handle single item
-        if (data && data.id) {
           return from(
-            this.translationService.getTranslations(
-              this.getTableName(request),
-              data.id,
-              language.id,
-            ).then(translations => ({ ...data, translations }))
+            Promise.all(
+              data.map(async (item) => {
+                if (item && item.id && !item.translations) {
+                  const translations =
+                    await this.translationService.getTranslations(
+                      this.getTableName(request),
+                      item.id,
+                      language.id,
+                    );
+                  return { ...item, translations };
+                }
+                return item;
+              }),
+            ),
           );
         }
 
+        // If the response is an object with an id, handle single item
+        if (data && data.id && !data.translations) {
+          return from(
+            this.translationService
+              .getTranslations(this.getTableName(request), data.id, language.id)
+              .then((translations) => ({ ...data, translations })),
+          );
+        }
         return from(Promise.resolve(data));
       }),
     );
@@ -74,7 +75,7 @@ export class LanguageInterceptor implements NestInterceptor {
     const route = request.route.path;
     const parts = route.split('/');
     // Remove empty strings and parameters
-    const filteredParts = parts.filter(part => part && !part.startsWith(':'));
+    const filteredParts = parts.filter((part) => part && !part.startsWith(':'));
     // Get the main resource name
     return filteredParts[0] || 'unknown';
   }
