@@ -29,7 +29,7 @@ export default function FaqSection({ faq_list }: any) {
                 <div className="bg-primary/30 absolute bottom-0 left-0 hidden h-[400px] w-full rounded-[8px] lg:block lg:w-[250px]"></div>
 
                 <div className="w-full overflow-hidden rounded-[8px] lg:-translate-y-[30px] lg:translate-x-[30px] ">
-                  <CustomImage imageUrl="/images/learning-img.png" />
+                  <CustomImage imageUrl="/images/male.png" />
                 </div>
               </div>
               <div className="bg-primary -bottom-[80px] right-0 z-[3] max-w-[410px] rounded-[8px] px-[25px] py-10 shadow-md lg:absolute">

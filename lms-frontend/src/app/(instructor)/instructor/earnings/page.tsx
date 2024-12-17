@@ -147,7 +147,7 @@ export default function instructorEarnings() {
                   <DollarSign />
                 </svg>
               </div>
-              <div className="ml-4">
+              <div className="ms-4">
                 <h2 className="font-semibold">
                   {data?.wallet_details?.balance
                     ? data?.wallet_details?.balance
@@ -170,7 +170,7 @@ export default function instructorEarnings() {
                   <DollarSign />
                 </svg>
               </div>
-              <div className="ml-4">
+              <div className="ms-4">
                 <h2 className="font-semibold">
                   {data?.wallet_details?.total_withdrawn_amount
                     ? data?.wallet_details?.total_withdrawn_amount
@@ -195,7 +195,7 @@ export default function instructorEarnings() {
                   <DollarSign />
                 </svg>
               </div>
-              <div className="ml-4">
+              <div className="ms-4">
                 <h2 className="font-semibold">
                   {data?.wallet_details?.total_pending_withdraw
                     ? data?.wallet_details?.total_pending_withdraw
@@ -220,7 +220,7 @@ export default function instructorEarnings() {
                   <DollarSign />
                 </svg>
               </div>
-              <div className="ml-4">
+              <div className="ms-4">
                 <h2 className="font-semibold">
                   {data?.wallet_details?.admin_earning
                     ? data?.wallet_details?.admin_earning

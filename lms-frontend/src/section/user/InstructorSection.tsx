@@ -36,7 +36,7 @@ export default function InstructorSection({ instructor_list }: any) {
               <Link className="text-white" href={"/tutors"}>
                 {t("instructor.header.cta")}
               </Link>
-              <ArrowRight className="h-5 w-5 text-white" />
+              <ArrowRight className="arrow-icon h-5 w-5 text-white" />
             </div>
           </div>
 

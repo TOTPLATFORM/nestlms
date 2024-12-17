@@ -93,7 +93,7 @@ export default function NewCategorySection() {
                   <p className="font-bold capitalize">
                     {t("category.title.cta")}
                   </p>
-                  <MdOutlineArrowRightAlt size={18} />
+                  <MdOutlineArrowRightAlt size={18} className="arrow-icon" />
                 </Link>
               </div>
             </div>

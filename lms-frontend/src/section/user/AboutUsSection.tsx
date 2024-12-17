@@ -17,12 +17,13 @@ export default function AboutUsSection({ landing_data }: any) {
           <div className="relative col-span-3">
             <NegativeXAxisAnimation>
               <div className="relative">
-                <div className=" overflow-hidden rounded-[8px] lg:max-w-[450px]">
+                <div className=" overflow-hidden rounded-[8px] lg:max-w-[600px]">
                   <CustomImage
+                    className="w-full"
                     imageUrl={
                       landing_data?.landing_about_us_first_image_url
                         ? landing_data?.landing_about_us_first_image_url
-                        : "/images/image-1.jpeg"
+                        : "/images/customer-service.png"
                     }
                   />
                 </div>
@@ -44,20 +45,19 @@ export default function AboutUsSection({ landing_data }: any) {
                     </h3>
                     <p className="text-sm font-bold leading-[1.2] text-gray-900 lg:text-lg">
                       {t("aboutus.experience.years")}
-                      Years of Education
                     </p>
                   </div>
                 </div>
               </div>
 
               <div className="absolute -bottom-[100px] right-0  hidden max-w-[450px] lg:block">
-                <CustomImage
+                {/* <CustomImage
                   imageUrl={
                     landing_data?.landing_about_us_second_image_url
                       ? landing_data?.landing_about_us_second_image_url
                       : "/images/image-2.jpeg"
                   }
-                />
+                /> */}
               </div>
             </NegativeXAxisAnimation>
           </div>
@@ -90,7 +90,7 @@ export default function AboutUsSection({ landing_data }: any) {
                   <p className="font-bold capitalize">
                     {t("aboutus.description.cta")}
                   </p>
-                  <MdOutlineArrowRightAlt size={18} />
+                  <MdOutlineArrowRightAlt size={18} className="arrow-icon" />
                 </Link>
               </div>
             </PositiveXAxisAnimation>

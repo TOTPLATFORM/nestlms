@@ -40,7 +40,7 @@ export default function NavbarUi({ setSidebarOpen, sidebarOpen }: any) {
             <span className="sr-only">Your Company</span>
             <img
               className="h-[30px] w-auto md:h-[52px]"
-              src={settings?.site_logo || "/images/logo.png"}
+              src={settings?.site_logo || "/images/logo.webp"}
               alt=""
             />
           </Link>
@@ -70,23 +70,23 @@ export default function NavbarUi({ setSidebarOpen, sidebarOpen }: any) {
         <div className="col-span-9 hidden w-full items-center justify-end lg:flex xl:col-span-10 2xl:col-span-11">
           <Link
             href="/admin/courses/create"
-            className=" mr-2 rounded-md  border px-3  py-2 text-base font-normal text-gray-600"
+            className=" me-2 rounded-md  border px-3  py-2 text-base font-normal text-gray-600"
           >
-            <i className="fa-regular fa-plus mr-2"></i>
+            <i className="fa-regular fa-plus me-2"></i>
             Create Course
           </Link>
           <Link
             href="/admin/user/create"
-            className=" mr-2 rounded-md  border px-3  py-2 text-base font-normal text-gray-600"
+            className=" me-2 rounded-md  border px-3  py-2 text-base font-normal text-gray-600"
           >
-            <i className="fa-regular fa-plus mr-2"></i>
+            <i className="fa-regular fa-plus me-2"></i>
             Create User
           </Link>
           <Link
             href="/admin/coupon/create"
-            className=" mr-2 rounded-md  border px-3  py-2 text-base font-normal text-gray-600"
+            className=" me-2 rounded-md  border px-3  py-2 text-base font-normal text-gray-600"
           >
-            <i className="fa-regular fa-plus mr-2"></i>
+            <i className="fa-regular fa-plus me-2"></i>
             Add Coupon
           </Link>
         </div>

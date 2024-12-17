@@ -51,7 +51,7 @@ export default function ForgetPassword() {
                 className="h-screen"
               />
             </div>
-            <div className="dark:bg-[#060818] relative flex min-h-screen items-center justify-center px-4 py-10 sm:px-16">
+            <div className="relative flex min-h-screen items-center justify-center px-4 py-10 sm:px-16 dark:bg-[#060818]">
               <div className="relative w-full max-w-[570px] rounded-md ">
                 <div>
                   <div className="mx-auto w-full max-w-[440px]">
@@ -60,7 +60,7 @@ export default function ForgetPassword() {
                         <span className="sr-only">Your Company</span>
                         <img
                           className="h-[45px] w-auto"
-                          src={settings?.site_logo || "/images/logo.png"}
+                          src={settings?.site_logo || "/images/logo.webp"}
                           alt=""
                         />
                       </Link>
@@ -105,7 +105,7 @@ export default function ForgetPassword() {
                     <div className="mt-4 text-center dark:text-white">
                       <Link
                         href="/login"
-                        className=" hover:text-[#4a5562] border-b border-black pb-1 text-[#4a5562] transition dark:hover:text-white"
+                        className=" border-b border-black pb-1 text-[#4a5562] transition hover:text-[#4a5562] dark:hover:text-white"
                       >
                         Log In
                       </Link>

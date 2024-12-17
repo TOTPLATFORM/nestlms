@@ -37,7 +37,7 @@ export default function FooterSection() {
     }
   };
   return (
-    <section className="relative bg-green-900 pt-28">
+    <section className="relative bg-blue-900 pt-28">
       <div className="container text-[#E6E8E9]">
         <div className="grid grid-cols-1 gap-8 pb-28 md:grid-cols-2 lg:grid-cols-4 lg:gap-6">
           <div>
@@ -46,7 +46,7 @@ export default function FooterSection() {
                 <span className="sr-only">Your Company</span>
                 <img
                   className="h-[57px] w-auto"
-                  src={settings?.site_footer_logo || "/images/logo-white.png"}
+                  src={settings?.site_footer_logo || "/images/logo-white.webp"}
                   alt=""
                 />
               </Link>
@@ -92,7 +92,7 @@ export default function FooterSection() {
           </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <h2 className="after:bg-primary relative mb-[30px] text-lg font-bold after:absolute after:-bottom-[3px] after:left-0 after:h-[2px] after:w-[34px]">
+              <h2 className="after:bg-primary relative mb-[30px] text-lg font-bold after:absolute after:-bottom-[3px] after:left-0 after:h-[2px] after:w-[34px] rtl:after:right-0">
                 {t(`Useful Links`)}
               </h2>
               <div className="flex flex-col gap-2">
@@ -110,7 +110,7 @@ export default function FooterSection() {
           </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <h2 className="after:bg-primary relative mb-[30px] text-lg font-bold after:absolute after:-bottom-[3px] after:left-0 after:h-[2px] after:w-[34px]">
+              <h2 className="after:bg-primary relative mb-[30px] text-lg font-bold after:absolute after:-bottom-[3px] after:left-0 after:h-[2px]  after:w-[34px] rtl:after:right-0">
                 {t(`Useful Links`)}
               </h2>
               <div className="flex flex-col gap-2">
@@ -133,7 +133,7 @@ export default function FooterSection() {
             </div>
           </div>
           <div>
-            <h2 className="after:bg-primary relative mb-[30px] text-lg font-bold after:absolute after:-bottom-[3px] after:left-0 after:h-[2px] after:w-[34px]">
+            <h2 className="after:bg-primary relative mb-[30px] text-lg font-bold after:absolute after:-bottom-[3px] after:left-0 after:h-[2px] after:w-[34px] rtl:after:right-0">
               {t(`Subscribe`)}
             </h2>
             <div className="flex flex-col gap-y-2">

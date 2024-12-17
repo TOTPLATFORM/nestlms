@@ -35,7 +35,7 @@ export default function DesktopSidebar({
         <div className="flex h-8 w-full items-center justify-center px-4 pb-10 pt-14">
           <img
             className="h-[56px] w-auto"
-            src={settings?.site_footer_logo || "/images/logo-white.png"}
+            src={settings?.site_footer_logo || "/images/logo-white.webp"}
             alt="Your Company"
           />
         </div>

@@ -20,7 +20,7 @@ module.exports = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#2ed573",
+          DEFAULT: "#1FAEE7",
           foreground: "hsl(var(--primary-foreground))",
         },
         sidebar: {

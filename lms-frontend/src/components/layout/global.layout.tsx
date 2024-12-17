@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Head from "next/head";
 import CookieBanner from "../cookies";
-import Header from "./header";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const GlobalLayout = ({ children }: { children: React.ReactNode }) => {
@@ -42,7 +41,7 @@ const GlobalLayout = ({ children }: { children: React.ReactNode }) => {
       </Head>
       <CookieBanner />
       <GoogleOAuthProvider clientId={settings?.google_auth_client_id}>
-        <Header />
+        
         <div className="flex min-h-screen flex-col">
           <div className="flex-1">{children}</div>
         </div>

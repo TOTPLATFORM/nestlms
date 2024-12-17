@@ -59,7 +59,7 @@ export default function VerifyEmail() {
                 className="h-screen"
               />
             </div>
-            <div className="dark:bg-[#060818] relative flex min-h-screen items-center justify-center px-4 py-10 sm:px-16">
+            <div className="relative flex min-h-screen items-center justify-center px-4 py-10 sm:px-16 dark:bg-[#060818]">
               <div className="relative w-full max-w-[570px] rounded-md ">
                 <div>
                   <div className="mx-auto w-full max-w-[440px]">
@@ -68,7 +68,7 @@ export default function VerifyEmail() {
                         <span className="sr-only">Your Company</span>
                         <img
                           className="h-[45px] w-auto"
-                          src={settings?.site_logo || "/images/logo.png"}
+                          src={settings?.site_logo || "/images/logo.webp"}
                           alt=""
                         />
                       </Link>

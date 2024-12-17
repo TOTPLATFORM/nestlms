@@ -49,7 +49,7 @@ export default function UserDesktopSidebar({
           <Link href={"/"}>
             <img
               className="h-[56px] w-auto"
-              src={settings?.site_footer_logo || "/images/logo-white.png"}
+              src={settings?.site_footer_logo || "/images/logo-white.webp"}
               alt="Your Company"
             />
           </Link>

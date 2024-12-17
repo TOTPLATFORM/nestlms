@@ -48,7 +48,7 @@ export default function WhyChooseUs({ landing_data }: any) {
               <h2 className="mb-4 text-[20px] font-bold">
                 {t("whychooseus.card.title")}
               </h2>
-              <p className="text-sm">{t("whychooseus.card.description")}</p>
+              <p className="text-sm">{t("whychooseus.card.description")} </p>
             </div>
           </div>
           <div className="custom-shadow rounded-md bg-white p-5">
@@ -61,7 +61,7 @@ export default function WhyChooseUs({ landing_data }: any) {
               <h2 className="mb-4 text-[20px] font-bold">
                 {t("whychooseus.card.title")}
               </h2>
-              <p className="text-sm">{t("whychooseus.card.description")}</p>
+              <p className="text-sm">{t("whychooseus.card.description")} </p>
             </div>
           </div>
           <div className="custom-shadow rounded-md bg-white p-5">
@@ -74,7 +74,7 @@ export default function WhyChooseUs({ landing_data }: any) {
               <h2 className="mb-4 text-[20px] font-bold">
                 {t("whychooseus.card.title")}
               </h2>
-              <p className="text-sm">{t("whychooseus.card.description")}</p>
+              <p className="text-sm">{t("whychooseus.card.description")} </p>
             </div>
           </div>
           <div className="custom-shadow rounded-md bg-white p-5">
@@ -87,7 +87,7 @@ export default function WhyChooseUs({ landing_data }: any) {
               <h2 className="mb-4 text-[20px] font-bold">
                 {t("whychooseus.card.title")}
               </h2>
-              <p className="text-sm">{t("whychooseus.card.description")}</p>
+              <p className="text-sm">{t("whychooseus.card.description")} </p>
             </div>
           </div>
         </PositiveXAxisAnimation>

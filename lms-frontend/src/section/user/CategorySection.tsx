@@ -13,7 +13,7 @@ export default function CategorySection() {
   return (
     <section className="mt-0 pb-28 lg:mt-28">
       <div className="container overflow-visible">
-        <div className="relative rounded-[12px] bg-primary/10 px-[20px] py-[30px] lg:px-[50px] lg:py-[100px]">
+        <div className="bg-primary/10 relative rounded-[12px] px-[20px] py-[30px] lg:px-[50px] lg:py-[100px]">
           <img
             src="/images/category-shape-2.png"
             alt=""
@@ -38,7 +38,7 @@ export default function CategorySection() {
                   className="bg-primary flex items-center justify-center gap-3 rounded-[6px] px-6 py-[7px] text-white"
                 >
                   <p className="font-bold capitalize">Explore</p>
-                  <MdOutlineArrowRightAlt size={18} />
+                  <MdOutlineArrowRightAlt size={18} className="arrow-icon" />
                 </Link>
               </div>
             </div>

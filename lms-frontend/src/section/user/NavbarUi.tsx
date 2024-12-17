@@ -24,6 +24,8 @@ import NotificationDropdown from "@/components/dropdown/notification";
 import { useGetSearchCourseListsForNavbar } from "@/hooks/user/public/course.category.hook";
 import NoItem from "@/components/NoItem";
 import CustomImage from "@/components/CustomImage";
+import { MdOutlineArrowRightAlt } from "react-icons/md";
+import LanguageSelector from "@/components/language-selector/LanguageSelector";
 
 export default function NavbarUi({ setOpenCart }: any) {
   const { isLoading, logout } = useLogout();
@@ -69,7 +71,7 @@ export default function NavbarUi({ setOpenCart }: any) {
   } = useGetSearchCourseListsForNavbar();
 
   return (
-    <header className="relative bg-[#F5F7F8]">
+    <header className="sticky top-0 z-50 bg-[#F5F7F8]">
       <nav
         className={`left-0   top-0 z-50 mx-auto grid w-full grid-cols-12 items-center gap-x-2 overflow-visible  bg-[#F5F7F8] px-4 lg:gap-x-4  lg:px-6`}
       >
@@ -77,8 +79,8 @@ export default function NavbarUi({ setOpenCart }: any) {
           <Link href="/" className="-m-1.5 p-1.5 py-5">
             <span className="sr-only">Your Company</span>
             <img
-              className="h-[30px] w-auto md:h-[45px] "
-              src={settings?.site_logo || "/images/logo.png"}
+              className="h-[60px] w-auto md:h-[75px] "
+              src={settings?.site_logo || "/images/logo.webp"}
               alt=""
             />
           </Link>
@@ -191,7 +193,7 @@ export default function NavbarUi({ setOpenCart }: any) {
           </div>
         </div>
 
-        <div className="col-span-4 hidden w-full items-center justify-end lg:flex 2xl:col-span-4">
+        <div className="col-span-4 hidden w-full items-center justify-end lg:flex 2xl:col-span-3">
           <Link href="/" className="px-2 text-base font-normal  text-gray-900">
             Home
           </Link>
@@ -240,7 +242,9 @@ export default function NavbarUi({ setOpenCart }: any) {
           )}
         </div>
 
-        <div className="col-span-6 flex flex-1 items-center  justify-end gap-x-2 lg:col-span-2 2xl:col-span-1">
+        <div className="col-span-6 flex flex-1 items-center  justify-end gap-x-3 lg:col-span-2 2xl:col-span-2">
+          <LanguageSelector />
+
           <div
             className="relative mr-2 cursor-pointer"
             onClick={() => setOpenCart((prev: any) => !prev)}
@@ -257,9 +261,9 @@ export default function NavbarUi({ setOpenCart }: any) {
           {!isLoggedIn && (
             <Link
               href={`/login`}
-              className="text-sm font-semibold leading-6 text-gray-900"
+              className="flex items-center gap-1 text-sm font-semibold leading-6 text-gray-900"
             >
-              Log in <span aria-hidden="true">&rarr;</span>
+              Log in <MdOutlineArrowRightAlt size={18} className="arrow-icon" />
             </Link>
           )}
           {isLoggedIn && (
@@ -324,7 +328,7 @@ export default function NavbarUi({ setOpenCart }: any) {
                 <span className="sr-only">Your Company</span>
                 <img
                   className="h-[45px] w-auto"
-                  src={settings?.site_logo || "/images/logo.png"}
+                  src={settings?.site_logo || "/images/logo.webp"}
                   alt=""
                 />
               </Link>
