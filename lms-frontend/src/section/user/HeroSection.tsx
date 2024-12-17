@@ -54,7 +54,7 @@ export default function HeroSection({ landing_data }: any) {
                   imageUrl={
                     landing_data?.landing_main_banner_image_url
                       ? landing_data?.landing_main_banner_image_url
-                      : "/images/banner-image.png"
+                      : "/images/female-hanging.png"
                   }
                 />
               </div>
