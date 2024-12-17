@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { coreConstant } from '../../src/shared/helpers/coreConstant';
 
 export async function coursesSeed(prisma: PrismaClient) {
   try {
@@ -14,7 +15,11 @@ export async function coursesSeed(prisma: PrismaClient) {
 
     // Get instructors
     const instructors = await prisma.user.findMany({
-      where: { roles: 'instructor' }
+      where: {
+        roles: {
+          contains: `${coreConstant.ROLES.INSTRUCTOR}`
+        }
+      }
     });
 
     if (instructors.length === 0) {

@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { coreConstant } from '../../src/shared/helpers/coreConstant';
 
 export async function blogsSeed(prisma: PrismaClient) {
   try {
@@ -14,7 +15,11 @@ export async function blogsSeed(prisma: PrismaClient) {
 
     // Get admin user for author
     const admin = await prisma.user.findFirst({
-      where: { roles: 'admin' }
+      where: {
+        roles: {
+          contains: String(coreConstant.ROLES.ADMIN)
+        }
+      }
     });
 
     if (!admin) {

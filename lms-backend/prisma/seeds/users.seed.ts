@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { instructorsData, studentsData, instructorBios, instructorExpertise } from './data/users.data';
-import { coreConstant } from 'src/shared/helpers/coreConstant';
+import { coreConstant } from '../../src/shared/helpers/coreConstant';
 
 export async function usersSeed(prisma: PrismaClient) {
   try {
