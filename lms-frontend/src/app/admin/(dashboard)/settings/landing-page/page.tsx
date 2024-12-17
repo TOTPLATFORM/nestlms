@@ -11,7 +11,7 @@ import BraintreeSettings from "@/section/settings/payments/BraintreeSettings";
 import PaystackSettings from "@/section/settings/payments/PaystackSettings";
 import RazorPaySettings from "@/section/settings/payments/RazorPaySettings";
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 const brainTree = [
   { value: BRAINTREE_MODE.LIVE, label: "Live" },
   { value: BRAINTREE_MODE.SANDBOX, label: "Sandbox" },

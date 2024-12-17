@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { BsThreeDots } from "react-icons/bs";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import { WithdrawStatusConstant } from "@/constant/core";
 import {
   useChangeInstructorWithdrawReq,

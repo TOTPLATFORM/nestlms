@@ -11,7 +11,7 @@ import {
   useUpdateBannerSettingsFormHandler,
 } from "@/hooks/admin/settings.hook";
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function BannerSection() {
   const { t } = useTranslation();

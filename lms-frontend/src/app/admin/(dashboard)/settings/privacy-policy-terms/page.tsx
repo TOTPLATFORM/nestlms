@@ -16,7 +16,7 @@ import {
 import { IRootState } from "@/store";
 import { X } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import { IoIosAdd } from "react-icons/io";
 import { useSelector } from "react-redux";
 

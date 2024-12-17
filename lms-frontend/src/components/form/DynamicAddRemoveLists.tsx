@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { IoIosAdd } from "react-icons/io";
 import { InputType } from "./InputType";
 import { X } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function DynamicAddRemoveLists({
   form,

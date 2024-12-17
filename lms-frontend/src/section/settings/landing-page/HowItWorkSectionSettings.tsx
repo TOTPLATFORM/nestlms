@@ -13,7 +13,7 @@ import {
 } from "@/hooks/admin/settings.hook";
 import { X } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import { IoIosAdd } from "react-icons/io";
 
 export default function HowItWorkSectionSettings() {

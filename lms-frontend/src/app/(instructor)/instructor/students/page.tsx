@@ -6,7 +6,7 @@ import { DataTable } from "@/section/admin/custom-table/DataTable";
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const page = () => {
   const { data, isLoading, limit, setLimit, setPage, setSearch } =

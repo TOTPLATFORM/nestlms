@@ -8,7 +8,7 @@ import { FaPinterest } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
 import { IRootState } from "@/store";
 import { useSelector } from "react-redux";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import { addSubscribeApi } from "@/service/common";
 import { errorToast, processResponse } from "@/lib/helper";
 

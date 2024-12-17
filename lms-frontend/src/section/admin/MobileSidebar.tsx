@@ -7,7 +7,7 @@ import AnimateHeight from "react-animate-height";
 import { GoDash } from "react-icons/go";
 import Link from "next/link";
 import { IoDocumentTextOutline } from "react-icons/io5";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useSelector } from "react-redux";
 import { IRootState } from "@/store";
 import CustomImage from "@/components/CustomImage";

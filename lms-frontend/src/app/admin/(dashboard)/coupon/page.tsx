@@ -20,7 +20,7 @@ import { BsThreeDots } from "react-icons/bs";
 import Link from "next/link";
 import { dateFormater, itemDeleteHandler } from "@/lib/helper";
 import { Switch } from "@/components/ui/switch";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useUpdateFaqFormHandler } from "@/hooks/admin/faq.hook";
 import TextAccordion from "@/components/text-accordion/TextAccordion";
 import {

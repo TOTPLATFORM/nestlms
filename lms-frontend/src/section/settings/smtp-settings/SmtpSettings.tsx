@@ -9,7 +9,7 @@ import {
   useUpdateSmtpSettingsForAdminFormHandler,
 } from "@/hooks/admin/settings.hook";
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function SmtpSettings() {
   const { t } = useTranslation();

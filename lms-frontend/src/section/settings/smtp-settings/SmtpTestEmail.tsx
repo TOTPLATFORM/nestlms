@@ -6,7 +6,7 @@ import FormSkelation from "@/components/skelaton/FormSkelation";
 import { Form } from "@/components/ui/form";
 import { useSendSmtpTestEmail } from "@/hooks/admin/settings.hook";
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function SmtpTestEmail() {
   const { t } = useTranslation();

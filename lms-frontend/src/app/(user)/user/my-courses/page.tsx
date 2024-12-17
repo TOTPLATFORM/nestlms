@@ -26,7 +26,7 @@ import {
 } from "@/hooks/admin/category.hook";
 import { itemDeleteHandler } from "@/lib/helper";
 import { Switch } from "@/components/ui/switch";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import {
   useAddEditCourseFormHandler,
   useDeleteCourseItem,
@@ -69,7 +69,9 @@ const page = () => {
 
         return (
           <div className="h-[50px] w-[50px] overflow-hidden rounded-[8px]">
-            <CustomImage imageUrl={thumbnail_link || "/images/course_banner.avif"} />
+            <CustomImage
+              imageUrl={thumbnail_link || "/images/course_banner.avif"}
+            />
           </div>
         );
       },

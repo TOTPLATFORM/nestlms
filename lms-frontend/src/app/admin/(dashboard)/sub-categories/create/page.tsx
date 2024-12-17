@@ -11,7 +11,7 @@ import {
   useGetActiveCategoryLists,
 } from "@/hooks/admin/category.hook";
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const options = [
   { value: 0, label: "In-Active" },

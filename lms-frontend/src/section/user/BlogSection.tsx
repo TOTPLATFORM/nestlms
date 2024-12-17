@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import VerticalBlog from "../blog/VerticalBlog";
 import HorizontalBlog from "../blog/HorizontalBlog";
@@ -10,8 +11,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function BlogSection({ blogs }: any) {
+  const { t } = useTranslation();
   return (
     <section className="overflow-hidden">
       <div className="container relative overflow-visible">
@@ -20,15 +23,15 @@ export default function BlogSection({ blogs }: any) {
           <div className="grid grid-cols-1 pb-10 md:grid-cols-5">
             <div className="col-span-3">
               <h4 className="mb-2.5 text-lg   font-bold capitalize text-white before:absolute before:left-0 before:top-1/2 before:h-[3px] before:w-[140px] min-[1200px]:text-2xl">
-                Blog
+                {t("blog.header.title")}
               </h4>
               <h2 className="mb-2.5 text-5xl font-bold text-white">
-                Latest from the Blog
+                {t("blog.header.description")}
               </h2>
             </div>
             <div className="col-span-2 flex items-center md:justify-end">
               <Link className="text-white" href={"/blogs"}>
-                View All
+                {t("blog.header.cta")}
               </Link>
               <ArrowRight className="h-5 w-5 text-white" />
             </div>

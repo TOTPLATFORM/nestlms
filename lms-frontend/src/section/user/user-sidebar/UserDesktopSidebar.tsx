@@ -8,7 +8,7 @@ import AnimateHeight from "react-animate-height";
 import Link from "next/link";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { usePathname } from "next/navigation";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useSelector } from "react-redux";
 import { IRootState } from "@/store";
 import moment from "moment";

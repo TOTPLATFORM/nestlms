@@ -22,7 +22,7 @@ import BackButton from "@/components/back-button/BackButton";
 import { useUpdateCategoriesFormHandler } from "@/hooks/admin/category.hook";
 import { itemDeleteHandler } from "@/lib/helper";
 import { Switch } from "@/components/ui/switch";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import {
   useDeleteKycItem,
   useGetVerifykycLists,

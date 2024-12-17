@@ -14,7 +14,7 @@ import {
 } from "@/hooks/admin/kyc.hook";
 import { statusValueHandler } from "@/lib/helper";
 import React, { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const options = [
   { value: 0, label: "In-Active" },

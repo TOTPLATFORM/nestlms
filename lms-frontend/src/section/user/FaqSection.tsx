@@ -6,9 +6,10 @@ import AnimateHeight from "react-animate-height";
 import NegativeXAxisAnimation from "@/components/animation/NegativeXAxisAnimation";
 import PositiveXAxisAnimation from "@/components/animation/PositiveXAxisAnimation";
 import CustomImage from "@/components/CustomImage";
+import { useTranslation } from "@/hooks/useTranslation";
 export default function FaqSection({ faq_list }: any) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-
+  const { t } = useTranslation();
   const toggleFaq = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
@@ -33,9 +34,7 @@ export default function FaqSection({ faq_list }: any) {
               </div>
               <div className="bg-primary -bottom-[80px] right-0 z-[3] max-w-[410px] rounded-[8px] px-[25px] py-10 shadow-md lg:absolute">
                 <p className="text-[22px] font-bold text-white">
-                  Contact Us For a{" "}
-                  <span className="text-white">Free Learning</span> Consulting
-                  Evaluation
+                  {t("faq.header.content")}
                 </p>
               </div>
             </div>
@@ -43,13 +42,13 @@ export default function FaqSection({ faq_list }: any) {
           <PositiveXAxisAnimation>
             <div>
               <h4 className="text-primary before:bg-primary relative pl-[160px] text-lg font-bold capitalize before:absolute before:left-0 before:top-1/2 before:h-[3px] before:w-[140px] min-[1200px]:text-2xl">
-                FAQ
+                {t("faq.header.title")}
               </h4>
               <h2
                 className="pb-[30px] pt-2.5 text-4xl  font-bold -tracking-[0.64px] text-[#212529] lg:text-[40px] lg:min-[1200px]:text-5xl"
                 style={{ lineHeight: "1.1" }}
               >
-                Frequently Asked Questions
+                {t("faq.header.description")}
               </h2>
             </div>
             <div>

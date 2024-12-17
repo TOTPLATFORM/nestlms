@@ -47,7 +47,7 @@ import {
 } from "@/hooks/user/course.hook";
 import { Skeleton } from "@/components/ui/skeleton";
 import { COURSE_LEVEL, LIVE_CLASS_STATUS } from "@/constant/core";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import { Checkbox } from "@/components/ui/checkbox";
 import CustomModal from "@/components/modal/CustomModal";
 import CreateReview from "@/section/user/course/review/CreateReview";

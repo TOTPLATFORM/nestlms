@@ -14,7 +14,7 @@ import { Form } from "@/components/ui/form";
 import { COURSE_LEVEL, DISCOUNT_TYPE, UPLOAD_SOURCE } from "@/constant/core";
 
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import { toast } from "react-toastify";
 import { errorToast } from "@/lib/helper";
 import {

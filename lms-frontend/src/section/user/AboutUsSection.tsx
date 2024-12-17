@@ -6,8 +6,10 @@ import { motion } from "framer-motion";
 import NegativeXAxisAnimation from "@/components/animation/NegativeXAxisAnimation";
 import PositiveXAxisAnimation from "@/components/animation/PositiveXAxisAnimation";
 import CustomImage from "@/components/CustomImage";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function AboutUsSection({ landing_data }: any) {
+  const { t } = useTranslation();
   return (
     <section className="relative pb-28">
       <div className="container overflow-visible">
@@ -41,6 +43,7 @@ export default function AboutUsSection({ landing_data }: any) {
                       5+
                     </h3>
                     <p className="text-sm font-bold leading-[1.2] text-gray-900 lg:text-lg">
+                      {t("aboutus.experience.years")}
                       Years of Education
                     </p>
                   </div>
@@ -61,27 +64,21 @@ export default function AboutUsSection({ landing_data }: any) {
           <div className="col-span-2">
             <PositiveXAxisAnimation>
               <h4 className="text-primary  relative  text-lg font-bold capitalize   min-[1200px]:text-2xl">
-                about us
+                {t("aboutus.title")}
               </h4>
               <h2
                 className="pb-[30px] pt-2.5 text-[40px] font-medium -tracking-[0.64px] text-[#212529] min-[1200px]:text-[50px]"
                 style={{ lineHeight: "1.1" }}
               >
-                {landing_data?.landing_about_us_first_title
-                  ? landing_data?.landing_about_us_first_title
-                  : "Our Mission is to Provide a World‑Class Education"}
+                {t("aboutus.description")}
               </h2>
               <p className="pb-[40px] text-lg text-[#4A5355]">
-                {landing_data?.landing_about_us_first_description
-                  ? landing_data?.landing_about_us_first_description
-                  : "A captain of the Navy ought to be a man of strong and sense education, a gentleman, as well as a seaman both in"}
+                {t("aboutus.description.captain")}
               </p>
               <div className="pb-[40px]">
                 <ul>
                   <li className="before:bg-primary relative mb-2.5 pl-[30px] text-lg font-bold leading-[1.5] text-black before:absolute before:left-0 before:top-1/2 before:h-[12px] before:w-[12px] before:-translate-y-[50%] before:rounded-full">
-                    {landing_data?.landing_about_us_bullet_point
-                      ? landing_data?.landing_about_us_bullet_point
-                      : "Access more then 100K online courses"}
+                    {t("aboutus.description.courses")}
                   </li>
                 </ul>
               </div>
@@ -90,7 +87,9 @@ export default function AboutUsSection({ landing_data }: any) {
                   href={"/courses"}
                   className="bg-primary flex items-center justify-center gap-3 rounded-[6px] px-12 py-[15px] text-white"
                 >
-                  <p className="font-bold capitalize">Discover Our Courses</p>
+                  <p className="font-bold capitalize">
+                    {t("aboutus.description.cta")}
+                  </p>
                   <MdOutlineArrowRightAlt size={18} />
                 </Link>
               </div>

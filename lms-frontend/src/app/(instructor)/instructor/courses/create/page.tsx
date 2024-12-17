@@ -22,7 +22,7 @@ import {
   useGetActiveCategoryListsForUser,
 } from "@/hooks/user/course.hook";
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import CustomModal from "@/components/modal/CustomModal";
 import SectionComp from "@/section/user/course/SectionComp";
 import { toast } from "react-toastify";

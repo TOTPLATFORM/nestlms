@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { dateFormater } from "@/lib/helper";
 import { Switch } from "@/components/ui/switch";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 
 import {
   useGetAllStudentListsForAdmin,
