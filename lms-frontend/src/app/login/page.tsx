@@ -90,7 +90,7 @@ export default function Login() {
                 />
               </div>
 
-              <div className="relative flex min-h-screen items-center justify-center px-4 py-10 sm:px-16 dark:bg-[#060818]">
+              <div className="relative flex min-h-screen items-center justify-center px-4 py-8 sm:px-16 dark:bg-[#060818]">
                 <div className="relative w-full max-w-[570px] rounded-md ">
                   <div>
                     <div className="mx-auto w-full max-w-[440px]">
