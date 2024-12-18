@@ -175,13 +175,13 @@ const navigation = [
         current: false,
       },
       {
-        name: "dashboard.tags",
+        name: "dashboard.blogTags",
         href: "/admin/blogs/tags",
         icon: Tag,
         current: false,
       },
       {
-        name: "dashboard.blogs",
+        name: "dashboard.blogTags",
         href: "/admin/blogs",
         icon: FileCog,
         current: false,
