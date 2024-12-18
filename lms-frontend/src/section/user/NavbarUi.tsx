@@ -26,6 +26,7 @@ import NoItem from "@/components/NoItem";
 import CustomImage from "@/components/CustomImage";
 import { MdOutlineArrowRightAlt } from "react-icons/md";
 import LanguageSelector from "@/components/language-selector/LanguageSelector";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function NavbarUi({ setOpenCart }: any) {
   const { isLoading, logout } = useLogout();
@@ -44,7 +45,7 @@ export default function NavbarUi({ setOpenCart }: any) {
   const closeSearchDropdown = () => {
     setIsSearchEnable(false);
   };
-
+  const { t } = useTranslation();
   useEffect(() => {
     const handleClickOutside = (event: any) => {
       if (
@@ -113,7 +114,7 @@ export default function NavbarUi({ setOpenCart }: any) {
             htmlFor="search-dropdown"
             className="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Search
+            {t("menu.search")}
           </label>
 
           <div className="relative w-full">
@@ -195,25 +196,25 @@ export default function NavbarUi({ setOpenCart }: any) {
 
         <div className="col-span-4 hidden w-full items-center justify-end lg:flex 2xl:col-span-3">
           <Link href="/" className="px-2 text-base font-normal  text-gray-900">
-            Home
+            {t(`menu.links.home`)}
           </Link>
           <Link
             href="/tutors"
             className="px-2 text-base font-normal  text-gray-900"
           >
-            Instructors
+            {t(`menu.links.instructors`)}
           </Link>
           <Link
             href="/courses"
             className="px-2 text-base font-normal  text-gray-900"
           >
-            Courses
+            {t(`menu.links.courses`)}
           </Link>
           <Link
             href="/blogs"
             className="px-2 text-base font-normal  text-gray-900"
           >
-            Blogs
+            {t(`menu.links.blogs`)}
           </Link>
           {isLoggedIn && user?.user_roles?.is_instructor ? (
             <Link href="/instructor">
@@ -222,7 +223,7 @@ export default function NavbarUi({ setOpenCart }: any) {
                   type="button"
                   className="flex items-center gap-x-1 rounded-md border px-3 py-2 text-sm font-normal leading-6 text-gray-500"
                 >
-                  Instructor Dashboard
+                  {t(`menu.links.instructordashboard`)}
                 </button>
               </div>
             </Link>
@@ -233,7 +234,7 @@ export default function NavbarUi({ setOpenCart }: any) {
                   type="button"
                   className="flex items-center gap-x-1 rounded-md border px-3 py-2 text-sm font-normal leading-6 text-gray-500"
                 >
-                  Become An Instructor
+                  {t(`menu.links.becomeaninstructor`)}
                 </button>
               </div>
             </Link>
@@ -263,6 +264,7 @@ export default function NavbarUi({ setOpenCart }: any) {
               href={`/login`}
               className="flex items-center gap-1 text-sm font-semibold leading-6 text-gray-900"
             >
+              {t(`menu.links.login`)}
               Log in <MdOutlineArrowRightAlt size={18} className="arrow-icon" />
             </Link>
           )}
@@ -298,20 +300,30 @@ export default function NavbarUi({ setOpenCart }: any) {
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
                     <Link href="/user/profile">
-                      <DropdownMenuItem>Profile</DropdownMenuItem>
+                      <DropdownMenuItem>
+                        {t(`menu.links.profile`)}
+                      </DropdownMenuItem>
                     </Link>
                     <Link href="/user/my-courses">
-                      <DropdownMenuItem>My Courses</DropdownMenuItem>
+                      <DropdownMenuItem>
+                        {t(`menu.links.mycourses`)}
+                      </DropdownMenuItem>
                     </Link>
                     <Link href="/user/wishlists">
-                      <DropdownMenuItem>Wishlists</DropdownMenuItem>
+                      <DropdownMenuItem>
+                        {t(`menu.links.wishlists`)}
+                      </DropdownMenuItem>
                     </Link>
                     <Link href="/cart">
-                      <DropdownMenuItem>My Cart</DropdownMenuItem>
+                      <DropdownMenuItem>
+                        {t(`menu.links.mycart`)}
+                      </DropdownMenuItem>
                     </Link>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={logout}>Log out</DropdownMenuItem>
+                  <DropdownMenuItem onClick={logout}>
+                    {t(`menu.links.logout`)}
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -363,20 +375,21 @@ export default function NavbarUi({ setOpenCart }: any) {
                       className="px-2 text-base font-normal  text-gray-900"
                       onClick={() => setIsMobileNavOpen(false)}
                     >
-                      Home
+                      {t(`menu.links.home`)}
                     </Link>
                     <Link
                       href="/tutors"
                       className="px-2 text-base font-normal  text-gray-900"
                       onClick={() => setIsMobileNavOpen(false)}
                     >
-                      Instructors
+                      {t(`menu.links.instructors`)}
                     </Link>
                     <Link
                       href="/courses"
                       className="px-2 text-base font-normal  text-gray-900"
                       onClick={() => setIsMobileNavOpen(false)}
                     >
+                      {t(`menu.links.courses`)}
                       Courses
                     </Link>
                     <Link
@@ -384,7 +397,7 @@ export default function NavbarUi({ setOpenCart }: any) {
                       className="px-2 text-base font-normal  text-gray-900"
                       onClick={() => setIsMobileNavOpen(false)}
                     >
-                      Blogs
+                      {t(`menu.links.blogs`)}
                     </Link>
                     {isLoggedIn && user?.user_roles?.is_instructor ? (
                       <Link href="/instructor">
@@ -394,7 +407,7 @@ export default function NavbarUi({ setOpenCart }: any) {
                             className="flex items-center gap-x-1 rounded-md border px-3 py-2 text-sm font-normal leading-6 text-gray-500"
                             onClick={() => setIsMobileNavOpen(false)}
                           >
-                            Instructor Dashboard
+                            {t(`menu.links.instructordashboard`)}
                           </button>
                         </div>
                       </Link>
@@ -406,7 +419,7 @@ export default function NavbarUi({ setOpenCart }: any) {
                             className="flex items-center gap-x-1 rounded-md border px-3 py-2 text-sm font-normal leading-6 text-gray-500"
                             onClick={() => setIsMobileNavOpen(false)}
                           >
-                            Become An Instructor
+                            {t(`menu.links.becomeaninstructor`)}
                           </button>
                         </div>
                       </Link>
