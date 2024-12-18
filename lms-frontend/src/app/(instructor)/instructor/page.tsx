@@ -87,7 +87,7 @@ export default function instructor() {
                   {data?.instructor_wallet?.total_withdrawn_amount
                     ? data?.instructor_wallet?.total_withdrawn_amount
                     : 0}{" "}
-                  USD
+                  SAR
                 </h2>
                 <p className="mt-2 text-sm text-gray-500">Total earnings</p>
               </div>
