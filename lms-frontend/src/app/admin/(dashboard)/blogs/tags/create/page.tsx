@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useAddTagFormHandlerForBlogs } from "@/hooks/admin/blogs.hook";
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const options = [
   { value: 0, label: "In-Active" },

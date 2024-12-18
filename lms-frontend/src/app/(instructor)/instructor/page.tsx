@@ -87,7 +87,7 @@ export default function instructor() {
                   {data?.instructor_wallet?.total_withdrawn_amount
                     ? data?.instructor_wallet?.total_withdrawn_amount
                     : 0}{" "}
-                  USD
+                  SAR
                 </h2>
                 <p className="mt-2 text-sm text-gray-500">Total earnings</p>
               </div>
@@ -213,9 +213,7 @@ export default function instructor() {
                     <div className="flex gap-3">
                       <div className="h-12 w-12 flex-none overflow-hidden rounded-full">
                         <CustomImage
-                          imageUrl={
-                            item?.user?.photo || "/images/profile-pic.jpeg"
-                          }
+                          imageUrl={item?.user?.photo || "/images/avatar.svg"}
                         />
                       </div>
                       <div>

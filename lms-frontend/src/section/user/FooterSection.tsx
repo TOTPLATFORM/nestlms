@@ -8,7 +8,7 @@ import { FaPinterest } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
 import { IRootState } from "@/store";
 import { useSelector } from "react-redux";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import { addSubscribeApi } from "@/service/common";
 import { errorToast, processResponse } from "@/lib/helper";
 
@@ -52,12 +52,7 @@ export default function FooterSection() {
               </Link>
             </div>
             <div className="pb-[30px]">
-              <p className="text-sm">
-                {t(`Learning Management System (LMS) is a software application or
-                web-based platform designed to facilitate the administration,
-                delivery, tracking, and management of educational courses or
-                training programs`)}
-              </p>
+              <p className="text-sm">{t("footer.description")}</p>
             </div>
             <div className="flex gap-4 ">
               <a
@@ -93,17 +88,17 @@ export default function FooterSection() {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <h2 className="after:bg-primary relative mb-[30px] text-lg font-bold after:absolute after:-bottom-[3px] after:left-0 after:h-[2px] after:w-[34px] rtl:after:right-0">
-                {t(`Useful Links`)}
+                {t(`footer.links`)}
               </h2>
               <div className="flex flex-col gap-2">
                 <Link href="/" className="hover:text-primary w-fit">
-                  {t(`Home`)}
+                  {t(`footer.links.home`)}
                 </Link>
                 <Link href="/tutors" className="hover:text-primary w-fit">
-                  {t(`Instructors`)}
+                  {t(`footer.links.instructors`)}
                 </Link>
                 <Link href="/courses" className="hover:text-primary w-fit">
-                  {t(`Courses`)}
+                  {t(`footer.links.courses`)}
                 </Link>
               </div>
             </div>
@@ -111,36 +106,36 @@ export default function FooterSection() {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <h2 className="after:bg-primary relative mb-[30px] text-lg font-bold after:absolute after:-bottom-[3px] after:left-0 after:h-[2px]  after:w-[34px] rtl:after:right-0">
-                {t(`Useful Links`)}
+                {t(`footer.links.home`)}
               </h2>
               <div className="flex flex-col gap-2">
                 <Link href="/blogs" className="hover:text-primary w-fit">
-                  {t(`Blogs`)}
+                  {t(`footer.links.blogs`)}
                 </Link>
                 <Link
                   href="/privacy-policy"
                   className="hover:text-primary w-fit"
                 >
-                  {t(`Privacy Policy`)}
+                  {t(`footer.links.privacy`)}
                 </Link>
                 <Link
                   href="/terms-and-conditions"
                   className="hover:text-primary w-fit"
                 >
-                  {t(`Terms & Conditions`)}
+                  {t(`footer.links.terms`)}
                 </Link>
               </div>
             </div>
           </div>
           <div>
             <h2 className="after:bg-primary relative mb-[30px] text-lg font-bold after:absolute after:-bottom-[3px] after:left-0 after:h-[2px] after:w-[34px] rtl:after:right-0">
-              {t(`Subscribe`)}
+              {t(`footer.links.subscribe`)}
             </h2>
             <div className="flex flex-col gap-y-2">
               <input
                 type="email"
                 className="h-[45px] rounded-[6px] p-[15px] text-[#80979D] focus:outline-0 "
-                placeholder="Enter email Address"
+                placeholder={t(`footer.links.email`)}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -148,7 +143,7 @@ export default function FooterSection() {
                 className="bg-primary flex h-[45px] items-center justify-center rounded-[6px] px-[25px] py-[15px] font-bold text-white"
                 onClick={handleSubscribe}
               >
-                {loading ? t(`Loading...`) : t(`Subscribe`)}
+                {loading ? t(`Loading...`) : t(`footer.links.subscribe`)}
               </button>
             </div>
           </div>

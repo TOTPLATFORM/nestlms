@@ -4,7 +4,7 @@ import { Tabs, FlowbiteTabTheme } from "flowbite-react";
 import { HiAdjustments, HiClipboardList, HiUserCircle } from "react-icons/hi";
 import { MdDashboard } from "react-icons/md";
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import LoaderButton from "@/components/button/LoaderButton";
 import { Form } from "@/components/ui/form";
 import { InputType } from "@/components/form/InputType";

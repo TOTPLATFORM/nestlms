@@ -4,7 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useInstructorEarningsDashboardInfo } from "@/hooks/admin/instructors.hook";
 import { DataTable } from "@/section/admin/custom-table/DataTable";
 import { Book, DollarSign, Star } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -152,7 +152,7 @@ export default function instructorEarnings() {
                   {data?.wallet_details?.balance
                     ? data?.wallet_details?.balance
                     : 0}{" "}
-                  USD
+                  SAR
                 </h2>
                 <p className="mt-2 text-sm text-gray-500">Total Balance</p>
               </div>
@@ -175,7 +175,7 @@ export default function instructorEarnings() {
                   {data?.wallet_details?.total_withdrawn_amount
                     ? data?.wallet_details?.total_withdrawn_amount
                     : 0}{" "}
-                  USD
+                  SAR
                 </h2>
                 <p className="mt-2 text-sm text-gray-500">
                   Total Withdrawn Amount
@@ -200,7 +200,7 @@ export default function instructorEarnings() {
                   {data?.wallet_details?.total_pending_withdraw
                     ? data?.wallet_details?.total_pending_withdraw
                     : 0}{" "}
-                  USD
+                  SAR
                 </h2>
                 <p className="mt-2 text-sm text-gray-500">
                   Total Pending Withdraw
@@ -225,7 +225,7 @@ export default function instructorEarnings() {
                   {data?.wallet_details?.admin_earning
                     ? data?.wallet_details?.admin_earning
                     : 0}{" "}
-                  USD
+                  SAR
                 </h2>
                 <p className="mt-2 text-sm text-gray-500">Admin Earning</p>
               </div>

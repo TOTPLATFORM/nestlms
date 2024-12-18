@@ -5,7 +5,7 @@ import React from "react";
 
 import { ColumnDef } from "@tanstack/react-table";
 import { dateFormater } from "@/lib/helper";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useGetSubscriptionLists } from "@/hooks/admin/admin.hook";
 
 export default function Subscriptions() {

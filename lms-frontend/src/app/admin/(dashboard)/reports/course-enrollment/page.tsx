@@ -4,7 +4,7 @@ import { DataTable } from "@/section/admin/custom-table/DataTable";
 import React from "react";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useGetCourseEnrollmentListsForReports } from "@/hooks/admin/course.hook";
 import CustomImage from "@/components/CustomImage";
 

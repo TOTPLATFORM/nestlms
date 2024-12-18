@@ -13,7 +13,7 @@ import { useAddCategoriesFormHandler } from "@/hooks/admin/category.hook";
 import { useUpdateUserSettingsFormHandler } from "@/hooks/user/user.settings.hook";
 import { IRootState } from "@/store";
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useSelector } from "react-redux";
 
 const options = [

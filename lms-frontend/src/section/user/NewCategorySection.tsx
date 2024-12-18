@@ -9,8 +9,10 @@ import NegativeYAxisAnimation from "@/components/animation/NegativeYAxisAnimatio
 import PositiveYAxisAnimation from "@/components/animation/PositiveYAxisAnimation";
 import CustomImage from "@/components/CustomImage";
 import { MdCategory } from "react-icons/md";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function NewCategorySection() {
+  const { t } = useTranslation();
   return (
     <section className="mt-0 overflow-hidden pb-28">
       <div className="container relative overflow-visible">
@@ -27,9 +29,9 @@ export default function NewCategorySection() {
 
                 <div className="text-center">
                   <h3 className="pb-[5px] text-lg font-bold leading-[1.2]">
-                    Computer Science
+                    {t("newcategory.description.computerscience")}
                   </h3>
-                  <p>03 Courses </p>
+                  <p>03 {t("newcategory.description.courses")} </p>
                 </div>
               </div>
               <div
@@ -40,9 +42,9 @@ export default function NewCategorySection() {
                 </div>
                 <div className="text-center">
                   <h3 className="pb-[5px] text-lg font-bold leading-[1.2]">
-                    Artificial Intelligence
+                    {t("newcategory.description.artificialintelligence")}
                   </h3>
-                  <p>08 Courses </p>
+                  <p>08 {t("newcategory.description.courses")} </p>
                 </div>
               </div>
               <div
@@ -53,9 +55,9 @@ export default function NewCategorySection() {
                 </div>
                 <div className="text-center">
                   <h3 className="pb-[5px] text-lg font-bold leading-[1.2]">
-                    Business
+                    {t("newcategory.description.business")}
                   </h3>
-                  <p>05 Courses </p>
+                  <p>05 {t("newcategory.description.courses")}</p>
                 </div>
               </div>
               <div
@@ -66,21 +68,21 @@ export default function NewCategorySection() {
                 </div>
                 <div className="text-center">
                   <h3 className="pb-[5px] text-lg font-bold leading-[1.2]">
-                    Marketing
+                    {t("newcategory.description.marketing")}
                   </h3>
-                  <p>01 Courses </p>
+                  <p>01 {t("newcategory.description.courses")}</p>
                 </div>
               </div>
             </div>
             <div>
               <h4 className="relative  text-lg font-bold capitalize text-white before:left-0   min-[1200px]:text-2xl">
-                Categories
+                {t("newcategory.title.name")}
               </h4>
               <h2
                 className="pb-[30px] pt-2.5 text-[40px] font-bold -tracking-[0.64px] text-white min-[1200px]:text-5xl"
                 style={{ lineHeight: "1.1" }}
               >
-                Featured topics by Category
+                {t("newcategory.title.description")}
               </h2>
 
               <div className="flex items-center gap-8">
@@ -88,7 +90,9 @@ export default function NewCategorySection() {
                   href={"/courses"}
                   className="text-primary flex items-center justify-center gap-3 rounded-[6px] bg-white px-6 py-[7px]"
                 >
-                  <p className="font-bold capitalize">Explore</p>
+                  <p className="font-bold capitalize">
+                    {t("category.title.cta")}
+                  </p>
                   <MdOutlineArrowRightAlt size={18} className="arrow-icon" />
                 </Link>
               </div>

@@ -123,7 +123,7 @@ export default function Page() {
               </svg>
             </div>
             <div className="ms-4">
-              <h2 className="font-semibold">{data?.admin_earning} USD</h2>
+              <h2 className="font-semibold">{data?.admin_earning} SAR</h2>
               <p className="mt-2 text-sm text-gray-500">All time earnings</p>
             </div>
           </div>
@@ -141,7 +141,7 @@ export default function Page() {
               </svg>
             </div>
             <div className="ms-4">
-              <h2 className="font-semibold">{data?.balance} USD</h2>
+              <h2 className="font-semibold">{data?.balance} SAR</h2>
               <p className="mt-2 text-sm text-gray-500">
                 Current balance holding
               </p>
@@ -162,7 +162,7 @@ export default function Page() {
             </div>
             <div className="ms-4">
               <h2 className="font-semibold">
-                {data?.total_pending_withdraw} USD
+                {data?.total_pending_withdraw} SAR
               </h2>
               <p className="mt-2 text-sm text-gray-500">
                 Total pending withdraw
@@ -184,7 +184,7 @@ export default function Page() {
             </div>
             <div className="ms-4">
               <h2 className="font-semibold">
-                {data?.total_withdrawn_amount} USD
+                {data?.total_withdrawn_amount} SAR
               </h2>
               <p className="mt-2 text-sm text-gray-500">
                 Total withdrawn amount
@@ -205,7 +205,7 @@ export default function Page() {
               </svg>
             </div>
             <div className="ms-4">
-              <h2 className="font-semibold">{data?.totalTransactions} USD</h2>
+              <h2 className="font-semibold">{data?.totalTransactions} SAR</h2>
               <p className="mt-2 text-sm text-gray-500">Total transactions</p>
             </div>
           </div>

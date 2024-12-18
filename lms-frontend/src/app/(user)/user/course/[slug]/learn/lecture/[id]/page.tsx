@@ -47,7 +47,7 @@ import {
 } from "@/hooks/user/course.hook";
 import { Skeleton } from "@/components/ui/skeleton";
 import { COURSE_LEVEL, LIVE_CLASS_STATUS } from "@/constant/core";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import { Checkbox } from "@/components/ui/checkbox";
 import CustomModal from "@/components/modal/CustomModal";
 import CreateReview from "@/section/user/course/review/CreateReview";
@@ -904,7 +904,7 @@ export default function CourseLecture({ params: { id } }: any) {
                                       enrolledCourseDetails?.data?.User?.photo
                                         ? enrolledCourseDetails?.data?.User
                                             ?.photo
-                                        : "/images/profile-pic.jpeg"
+                                        : "/images/avatar.svg"
                                     }
                                   />
                                 </div>
@@ -1054,7 +1054,7 @@ export default function CourseLecture({ params: { id } }: any) {
                                         <CustomImage
                                           imageUrl={
                                             review.user.photo ||
-                                            "/images/profile-pic.jpeg"
+                                            "/images/avatar.svg"
                                           }
                                         />
                                       </div>

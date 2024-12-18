@@ -2,7 +2,7 @@
 
 import { Spinner } from "flowbite-react";
 import { Button } from "../ui/button";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function LoaderButton({
   buttonText,

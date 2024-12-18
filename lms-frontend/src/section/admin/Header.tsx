@@ -21,6 +21,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useLogout } from "@/hooks/auth.hook";
 import NotificationDropdown from "@/components/dropdown/notification";
+import LanguageSelector from "@/components/language-selector/LanguageSelector";
 
 export default function NavbarUi({ setSidebarOpen, sidebarOpen }: any) {
   const { isLoading, logout } = useLogout();
@@ -90,9 +91,11 @@ export default function NavbarUi({ setSidebarOpen, sidebarOpen }: any) {
             Add Coupon
           </Link>
         </div>
-
         <div className="col-span-6 flex flex-1 items-center justify-end gap-x-4 lg:col-span-3 xl:col-span-2  2xl:col-span-1">
-          {isLoggedIn && <NotificationDropdown />}
+          <div className="flex">
+            <LanguageSelector />
+            {isLoggedIn && <NotificationDropdown />}
+          </div>
 
           {isLoggedIn && (
             <div className="group relative ml-3 py-5">
@@ -104,7 +107,7 @@ export default function NavbarUi({ setSidebarOpen, sidebarOpen }: any) {
                   >
                     <Avatar className="h-8 w-8">
                       <AvatarImage
-                        src={user?.user.photo || "/images/profile-pic.jpeg"}
+                        src={user?.user.photo || "/images/avatar.svg"}
                       />
                       <AvatarFallback>
                         {user?.user?.first_name.slice(0, 1)}

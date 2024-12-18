@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { useState, Fragment } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useFile } from "@/hooks/file.hook";
 import LoaderButton from "../button/LoaderButton";
 import CustomImage from "../CustomImage";

@@ -48,7 +48,10 @@ const Page = ({
                     ) : (
                       <div className="absolute -m-16 -ml-20 h-[150px] w-[150px] max-w-[150px] overflow-hidden rounded-full bg-white p-2 align-middle shadow-lg lg:-ml-16">
                         <CustomImage
-                          imageUrl={data?.data?.profile_details?.photo || "/images/profile-pic.jpeg"}
+                          imageUrl={
+                            data?.data?.profile_details?.photo ||
+                            "/images/avatar.svg"
+                          }
                           customClassName="rounded-full"
                         />
                       </div>

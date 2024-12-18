@@ -1,3 +1,4 @@
+"use client";
 import { IRootState } from "@/store";
 import { ArrowRight, Plus } from "lucide-react";
 import Link from "next/link";
@@ -10,8 +11,10 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import CustomImage from "@/components/CustomImage";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function InstructorSection({ instructor_list }: any) {
+  const { t } = useTranslation();
   return (
     <section className=" overflow-hidden">
       <div className="container relative overflow-visible">
@@ -21,17 +24,17 @@ export default function InstructorSection({ instructor_list }: any) {
           <div className="grid grid-cols-1 pb-6 md:grid-cols-5">
             <div className="col-span-3">
               <h4 className="relative text-lg font-bold capitalize text-white before:bg-white min-[1200px]:text-2xl">
-                Instructor's
+                {t("instructor.header.title")}
               </h4>
               <div>
                 <h2 className="py-2 text-4xl font-bold text-white lg:text-5xl">
-                  Our Expert <span className="text-white"> Instructors</span>{" "}
+                  {t("instructor.header.description")}
                 </h2>
               </div>
             </div>
             <div className="col-span-2 flex items-center md:justify-end">
               <Link className="text-white" href={"/tutors"}>
-                View All
+                {t("instructor.header.cta")}
               </Link>
               <ArrowRight className="arrow-icon h-5 w-5 text-white" />
             </div>
@@ -55,9 +58,7 @@ export default function InstructorSection({ instructor_list }: any) {
                         <div>
                           <div className="h-[215px] w-[215px] overflow-hidden rounded-full">
                             <CustomImage
-                              imageUrl={
-                                item.photo || "/images/profile-pic.jpeg"
-                              }
+                              imageUrl={item.photo || "/images/avatar.svg"}
                             />
                           </div>
                         </div>
