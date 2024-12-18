@@ -214,7 +214,7 @@ export default function instructor() {
                       <div className="h-12 w-12 flex-none overflow-hidden rounded-full">
                         <CustomImage
                           imageUrl={
-                            item?.user?.photo || "/images/profile-pic.jpeg"
+                            item?.user?.photo || "/images/arabic-profile.jpg"
                           }
                         />
                       </div>

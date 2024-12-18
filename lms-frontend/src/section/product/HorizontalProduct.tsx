@@ -97,7 +97,7 @@ export default function HorizontalProduct({ course }: any) {
                   <div className="h-[44px] w-[44px] overflow-hidden rounded-full">
                     <CustomImage
                       imageUrl={
-                        course?.User?.photo || "/images/profile-pic.jpeg"
+                        course?.User?.photo || "/images/arabic-profile.jpg"
                       }
                     />
                   </div>

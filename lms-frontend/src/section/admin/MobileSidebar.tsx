@@ -95,7 +95,7 @@ export default function MobileSidebar({
                       <div className="border-primary aspect-square w-[100px] overflow-hidden rounded-full border-4">
                         <CustomImage
                           imageUrl={`${
-                            user?.photo || "/images/profile-pic.jpeg"
+                            user?.photo || "/images/arabic-profile.jpg"
                           }`}
                         />
                       </div>

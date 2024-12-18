@@ -27,7 +27,7 @@ export default function AdminLists() {
         return (
           <div className="h-[50px] w-[50px] overflow-hidden rounded-[8px]">
             <CustomImage
-              imageUrl={user_photo ? user_photo : "/images/profile-pic.jpeg"}
+              imageUrl={user_photo ? user_photo : "/images/arabic-profile.jpg"}
             />
           </div>
         );

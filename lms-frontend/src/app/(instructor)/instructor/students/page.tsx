@@ -20,7 +20,9 @@ const page = () => {
         const user_photo = row.original.user.photo;
         return (
           <div className="h-[50px] w-[50px] overflow-hidden rounded-[8px]">
-            <CustomImage imageUrl={user_photo || "/images/profile-pic.jpeg"} />
+            <CustomImage
+              imageUrl={user_photo || "/images/arabic-profile.jpg"}
+            />
           </div>
         );
       },

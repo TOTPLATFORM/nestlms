@@ -147,7 +147,7 @@ export default function VerticalProduct({
                   >
                     <CustomImage
                       imageUrl={
-                        course?.User?.photo || "/images/profile-pic.jpeg"
+                        course?.User?.photo || "/images/arabic-profile.jpg"
                       }
                     />
                   </div>
