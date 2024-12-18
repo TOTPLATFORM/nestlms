@@ -22,13 +22,13 @@ export default function WhyChooseUs({ landing_data }: any) {
             </h2>
           </div>
           <div className="mb-5 mt-6 p-2 lg:p-10">
-            <div className="relative flex w-full justify-start">
-              <div className="border-primary absolute -left-3 top-5 aspect-[11/16] h-[400px] rounded-bl-lg rounded-br-lg border-x-2 border-b-2 sm:-left-5 sm:aspect-[12/16] md:h-[500px]"></div>
-              <div className="mr-[20px] aspect-[12/16] h-[400px] overflow-hidden rounded-[20px] md:h-[500px]">
+            <div className="relative flex w-full justify-center">
+              <div className="border-primary absolute top-5 aspect-[11/16] h-[400px] rounded-bl-lg rounded-br-lg border-x-2 border-b-2 sm:left-0 sm:right-[120px] sm:aspect-[12/16] md:h-[500px]"></div>
+              <div className=" aspect-[12/16] h-[400px] overflow-hidden rounded-[20px] md:h-[500px]">
                 <CustomImage
                   imageUrl={
                     landing_data?.landing_choose_us_first_image_url ||
-                    "/images/laptop-girl.png"
+                    "/images/laptop-man.jpg"
                   }
                 />
               </div>
