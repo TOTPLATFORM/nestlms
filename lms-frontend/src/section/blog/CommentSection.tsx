@@ -65,7 +65,7 @@ export default function CommentSection({ blogID }: any) {
                         imageUrl={
                           comment.User.photo
                             ? comment.User.photo
-                            : "/images/profile-pic.jpeg"
+                            : "/images/avatar.svg"
                         }
                       />
                     </div>

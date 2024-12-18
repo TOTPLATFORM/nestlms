@@ -71,7 +71,7 @@ export default function WithdrawRequestLists() {
 
         return (
           <div className="h-[50px] w-[50px] overflow-hidden rounded-[8px]">
-            <CustomImage imageUrl={user?.photo || "/images/profile-pic.jpeg"} />
+            <CustomImage imageUrl={user?.photo || "/images/avatar.svg"} />
           </div>
         );
       },
@@ -259,7 +259,7 @@ export default function WithdrawRequestLists() {
               <div className="h-[200px] w-[200px] overflow-hidden rounded-[8px] border">
                 <CustomImage
                   imageUrl={
-                    selectedRequest?.User?.photo || "/images/profile-pic.jpeg"
+                    selectedRequest?.User?.photo || "/images/avatar.svg"
                   }
                 />
               </div>

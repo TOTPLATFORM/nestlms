@@ -58,9 +58,7 @@ export default function InstructorSection({ instructor_list }: any) {
                         <div>
                           <div className="h-[215px] w-[215px] overflow-hidden rounded-full">
                             <CustomImage
-                              imageUrl={
-                                item.photo || "/images/profile-pic.jpeg"
-                              }
+                              imageUrl={item.photo || "/images/avatar.svg"}
                             />
                           </div>
                         </div>

@@ -96,9 +96,7 @@ export default function HorizontalProduct({ course }: any) {
                 <div className="flex items-center gap-x-4 ">
                   <div className="h-[44px] w-[44px] overflow-hidden rounded-full">
                     <CustomImage
-                      imageUrl={
-                        course?.User?.photo || "/images/profile-pic.jpeg"
-                      }
+                      imageUrl={course?.User?.photo || "/images/avatar.svg"}
                     />
                   </div>
 

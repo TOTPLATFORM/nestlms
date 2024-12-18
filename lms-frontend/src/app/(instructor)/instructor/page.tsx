@@ -213,9 +213,7 @@ export default function instructor() {
                     <div className="flex gap-3">
                       <div className="h-12 w-12 flex-none overflow-hidden rounded-full">
                         <CustomImage
-                          imageUrl={
-                            item?.user?.photo || "/images/profile-pic.jpeg"
-                          }
+                          imageUrl={item?.user?.photo || "/images/avatar.svg"}
                         />
                       </div>
                       <div>

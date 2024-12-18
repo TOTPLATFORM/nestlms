@@ -65,7 +65,7 @@ const page: React.FC = () => {
                 <div className="flex flex-col items-center justify-center">
                   <div className="h-[200px] w-[200px] overflow-hidden rounded-full">
                     <CustomImage
-                      imageUrl={item?.photo || "/images/profile-pic.jpeg"}
+                      imageUrl={item?.photo || "/images/avatar.svg"}
                     />
                   </div>
                   <div className="mt-6 text-center">

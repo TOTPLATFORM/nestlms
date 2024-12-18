@@ -44,7 +44,7 @@ export default function TestimonialSection() {
                   </div>
                   <div className="flex items-center gap-x-4 pt-[25px]">
                     <div className="h-[50px] w-[50px] overflow-hidden rounded-full border">
-                      <img src="/images/profile-pic.jpeg" alt="" />
+                      <img src="/images/avatar.svg" alt="" />
                     </div>
                     <div>
                       <h2 className="text-base font-bold">Jerome Bell</h2>
