@@ -49,7 +49,7 @@ export default function DesktopSidebar({
               </div>
 
               <span className="bg-primary absolute bottom-0  right-2 me-2 rounded-full px-2.5 py-0.5 text-xs font-medium text-[#F5EEE6] dark:bg-white dark:text-purple-300">
-                Admin
+                {t("dashboard.admin")}
               </span>
             </div>
             <h3 className="text-lg font-bold text-[#F5EEE6]">
@@ -114,7 +114,7 @@ export default function DesktopSidebar({
                 className="group -mx-2 flex items-center gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-[#F5EEE6] hover:bg-gray-50 hover:text-gray-600"
               >
                 <IoDocumentTextOutline size={18} />
-                {t(`Logs`)}
+                {t(`dashboard.logs`)}
               </Link>
             </li>
           </ul>

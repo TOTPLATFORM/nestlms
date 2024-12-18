@@ -265,7 +265,7 @@ export default function NavbarUi({ setOpenCart }: any) {
               className="flex items-center gap-1 text-sm font-semibold leading-6 text-gray-900"
             >
               {t(`menu.links.login`)}
-              Log in <MdOutlineArrowRightAlt size={18} className="arrow-icon" />
+              <MdOutlineArrowRightAlt size={18} className="arrow-icon" />
             </Link>
           )}
           {isLoggedIn && (
