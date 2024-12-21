@@ -7,6 +7,12 @@ export const createStripePaymentIntent = async (amount: number) => {
   return data;
 };
 
+export const doCashPaymentIntent = async (amount: number) => {
+  const { data } = await request.post("/enroll", {
+  });
+  return data;
+};
+
 export const verifyPaymentIntentApiForStripe = async (
   payment_intent_id: any,
   promo_code: any

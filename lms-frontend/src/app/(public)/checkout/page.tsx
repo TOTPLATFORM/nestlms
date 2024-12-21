@@ -20,9 +20,10 @@ import {
 } from "@/hooks/user/enrollment.hook";
 import { InputType } from "@/components/form/InputType";
 import LoaderButton from "@/components/button/LoaderButton";
-import { errorToast } from "@/lib/helper";
+import { errorToast, successToast } from "@/lib/helper";
 import {
   createStripePaymentIntent,
+  doCashPaymentIntent,
   paystackCreatePaymentApi,
 } from "@/service/payment";
 import CardPayment from "@/section/payments/stripe/CardPayment";
@@ -34,10 +35,11 @@ import DropIn from "braintree-web-drop-in-react";
 import { useBraintreeDropInPaymentHandler } from "@/section/payments/braintree/Braintree.hook";
 
 const paymentOptions = [
+  { name: "Cash", value: PAYMENT_METHODS.Cash },
   { name: "Stripe", value: PAYMENT_METHODS.STRIPE },
   { name: "Paypal", value: PAYMENT_METHODS.PAYPAL },
   { name: "Paystack", value: PAYMENT_METHODS.PAYSTACK },
-  { name: "Google Pay", value: 5 },
+  { name: "Google Pay", value: 6 },
 ];
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -75,6 +77,13 @@ export default function CheckOut() {
   useEffect(() => {
     setTotalPrice(totalPrice);
   }, [totalPrice]);
+
+  const cashPaymentHandler = async () => {
+    console.log("myTotalPrice", myTotalPrice);
+    doCashPaymentIntent(myTotalPrice).then((res: any) => {
+      successToast(res.message);
+    })
+  };
   const sripePaymentHandler = async () => {
     try {
       const paymentIntentResponse = await createStripePaymentIntent(
@@ -104,11 +113,14 @@ export default function CheckOut() {
     if (selectedPayment == PAYMENT_METHODS.PAYPAL) {
       setShowPaypalModal(true);
     }
-    if (selectedPayment == 5) {
+    if (selectedPayment == 6) {
       setShowGooglePayModal(true);
     }
     if (selectedPayment == PAYMENT_METHODS.PAYSTACK) {
       paystackPaymentHandler();
+    }
+    if (selectedPayment == PAYMENT_METHODS.Cash) {
+      cashPaymentHandler();
     }
   };
 
@@ -513,7 +525,7 @@ export default function CheckOut() {
                           merchantId: "BCR2DN4T23L2B2DQ",
                           googlePayVersion: 1,
                           transactionInfo: {
-                            currencyCode: "USD",
+                            currencyCode: "SAR",
                             totalPriceStatus: "FINAL",
                             totalPrice: totalPrice,
                           },
