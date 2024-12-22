@@ -904,7 +904,7 @@ export default function CourseLecture({ params: { id } }: any) {
                                       enrolledCourseDetails?.data?.User?.photo
                                         ? enrolledCourseDetails?.data?.User
                                             ?.photo
-                                        : "/images/profile-pic.jpeg"
+                                        : "/images/avatar.svg"
                                     }
                                   />
                                 </div>
@@ -1054,7 +1054,7 @@ export default function CourseLecture({ params: { id } }: any) {
                                         <CustomImage
                                           imageUrl={
                                             review.user.photo ||
-                                            "/images/profile-pic.jpeg"
+                                            "/images/avatar.svg"
                                           }
                                         />
                                       </div>

@@ -85,7 +85,7 @@ export default function MobileSidebar({
                 <div className="flex h-8 w-full items-center justify-center px-4 pb-10 pt-14">
                   <img
                     className="h-[56px] w-auto"
-                    src={settings?.site_logo || "/images/logo.png"}
+                    src={settings?.site_logo || "/images/logo.webp"}
                     alt="Your Company"
                   />
                 </div>
@@ -94,9 +94,7 @@ export default function MobileSidebar({
                     <div className="relative">
                       <div className="border-primary aspect-square w-[100px] overflow-hidden rounded-full border-4">
                         <CustomImage
-                          imageUrl={`${
-                            user?.photo || "/images/profile-pic.jpeg"
-                          }`}
+                          imageUrl={`${user?.photo || "/images/avatar.svg"}`}
                         />
                       </div>
 

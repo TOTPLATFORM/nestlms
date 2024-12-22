@@ -24,6 +24,9 @@ import NotificationDropdown from "@/components/dropdown/notification";
 import { useGetSearchCourseListsForNavbar } from "@/hooks/user/public/course.category.hook";
 import NoItem from "@/components/NoItem";
 import CustomImage from "@/components/CustomImage";
+import { MdOutlineArrowRightAlt } from "react-icons/md";
+import LanguageSelector from "@/components/language-selector/LanguageSelector";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function NavbarUi({ setOpenCart }: any) {
   const { isLoading, logout } = useLogout();
@@ -42,7 +45,7 @@ export default function NavbarUi({ setOpenCart }: any) {
   const closeSearchDropdown = () => {
     setIsSearchEnable(false);
   };
-
+  const { t } = useTranslation();
   useEffect(() => {
     const handleClickOutside = (event: any) => {
       if (
@@ -69,7 +72,7 @@ export default function NavbarUi({ setOpenCart }: any) {
   } = useGetSearchCourseListsForNavbar();
 
   return (
-    <header className="relative bg-[#F5F7F8]">
+    <header className="sticky top-0 z-50 bg-[#F5F7F8]">
       <nav
         className={`left-0   top-0 z-50 mx-auto grid w-full grid-cols-12 items-center gap-x-2 overflow-visible  bg-[#F5F7F8] px-4 lg:gap-x-4  lg:px-6`}
       >
@@ -77,8 +80,8 @@ export default function NavbarUi({ setOpenCart }: any) {
           <Link href="/" className="-m-1.5 p-1.5 py-5">
             <span className="sr-only">Your Company</span>
             <img
-              className="h-[30px] w-auto md:h-[45px] "
-              src={settings?.site_logo || "/images/logo.png"}
+              className="h-[60px] w-auto md:h-[75px] "
+              src={settings?.site_logo || "/images/logo.webp"}
               alt=""
             />
           </Link>
@@ -111,7 +114,7 @@ export default function NavbarUi({ setOpenCart }: any) {
             htmlFor="search-dropdown"
             className="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Search
+            {t("menu.search")}
           </label>
 
           <div className="relative w-full">
@@ -191,27 +194,27 @@ export default function NavbarUi({ setOpenCart }: any) {
           </div>
         </div>
 
-        <div className="col-span-4 hidden w-full items-center justify-end lg:flex 2xl:col-span-4">
+        <div className="col-span-4 hidden w-full items-center justify-end lg:flex 2xl:col-span-3">
           <Link href="/" className="px-2 text-base font-normal  text-gray-900">
-            Home
+            {t(`menu.links.home`)}
           </Link>
           <Link
             href="/tutors"
             className="px-2 text-base font-normal  text-gray-900"
           >
-            Instructors
+            {t(`menu.links.instructors`)}
           </Link>
           <Link
             href="/courses"
             className="px-2 text-base font-normal  text-gray-900"
           >
-            Courses
+            {t(`menu.links.courses`)}
           </Link>
           <Link
             href="/blogs"
             className="px-2 text-base font-normal  text-gray-900"
           >
-            Blogs
+            {t(`menu.links.blogs`)}
           </Link>
           {isLoggedIn && user?.user_roles?.is_instructor ? (
             <Link href="/instructor">
@@ -220,7 +223,7 @@ export default function NavbarUi({ setOpenCart }: any) {
                   type="button"
                   className="flex items-center gap-x-1 rounded-md border px-3 py-2 text-sm font-normal leading-6 text-gray-500"
                 >
-                  Instructor Dashboard
+                  {t(`menu.links.instructordashboard`)}
                 </button>
               </div>
             </Link>
@@ -231,7 +234,7 @@ export default function NavbarUi({ setOpenCart }: any) {
                   type="button"
                   className="flex items-center gap-x-1 rounded-md border px-3 py-2 text-sm font-normal leading-6 text-gray-500"
                 >
-                  Become An Instructor
+                  {t(`menu.links.becomeaninstructor`)}
                 </button>
               </div>
             </Link>
@@ -240,7 +243,9 @@ export default function NavbarUi({ setOpenCart }: any) {
           )}
         </div>
 
-        <div className="col-span-6 flex flex-1 items-center  justify-end gap-x-2 lg:col-span-2 2xl:col-span-1">
+        <div className="col-span-6 flex flex-1 items-center  justify-end gap-x-3 lg:col-span-2 2xl:col-span-2">
+          <LanguageSelector />
+
           <div
             className="relative mr-2 cursor-pointer"
             onClick={() => setOpenCart((prev: any) => !prev)}
@@ -257,9 +262,10 @@ export default function NavbarUi({ setOpenCart }: any) {
           {!isLoggedIn && (
             <Link
               href={`/login`}
-              className="text-sm font-semibold leading-6 text-gray-900"
+              className="flex items-center gap-1 text-sm font-semibold leading-6 text-gray-900"
             >
-              Log in <span aria-hidden="true">&rarr;</span>
+              {t(`menu.links.login`)}
+              <MdOutlineArrowRightAlt size={18} className="arrow-icon" />
             </Link>
           )}
           {isLoggedIn && (
@@ -272,7 +278,7 @@ export default function NavbarUi({ setOpenCart }: any) {
                   >
                     <Avatar className="h-8 w-8">
                       <AvatarImage
-                        src={user?.user.photo || "/images/profile-pic.jpeg"}
+                        src={user?.user.photo || "/images/avatar.svg"}
                       />
                       <AvatarFallback>
                         {user?.user?.first_name.slice(0, 1)}
@@ -294,20 +300,30 @@ export default function NavbarUi({ setOpenCart }: any) {
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
                     <Link href="/user/profile">
-                      <DropdownMenuItem>Profile</DropdownMenuItem>
+                      <DropdownMenuItem>
+                        {t(`menu.links.profile`)}
+                      </DropdownMenuItem>
                     </Link>
                     <Link href="/user/my-courses">
-                      <DropdownMenuItem>My Courses</DropdownMenuItem>
+                      <DropdownMenuItem>
+                        {t(`menu.links.mycourses`)}
+                      </DropdownMenuItem>
                     </Link>
                     <Link href="/user/wishlists">
-                      <DropdownMenuItem>Wishlists</DropdownMenuItem>
+                      <DropdownMenuItem>
+                        {t(`menu.links.wishlists`)}
+                      </DropdownMenuItem>
                     </Link>
                     <Link href="/cart">
-                      <DropdownMenuItem>My Cart</DropdownMenuItem>
+                      <DropdownMenuItem>
+                        {t(`menu.links.mycart`)}
+                      </DropdownMenuItem>
                     </Link>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={logout}>Log out</DropdownMenuItem>
+                  <DropdownMenuItem onClick={logout}>
+                    {t(`menu.links.logout`)}
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -324,7 +340,7 @@ export default function NavbarUi({ setOpenCart }: any) {
                 <span className="sr-only">Your Company</span>
                 <img
                   className="h-[45px] w-auto"
-                  src={settings?.site_logo || "/images/logo.png"}
+                  src={settings?.site_logo || "/images/logo.webp"}
                   alt=""
                 />
               </Link>
@@ -359,20 +375,21 @@ export default function NavbarUi({ setOpenCart }: any) {
                       className="px-2 text-base font-normal  text-gray-900"
                       onClick={() => setIsMobileNavOpen(false)}
                     >
-                      Home
+                      {t(`menu.links.home`)}
                     </Link>
                     <Link
                       href="/tutors"
                       className="px-2 text-base font-normal  text-gray-900"
                       onClick={() => setIsMobileNavOpen(false)}
                     >
-                      Instructors
+                      {t(`menu.links.instructors`)}
                     </Link>
                     <Link
                       href="/courses"
                       className="px-2 text-base font-normal  text-gray-900"
                       onClick={() => setIsMobileNavOpen(false)}
                     >
+                      {t(`menu.links.courses`)}
                       Courses
                     </Link>
                     <Link
@@ -380,7 +397,7 @@ export default function NavbarUi({ setOpenCart }: any) {
                       className="px-2 text-base font-normal  text-gray-900"
                       onClick={() => setIsMobileNavOpen(false)}
                     >
-                      Blogs
+                      {t(`menu.links.blogs`)}
                     </Link>
                     {isLoggedIn && user?.user_roles?.is_instructor ? (
                       <Link href="/instructor">
@@ -390,7 +407,7 @@ export default function NavbarUi({ setOpenCart }: any) {
                             className="flex items-center gap-x-1 rounded-md border px-3 py-2 text-sm font-normal leading-6 text-gray-500"
                             onClick={() => setIsMobileNavOpen(false)}
                           >
-                            Instructor Dashboard
+                            {t(`menu.links.instructordashboard`)}
                           </button>
                         </div>
                       </Link>
@@ -402,7 +419,7 @@ export default function NavbarUi({ setOpenCart }: any) {
                             className="flex items-center gap-x-1 rounded-md border px-3 py-2 text-sm font-normal leading-6 text-gray-500"
                             onClick={() => setIsMobileNavOpen(false)}
                           >
-                            Become An Instructor
+                            {t(`menu.links.becomeaninstructor`)}
                           </button>
                         </div>
                       </Link>

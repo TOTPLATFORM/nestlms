@@ -147,12 +147,12 @@ export default function instructorEarnings() {
                   <DollarSign />
                 </svg>
               </div>
-              <div className="ml-4">
+              <div className="ms-4">
                 <h2 className="font-semibold">
                   {data?.wallet_details?.balance
                     ? data?.wallet_details?.balance
                     : 0}{" "}
-                  USD
+                  SAR
                 </h2>
                 <p className="mt-2 text-sm text-gray-500">Total Balance</p>
               </div>
@@ -170,12 +170,12 @@ export default function instructorEarnings() {
                   <DollarSign />
                 </svg>
               </div>
-              <div className="ml-4">
+              <div className="ms-4">
                 <h2 className="font-semibold">
                   {data?.wallet_details?.total_withdrawn_amount
                     ? data?.wallet_details?.total_withdrawn_amount
                     : 0}{" "}
-                  USD
+                  SAR
                 </h2>
                 <p className="mt-2 text-sm text-gray-500">
                   Total Withdrawn Amount
@@ -195,12 +195,12 @@ export default function instructorEarnings() {
                   <DollarSign />
                 </svg>
               </div>
-              <div className="ml-4">
+              <div className="ms-4">
                 <h2 className="font-semibold">
                   {data?.wallet_details?.total_pending_withdraw
                     ? data?.wallet_details?.total_pending_withdraw
                     : 0}{" "}
-                  USD
+                  SAR
                 </h2>
                 <p className="mt-2 text-sm text-gray-500">
                   Total Pending Withdraw
@@ -220,12 +220,12 @@ export default function instructorEarnings() {
                   <DollarSign />
                 </svg>
               </div>
-              <div className="ml-4">
+              <div className="ms-4">
                 <h2 className="font-semibold">
                   {data?.wallet_details?.admin_earning
                     ? data?.wallet_details?.admin_earning
                     : 0}{" "}
-                  USD
+                  SAR
                 </h2>
                 <p className="mt-2 text-sm text-gray-500">Admin Earning</p>
               </div>

@@ -40,7 +40,7 @@ export default function InstructorHeader({ setSidebarOpen, sidebarOpen }: any) {
             <span className="sr-only">Your Company</span>
             <img
               className="h-[30px] w-auto md:h-[52px]"
-              src={settings?.site_logo || "/images/logo.png"}
+              src={settings?.site_logo || "/images/logo.webp"}
               alt=""
             />
           </Link>
@@ -90,7 +90,7 @@ export default function InstructorHeader({ setSidebarOpen, sidebarOpen }: any) {
                   >
                     <Avatar className="h-8 w-8">
                       <AvatarImage
-                        src={user?.user.photo || "/images/profile-pic.jpeg"}
+                        src={user?.user.photo || "/images/avatar.svg"}
                       />
                       <AvatarFallback>
                         {user?.user?.first_name.slice(0, 1)}

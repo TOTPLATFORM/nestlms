@@ -39,7 +39,7 @@ export default function HeroSection({ landing_data }: any) {
                 className="bg-primary shadow-primary/50 flex h-[54px] items-center  justify-center gap-3 rounded-full px-8 py-[15px] text-white shadow-lg"
               >
                 <p>{t("home.herosection.cta")} </p>
-                <MdOutlineArrowRightAlt size={18} />
+                <MdOutlineArrowRightAlt size={18} className="arrow-icon" />
               </Link>
             </div>
           </NegativeXAxisAnimation>
@@ -51,7 +51,7 @@ export default function HeroSection({ landing_data }: any) {
                   imageUrl={
                     landing_data?.landing_main_banner_image_url
                       ? landing_data?.landing_main_banner_image_url
-                      : "/images/banner-image.png"
+                      : "/images/female-hanging.png"
                   }
                 />
               </div>

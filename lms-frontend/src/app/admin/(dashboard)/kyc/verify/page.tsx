@@ -238,7 +238,7 @@ export default function Kyc() {
               <div className="h-[200px] w-[200px] overflow-hidden rounded-[8px] border">
                 <CustomImage
                   imageUrl={
-                    selectedRequest?.User?.photo || "/images/profile-pic.jpeg"
+                    selectedRequest?.User?.photo || "/images/avatar.svg"
                   }
                 />
               </div>

@@ -41,7 +41,7 @@ const NotificationDropdown = () => {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 z-20 mt-2 w-64 origin-top-right overflow-hidden rounded-md bg-white shadow-lg dark:bg-gray-800 sm:w-80">
+        <div className="absolute end-0 z-20 mt-2 w-64 origin-top-right overflow-hidden rounded-md bg-white shadow-lg sm:w-80 dark:bg-gray-800">
           <div className="py-2">
             {data?.list.length === 0 && (
               <div className="mx-2 flex w-full items-center justify-center border-b border-gray-100 px-4 py-24">

@@ -36,7 +36,7 @@ export default function InstructorSection({ instructor_list }: any) {
               <Link className="text-white" href={"/tutors"}>
                 {t("instructor.header.cta")}
               </Link>
-              <ArrowRight className="h-5 w-5 text-white" />
+              <ArrowRight className="arrow-icon h-5 w-5 text-white" />
             </div>
           </div>
 
@@ -58,9 +58,7 @@ export default function InstructorSection({ instructor_list }: any) {
                         <div>
                           <div className="h-[215px] w-[215px] overflow-hidden rounded-full">
                             <CustomImage
-                              imageUrl={
-                                item.photo || "/images/profile-pic.jpeg"
-                              }
+                              imageUrl={item.photo || "/images/avatar.svg"}
                             />
                           </div>
                         </div>

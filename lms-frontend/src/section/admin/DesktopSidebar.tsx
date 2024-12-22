@@ -35,7 +35,7 @@ export default function DesktopSidebar({
         <div className="flex h-8 w-full items-center justify-center px-4 pb-10 pt-14">
           <img
             className="h-[56px] w-auto"
-            src={settings?.site_footer_logo || "/images/logo-white.png"}
+            src={settings?.site_footer_logo || "/images/logo-white.webp"}
             alt="Your Company"
           />
         </div>
@@ -44,12 +44,12 @@ export default function DesktopSidebar({
             <div className="relative">
               <div className="border-primary aspect-square w-[100px] overflow-hidden rounded-full border-4">
                 <CustomImage
-                  imageUrl={`${user?.photo || "/images/profile-pic.jpeg"}`}
+                  imageUrl={`${user?.photo || "/images/avatar.svg"}`}
                 />
               </div>
 
               <span className="bg-primary absolute bottom-0  right-2 me-2 rounded-full px-2.5 py-0.5 text-xs font-medium text-[#F5EEE6] dark:bg-white dark:text-purple-300">
-                Admin
+                {t("dashboard.admin")}
               </span>
             </div>
             <h3 className="text-lg font-bold text-[#F5EEE6]">
@@ -114,7 +114,7 @@ export default function DesktopSidebar({
                 className="group -mx-2 flex items-center gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-[#F5EEE6] hover:bg-gray-50 hover:text-gray-600"
               >
                 <IoDocumentTextOutline size={18} />
-                {t(`Logs`)}
+                {t(`dashboard.logs`)}
               </Link>
             </li>
           </ul>
