@@ -6,8 +6,10 @@ import { useRouter } from "next-nprogress-bar";
 export const useBraintreeDropInPaymentHandler = () => {
   const router = useRouter();
 
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return braintreeDropInPaymentHandlerApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
+      return braintreeDropInPaymentHandlerApi(data);
+    },
   });
 
   const handleBraintreeDropInPayment = async (data: any) => {

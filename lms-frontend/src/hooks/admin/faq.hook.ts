@@ -44,9 +44,9 @@ export const useAddFaqFormHandler = () => {
       type: {},
     },
   });
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
+  const { mutateAsync,isPending: isLoading } = useMutation({mutationFn:async(data: any) => {
     return addFaqApi(data);
-  });
+  }});
 
   const handleAddFaq = async (data: any) => {
     try {
@@ -76,15 +76,13 @@ export const useAddFaqFormHandler = () => {
 export const useDeleteFaqItem = () => {
   const queryClient = useQueryClient();
 
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending:isLoading } = useMutation(
+    {mutationFn: async(data: any) => {
       return faqDeleteApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["faqLists"]);
-      },
-    }
+    onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["faqLists"] });
+      },}
   );
 
   const handleDelete = async (item: any) => {
@@ -143,15 +141,13 @@ export const useUpdateFaqFormHandler = () => {
       type: {},
     },
   });
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending:isLoading } = useMutation({
+    mutationFn: async(data: any) => {
       return updateFaqApi(data.value, data.id);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["faqLists"]);
-      },
-    }
+    onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["faqLists"] });
+      },}
   );
 
   const handleUpdateFaq = async (data: any) => {

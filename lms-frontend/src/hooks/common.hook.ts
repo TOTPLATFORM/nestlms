@@ -95,15 +95,13 @@ export const useGetCommentForUser = (id: any) => {
 export const useSendCommentForUserFormHandler = () => {
   const form = useForm();
   const queryClient = useQueryClient();
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending:isLoading } = useMutation(
+    {mutationFn: async (data: any) => {
       return sendCommentForUserApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["commentForUser"]);
-      },
-    }
+    onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["commentForUser"] });
+      },}
   );
 
   const handleUserSettings = async (data: any) => {

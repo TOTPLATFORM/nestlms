@@ -49,9 +49,9 @@ export const useAddCouponFormHandler = () => {
       end_date: null,
     },
   });
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
+  const { mutateAsync, isPending:isLoading } = useMutation({mutationFn:async(data: any) => {
     return addCouponApi(data);
-  });
+  }});
 
   const handleAddCoupon = async (data: any) => {
     try {
@@ -87,15 +87,13 @@ export const useAddCouponFormHandler = () => {
 export const useDeleteCouponItem = () => {
   const queryClient = useQueryClient();
 
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending:isLoading } = useMutation(
+    {mutationFn: async(data: any) => {
       return couponDeleteApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["couponLists"]);
-      },
-    }
+    onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["couponLists"] });
+      },}
   );
 
   const handleDelete = async (item: any) => {
@@ -160,15 +158,13 @@ export const useUpdateCouponFormHandler = () => {
       end_date: null,
     },
   });
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending:isLoading } = useMutation(
+    {mutationFn: async(data: any) => {
       return updateCouponApi(data.value, data.id);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["couponLists"]);
-      },
-    }
+    onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["couponLists"] });
+      },}
   );
 
   const handleUpdateCoupon = async (data: any) => {

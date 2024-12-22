@@ -18,22 +18,22 @@ export interface Translation {
 class LanguageService {
   private getHeaders() {
     return {
-      'Content-Type': 'application/json',
-      'apisecretkeycheck': process.env.NEXT_PUBLIC_API_SECRET
-    };
+      "Content-Type": "application/json",
+      apisecretkeycheck: process.env.NEXT_PUBLIC_API_SECRET,
+    } as Record<string, string>;
   }
 
   async getActiveLanguages(): Promise<Language[]> {
     try {
       const response = await fetch(`${BASE_URL}/public/languages/active`, {
-        headers: this.getHeaders()
+        headers: this.getHeaders(),
       });
       if (!response.ok) {
-        throw new Error('Failed to fetch languages');
+        throw new Error("Failed to fetch languages");
       }
       return response.json();
     } catch (error) {
-      console.error('Error fetching languages:', error);
+      console.error("Error fetching languages:", error);
       return [];
     }
   }
@@ -43,15 +43,15 @@ class LanguageService {
       const response = await fetch(
         `${BASE_URL}/public/languages/system-messages?language=${languageCode}`,
         {
-          headers: this.getHeaders()
+          headers: this.getHeaders(),
         }
       );
       if (!response.ok) {
-        throw new Error('Failed to fetch translations');
+        throw new Error("Failed to fetch translations");
       }
       return response.json();
     } catch (error) {
-      console.error('Error fetching translations:', error);
+      console.error("Error fetching translations:", error);
       return {};
     }
   }
@@ -65,15 +65,15 @@ class LanguageService {
       const response = await fetch(
         `${BASE_URL}/translations/${tableName}/${tableId}?language=${languageCode}`,
         {
-          headers: this.getHeaders()
+          headers: this.getHeaders(),
         }
       );
       if (!response.ok) {
-        throw new Error('Failed to fetch translations');
+        throw new Error("Failed to fetch translations");
       }
       return response.json();
     } catch (error) {
-      console.error('Error fetching translations:', error);
+      console.error("Error fetching translations:", error);
       return {};
     }
   }
@@ -84,33 +84,36 @@ class LanguageService {
     languageCode: string
   ): Promise<{ [key: number]: Translation }> {
     try {
-      const queryString = tableIds.map(id => `ids[]=${id}`).join('&');
+      const queryString = tableIds.map((id) => `ids[]=${id}`).join("&");
       const response = await fetch(
         `${BASE_URL}/translations/${tableName}/multiple?${queryString}&language=${languageCode}`,
         {
-          headers: this.getHeaders()
+          headers: this.getHeaders(),
         }
       );
       if (!response.ok) {
-        throw new Error('Failed to fetch translations');
+        throw new Error("Failed to fetch translations");
       }
       return response.json();
     } catch (error) {
-      console.error('Error fetching translations:', error);
+      console.error("Error fetching translations:", error);
       return {};
     }
   }
 
   setPreferredLanguage(languageCode: string): void {
     document.cookie = `preferred_language=${languageCode};path=/;`;
-    localStorage.setItem('preferred_language_code', languageCode);
+    localStorage.setItem("preferred_language_code", languageCode);
   }
 
   getPreferredLanguage(): string {
     return (
-      localStorage.getItem('preferred_language_code') ||
-      document.cookie.split('; ').find(row => row.startsWith('preferred_language='))?.split('=')[1] ||
-      'en'
+      localStorage.getItem("preferred_language_code") ||
+      document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("preferred_language="))
+        ?.split("=")[1] ||
+      "en"
     );
   }
 }

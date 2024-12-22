@@ -50,16 +50,16 @@ export const useGetCategoryListsForBlogs = () => {
 export const useDeleteCategoryItemForBlogs = () => {
   const queryClient = useQueryClient();
 
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return categoryDeleteForBlogsApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["categoryListsForBlogs"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["categoryListsForBlogs"],
+      });
+    },
+  });
 
   const handleDelete = async (item: any) => {
     try {
@@ -84,8 +84,10 @@ export const useAddCategoriesFormHandlerForBlogs = () => {
       status: {},
     },
   });
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return addCategoriesForBlogsApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
+      return addCategoriesForBlogsApi(data);
+    },
   });
 
   const handleAddCategories = async (data: any) => {
@@ -151,16 +153,14 @@ export const useUpdateCategoriesForBlogsFormHandler = () => {
       status: {},
     },
   });
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return updateCategoriesForBlogsApi(data.value, data.id);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["categoryListsForBlogs"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["categoryListsForBlogs"] });
+    },
+  });
 
   const handleUpdateCategories = async (data: any) => {
     try {
@@ -210,16 +210,14 @@ export const useGetTagListsForBlogs = () => {
 export const useDeleteTagItemForBlogs = () => {
   const queryClient = useQueryClient();
 
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return tagDeleteForBlogsApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["tagListsForBlogs"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tagListsForBlogs"] });
+    },
+  });
 
   const handleDelete = async (item: any) => {
     try {
@@ -244,8 +242,10 @@ export const useAddTagFormHandlerForBlogs = () => {
       status: {},
     },
   });
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return addTagForBlogsApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
+      return addTagForBlogsApi(data);
+    },
   });
 
   const handleAddTag = async (data: any) => {
@@ -311,16 +311,16 @@ export const useUpdateTagForBlogsFormHandler = () => {
       status: {},
     },
   });
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return updateTagForBlogsApi(data.value, data.id);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["tagListsForBlogs"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["tagListsForBlogs"],
+      });
+    },
+  });
 
   const handleUpdateTag = async (data: any) => {
     try {
@@ -384,11 +384,16 @@ export const useAddBlogFormHandler = () => {
   const [uploadImageUrlForThird, setUploadImageUrlForThird] = useState<any>();
 
   const form = useForm<any>();
-  const { mutateAsync, isLoading, data, isSuccess } = useMutation(
-    (data: any) => {
+  const {
+    mutateAsync,
+    isPending: isLoading,
+    data,
+    isSuccess,
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return addBlogForAdminApi(data);
-    }
-  );
+    },
+  });
 
   const handleSettings = async (data: any) => {
     try {
@@ -454,16 +459,14 @@ export const useGetBlogListsForAdmin = () => {
 export const useDeleteBlogItemForAdmin = () => {
   const queryClient = useQueryClient();
 
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return blogDeleteForAdminApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["blogListsForAdmin"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["blogListsForAdmin"] });
+    },
+  });
 
   const handleDelete = async (item: any) => {
     try {
@@ -522,16 +525,19 @@ export const useUpdateBlogFormHandler = () => {
   const [uploadImageUrlForThird, setUploadImageUrlForThird] = useState<any>();
 
   const form = useForm<any>();
-  const { mutateAsync, isLoading, data, isSuccess } = useMutation(
-    (data: any) => {
+  const {
+    mutateAsync,
+    isPending: isLoading,
+    data,
+    isSuccess,
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return updateBlogForAdminApi(data.value, data.id);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["blogListsForAdmin"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["blogListsForAdmin"] });
+    },
+  });
 
   const handleSettings = async (data: any, id: any) => {
     try {
@@ -599,16 +605,19 @@ export const useChangeCommentStatusFormHandler = () => {
   const queryClient = useQueryClient();
 
   const form = useForm<any>();
-  const { mutateAsync, isLoading, data, isSuccess } = useMutation(
-    (data: any) => {
+  const {
+    mutateAsync,
+    isPending: isLoading,
+    data,
+    isSuccess,
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return changeCommentStatusApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["AllPendingCommentLists"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["AllPendingCommentLists"] });
+    },
+  });
 
   const handleSettings = async (data: any) => {
     try {
@@ -632,16 +641,14 @@ export const useChangeCommentStatusFormHandler = () => {
 export const useDeleteCommentItemForBlogsAdmin = () => {
   const queryClient = useQueryClient();
 
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return commentDeleteForBlogsAdminApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["AllPendingCommentLists"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["AllPendingCommentLists"] });
+    },
+  });
 
   const handleDelete = async (item: any) => {
     try {

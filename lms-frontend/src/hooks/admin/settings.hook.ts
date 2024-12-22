@@ -57,9 +57,9 @@ export const useUpdatePayoutSettingsForAdminFormHandler = () => {
       withdraw_percentage: "",
     },
   });
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
+  const { mutateAsync, isPending:isLoading } = useMutation({mutationFn: async (data: any) => {
     return updatePayoutSettingsForAdminApi(data);
-  });
+  }});
 
   const handlePayoutSettings = async (data: any) => {
     if (data.withdraw_percentage < 0) {
@@ -111,8 +111,10 @@ export const useUpdateStripeSettingsForAdminFormHandler = () => {
       pm_stripe_secret_key_live: "",
     },
   });
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return updateStripeSettingsForAdminApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
+      return updateStripeSettingsForAdminApi(data);
+    },
   });
 
   const handleSettings = async (data: any) => {
@@ -152,8 +154,10 @@ export const useUpdateRazorPaySettingsForAdminFormHandler = () => {
       payment_razorpay_key_secret: "",
     },
   });
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return updateRazorPaySettingsForAdminApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
+      return updateRazorPaySettingsForAdminApi(data);
+    },
   });
 
   const handleSettings = async (data: any) => {
@@ -194,8 +198,10 @@ export const useUpdatePaystackSettingsForAdminFormHandler = () => {
       payment_paystack_redirect_url: "",
     },
   });
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return updatePaystackSettingsForAdminApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
+      return updatePaystackSettingsForAdminApi(data);
+    },
   });
 
   const handleSettings = async (data: any) => {
@@ -239,8 +245,10 @@ export const useUpdateBraintreeSettingsForAdminFormHandler = () => {
       braintree_google_merchant_id: "",
     },
   });
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return updateBraintreeSettingsForAdminApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
+      return updateBraintreeSettingsForAdminApi(data);
+    },
   });
 
   const handleSettings = async (data: any) => {
@@ -284,8 +292,10 @@ export const useUpdateGithubSettingsForAdminFormHandler = () => {
       github_auth_client_secret: "",
     },
   });
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return updateGithubSettingsForAdminApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
+      return updateGithubSettingsForAdminApi(data);
+    },
   });
 
   const handleSettings = async (data: any) => {
@@ -325,8 +335,10 @@ export const useUpdateGoogleSettingsForAdminFormHandler = () => {
       google_auth_client_secret: "",
     },
   });
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return updateGoogleSettingsForAdminApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
+      return updateGoogleSettingsForAdminApi(data);
+    },
   });
 
   const handleSettings = async (data: any) => {
@@ -365,11 +377,16 @@ export const useUpdateBannerSettingsFormHandler = () => {
   const [uploadImageUrl, setUploadImageUrl] = useState<any>();
 
   const form = useForm<any>();
-  const { mutateAsync, isLoading, data, isSuccess } = useMutation(
-    (data: any) => {
+  const {
+    mutateAsync,
+    isPending: isLoading,
+    data,
+    isSuccess,
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return updateBannerSettingsForAdminApi(data);
-    }
-  );
+    },
+  });
 
   const handleSettings = async (data: any, quesId: any) => {
     try {
@@ -420,11 +437,16 @@ export const useUpdateAboutUsSettingsFormHandler = () => {
   const [uploadImageUrlForThird, setUploadImageUrlForThird] = useState<any>();
 
   const form = useForm<any>();
-  const { mutateAsync, isLoading, data, isSuccess } = useMutation(
-    (data: any) => {
+  const {
+    mutateAsync,
+    isPending: isLoading,
+    data,
+    isSuccess,
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return updateAboutUsSettingsForAdminApi(data);
-    }
-  );
+    },
+  });
 
   const handleSettings = async (data: any) => {
     try {
@@ -484,11 +506,11 @@ export const useUpdateChooseUsSettingsFormHandler = () => {
   const [uploadImageUrl, setUploadImageUrl] = useState<any>();
 
   const form = useForm<any>();
-  const { mutateAsync, isLoading, data, isSuccess } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending: isLoading, data, isSuccess } = useMutation({
+    mutationFn: async (data: any) => {
       return updateChooseUsSettingsForAdminApi(data);
-    }
-  );
+    },
+  });
 
   const handleSettings = async (data: any, quesId: any) => {
     try {
@@ -539,11 +561,16 @@ export const useUpdateHowItWorksUsSettingsFormHandler = () => {
   const [uploadImageUrlForThird, setUploadImageUrlForThird] = useState<any>();
 
   const form = useForm<any>();
-  const { mutateAsync, isLoading, data, isSuccess } = useMutation(
-    (data: any) => {
+  const {
+    mutateAsync,
+    isPending: isLoading,
+    data,
+    isSuccess,
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return updateHowItWorksSettingsForAdminApi(data);
-    }
-  );
+    },
+  });
 
   const handleSettings = async (data: any) => {
     try {
@@ -602,10 +629,10 @@ export const useUpdateSiteSettingsFormHandler = () => {
   const [uploadImageUrlForThird, setUploadImageUrlForThird] = useState<any>();
 
   const form = useForm<any>();
-  const { mutateAsync, isLoading, data, isSuccess } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending:isLoading, data, isSuccess } = useMutation(
+    {mutationFn: async (data: any) => {
       return updateSiteSettingsForAdminApi(data);
-    }
+    }}
   );
 
   const handleSettings = async (data: any) => {
@@ -661,9 +688,9 @@ export const useUpdateSmtpSettingsForAdminFormHandler = () => {
   const router = useRouter();
 
   const form = useForm();
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
+const { mutateAsync, isPending:isLoading } = useMutation({mutationFn: async (data: any) => {
     return updateSmtpSettingsForAdminApi(data);
-  });
+  }});
 
   const handleSettings = async (data: any) => {
     try {
@@ -685,8 +712,10 @@ export const useSendSmtpTestEmail = () => {
   const router = useRouter();
 
   const form = useForm();
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return sendSmtpTestEmailApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
+      return sendSmtpTestEmailApi(data);
+    },
   });
 
   const handleSettings = async (data: any) => {
@@ -719,11 +748,16 @@ export const useGetPriacyAndTermsSettingsForAdmin = () => {
 
 export const useUpdatePriacyAndTermsSettingsFormHandler = () => {
   const form = useForm<any>();
-  const { mutateAsync, isLoading, data, isSuccess } = useMutation(
-    (data: any) => {
+  const {
+    mutateAsync,
+    isPending: isLoading,
+    data,
+    isSuccess,
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return updatePrivacyAndTermsSettingsForAdminApi(data);
-    }
-  );
+    },
+  });
 
   const handleSettings = async (data: any) => {
     try {
@@ -766,8 +800,10 @@ export const useUpdateLiveClassSettingsForAdminFormHandler = () => {
   const router = useRouter();
 
   const form = useForm<any>();
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return updateLiveClassSettingsForAdminApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
+      return updateLiveClassSettingsForAdminApi(data);
+    },
   });
 
   const handleSettings = async (data: any) => {

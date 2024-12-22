@@ -75,16 +75,14 @@ export const useUpdateUserSettingsFormHandler = () => {
   const [uploadImageUrl, setUploadImageUrl] = useState();
 
   const form = useForm();
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return updateUserSettingsApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["userDetails"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["userDetails"] });
+    },
+  });
 
   const handleUserSettings = async (data: any) => {
     try {
@@ -135,16 +133,16 @@ export const useVerifyKycForUserFormHandler = () => {
       file_id: "",
     },
   });
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return verifyKycFromUserApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["kycVerificationListsForUser"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["kycVerificationListsForUser"],
+      });
+    },
+  });
 
   const handleSubmitKycForUser = async (data: any) => {
     try {
@@ -167,8 +165,10 @@ export const useVerifyKycForUserFormHandler = () => {
 };
 
 export const useCheckKycForUserFormHandler = () => {
-  const { mutateAsync, isLoading } = useMutation(() => {
-    return checkKycVerificationForUserApi();
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async () => {
+      return checkKycVerificationForUserApi();
+    },
   });
 
   const handleCheckKycForUser = async () => {
@@ -213,8 +213,10 @@ export const useCreateLiveClassForInstructorFormHandler = () => {
   const router = useRouter();
 
   const form = useForm();
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return createLiveClassForInstructorApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
+      return createLiveClassForInstructorApi(data);
+    },
   });
 
   const handleSettings = async (data: any) => {
@@ -259,16 +261,16 @@ export const useGetLiveClassListsForInstructor = () => {
 export const useDeleteLiveClassItemForInstructor = () => {
   const queryClient = useQueryClient();
 
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return deleteLiveClassItemForInstructorApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["liveClassListsForInstructor"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["liveClassListsForInstructor"],
+      });
+    },
+  });
 
   const handleDelete = async (item: any) => {
     try {
@@ -317,8 +319,10 @@ export const useUpdateLiveClassForInstructorFormHandler = () => {
   const router = useRouter();
 
   const form = useForm();
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return updateLiveClassForInstructorApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
+      return updateLiveClassForInstructorApi(data);
+    },
   });
 
   const handleSettings = async (data: any) => {
@@ -344,8 +348,10 @@ export const useStartLiveClassForInstructorFormHandler = () => {
   const router = useRouter();
 
   const form = useForm();
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return startLiveClassForInstructorApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
+      return startLiveClassForInstructorApi(data);
+    },
   });
 
   const startLiveClassHandler = async (data: any) => {
@@ -373,8 +379,10 @@ export const useJoinLiveClassForStudentFormHandler = () => {
   const router = useRouter();
 
   const form = useForm();
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return joinLiveClassForStudentApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
+      return joinLiveClassForStudentApi(data);
+    },
   });
 
   const joinLiveClassHandler = async (data: any) => {
@@ -402,8 +410,10 @@ export const useEndLiveClassForInstructorFormHandler = () => {
   const router = useRouter();
 
   const form = useForm();
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return endLiveClassForInstructorApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
+      return endLiveClassForInstructorApi(data);
+    },
   });
 
   const endLiveClassHandler = async (data: any) => {

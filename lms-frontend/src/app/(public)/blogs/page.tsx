@@ -13,6 +13,16 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import NoItem from "@/components/NoItem";
 
+
+function Search() {
+  const searchParams = useSearchParams();
+
+  return {
+    blog_category_id: searchParams.get("blog_category_id"),
+    tag: searchParams.get("tag"),
+  } as Record<string, string>;
+}
+
 const page: React.FC = () => {
   const { data, isLoading, limit, setLimit, setPage, setQueryParams } =
     useGetblogList();
@@ -21,9 +31,9 @@ const page: React.FC = () => {
 
   const router = useRouter();
 
-  const searchParams = useSearchParams();
-  const blogCategoryId = searchParams.get("blog_category_id");
-  const tags = searchParams.get("tag");
+  const searchParams = Search();
+  const blogCategoryId = searchParams.blog_category_id;
+  const tags = searchParams.tag;
 
   const handlePageClick = (event: any) => {
     setPage(event?.selected + 1);

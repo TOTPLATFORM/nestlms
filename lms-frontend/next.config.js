@@ -17,7 +17,7 @@ const nextConfig = {
     ],
   },
   eslint: {
-    ignoreDuringBuilds:true,
+    ignoreDuringBuilds: true,
   },
 
   reactStrictMode: true,
@@ -59,6 +59,9 @@ const nextConfig = {
     fileLoaderRule.exclude = /\.svg$/i;
 
     return config;
+  },
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
   },
 };
 

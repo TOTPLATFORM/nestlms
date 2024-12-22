@@ -69,8 +69,8 @@ export const useCreateUserForAdminFormHandler = () => {
   const router = useRouter();
 
   const form = useForm();
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return createUserForAdminApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => createUserForAdminApi(data),
   });
 
   const handleUserSettings = async (data: any) => {
@@ -109,16 +109,18 @@ export const useCreateUserForAdminFormHandler = () => {
 
 export const useUpdateStudentStatusForAdmin = () => {
   const queryClient = useQueryClient();
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return updateAllUserStatusForAdminApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["allStudentListsForAdmin"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries(
+        {
+          queryKey: ["allStudentListsForAdmin"],
+        }
+      );
+    },
+  });
 
   const handleStatusChange = async (user_id: number, statusType: any) => {
     try {
@@ -141,16 +143,18 @@ export const useUpdateStudentStatusForAdmin = () => {
 
 export const useUpdateAdminStatusForAdmin = () => {
   const queryClient = useQueryClient();
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return updateAllUserStatusForAdminApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["allAdminListsForAdmin"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries(
+        {
+          queryKey: ["allAdminListsForAdmin"],
+        }
+      );
+    },
+  });
 
   const handleStatusChange = async (user_id: number, statusType: any) => {
     try {
@@ -197,16 +201,23 @@ export const useChangeInstructorWithdrawReq = () => {
   const queryClient = useQueryClient();
 
   const form = useForm<any>();
-  const { mutateAsync, isLoading, data, isSuccess } = useMutation(
-    (data: any) => {
+  const {
+    mutateAsync,
+    isPending: isLoading,
+    data,
+    isSuccess,
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return changeInstructorWithdrawReqApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["withdrawRequestLists"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries(
+        {
+          queryKey: ["withdrawRequestLists"],
+        }
+      );
+    },
+  });
 
   const handleChangeInstructorWithdrawReq = async (data: any) => {
     try {

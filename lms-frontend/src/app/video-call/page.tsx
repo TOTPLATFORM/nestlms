@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useSelector } from "react-redux";
 import { IRootState } from "@/store";
@@ -9,6 +9,15 @@ import { useEndLiveClassForInstructorFormHandler } from "@/hooks/user/user.setti
 import { useRouter } from "next-nprogress-bar";
 import { Button } from "@/components/ui/button";
 const AgoraUIKit = dynamic(() => import("agora-react-uikit"), { ssr: false });
+function Search() {
+  const searchParams = useSearchParams();
+
+  return {
+    class_name: searchParams.get("class_name"),
+    user_token: searchParams.get("user_token"),
+  };
+}
+
 const App = () => {
   const router = useRouter();
   const { agora } =
@@ -20,9 +29,8 @@ const App = () => {
 
   const { endLiveClassHandler } = useEndLiveClassForInstructorFormHandler();
 
-  const searchParams = useSearchParams();
-  const class_name = searchParams.get("class_name");
-  const user_token = searchParams.get("user_token");
+  const class_name = Search().class_name;
+  const user_token = Search().user_token;
   const [videoCall, setVideoCall] = useState(false);
   const [rtcProps, setrtcProps] = useState({
     appId: "",
@@ -56,27 +64,30 @@ const App = () => {
   if (!user_token || !class_name || !agora?.agora_app_id)
     return <SectionLoader />;
 
-  return videoCall ? (
-    <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
-      {agora?.agora_app_id && (
-        <AgoraUIKit rtcProps={rtcProps} callbacks={callbacks} />
+  return (
+    <Suspense fallback={<SectionLoader />}>
+      {videoCall ? (
+        <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
+          {agora?.agora_app_id && (
+            <AgoraUIKit rtcProps={rtcProps} callbacks={callbacks} />
+          )}
+        </div>
+      ) : (
+        <div className='flex h-screen w-full items-center justify-center'>
+          <div className='custom-shadow flex min-h-full min-w-[350px] flex-col items-center justify-center rounded-lg p-4 sm:min-h-[350px] md:p-8'>
+            <h3 className='mb-4 font-medium md:text-lg'>
+              Channel: {rtcProps?.channel}
+            </h3>
+            <Button
+              onClick={() => {
+                setVideoCall(true);
+              }}>
+              {is_instructor ? "Start Class" : "Join Class"}
+            </Button>
+          </div>
+        </div>
       )}
-    </div>
-  ) : (
-    <div className="flex h-screen w-full items-center justify-center">
-      <div className="custom-shadow flex min-h-full min-w-[350px] flex-col items-center justify-center rounded-lg p-4 sm:min-h-[350px] md:p-8">
-        <h3 className="mb-4 font-medium md:text-lg">
-          Channel: {rtcProps?.channel}
-        </h3>
-        <Button
-          onClick={() => {
-            setVideoCall(true);
-          }}
-        >
-          {is_instructor ? "Start Class" : "Join Class"}
-        </Button>
-      </div>
-    </div>
+    </Suspense>
   );
 };
 

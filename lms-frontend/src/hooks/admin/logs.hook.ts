@@ -43,15 +43,13 @@ export const useGetLogs = () => {
 export const useDeleteLogItem = () => {
   const queryClient = useQueryClient();
 
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending:isLoading } = useMutation(
+    {mutationFn: async (data: any) => {
       return logDeleteApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["allLogLists"]);
-      },
-    }
+     onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["allLogLists"] });
+      },}
   );
 
   const handleDeleteLog = async (pack_id: any) => {

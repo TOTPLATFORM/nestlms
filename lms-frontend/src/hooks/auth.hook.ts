@@ -29,16 +29,16 @@ import { useDispatch, useSelector } from "react-redux";
 export const useSignin = () => {
   const router = useRouter();
 
-  const { mutateAsync: mutateGoogle, isLoading: gLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync: mutateGoogle, isPending: gLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return GoogleloginApi(data.credential, data.clientId);
-    }
-  );
-  const { mutateAsync: MutateGithub, isLoading: githubLoading } = useMutation(
-    (data: any) => {
+    },
+  });
+  const { mutateAsync: MutateGithub, isPending: githubLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return loginGithubApi(data);
-    }
-  );
+    },
+  });
   const handleGithubLogin = async (code: string) => {
     try {
       const response: any = await MutateGithub(code);
@@ -80,8 +80,10 @@ export const useLoginHandler = () => {
       password: "",
     },
   });
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return loginApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
+      return loginApi(data);
+    },
   });
 
   const handleLogin = async (data: any) => {
@@ -126,8 +128,10 @@ export const useUserLoginHandler = () => {
       password: "",
     },
   });
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return UserloginApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
+      return UserloginApi(data);
+    },
   });
   const dispatch = useDispatch();
   const handleLogin = async (data: any) => {
@@ -178,21 +182,11 @@ export const useProfile = () => {
     data: userProfile,
     isLoading: isProfileLoading,
     refetch,
+    status: profileStatus,
   } = useQuery({
     retry: 0,
     queryKey: ["user"],
     queryFn: () => GetUserProfile(),
-    onSuccess: (data) => {
-      if (data.success === true) {
-        dispatch(setUser(data.data));
-        if (data?.data?.user_roles?.is_instructor === true) {
-          Cookies.set("is_instructor", "true");
-        }
-      }
-    },
-    onError: () => {
-      router.push("/login");
-    },
     enabled: !!Cookies.get("token"),
   });
   useEffect(() => {
@@ -200,6 +194,17 @@ export const useProfile = () => {
       refetch();
     }
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    if (profileStatus === "success") {
+      dispatch(setUser(userProfile.data));
+      if (userProfile?.data?.user_roles?.is_instructor === true) {
+        Cookies.set("is_instructor", "true");
+      }
+    } else if (profileStatus === "error") {
+      router.push("/login");
+    }
+  }, [profileStatus]);
 
   return {
     isLoading: isProfileLoading,
@@ -214,15 +219,19 @@ export const useProfile = () => {
 };
 
 export const useBecomeAnInstructor = () => {
-  const { mutateAsync, isLoading } = useMutation(() => {
-    return becomeAnInstructor();
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async () => {
+      return becomeAnInstructor();
+    },
   });
   const queryClient = useQueryClient();
   const apply = async () => {
     try {
       const response = await mutateAsync();
       processResponse(response);
-      queryClient.invalidateQueries(["GetInstructorApplicationStatus"]);
+      queryClient.invalidateQueries({
+        queryKey: ["GetInstructorApplicationStatus"],
+      });
     } catch (error: any) {
       processResponse(error?.response?.data);
     }
@@ -257,8 +266,10 @@ export const useUserSignUpHandler = () => {
       user_name: "",
     },
   });
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return userSignUPApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
+      return userSignUPApi(data);
+    },
   });
   const dispatch = useDispatch();
   const handleSignUp = async (data: any) => {
@@ -288,8 +299,10 @@ export const useUserVerifyEmailHandler = () => {
       code: "",
     },
   });
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return verifyEmailApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
+      return verifyEmailApi(data);
+    },
   });
   const dispatch = useDispatch();
   const handleVerifyEmail = async (data: any) => {
@@ -319,8 +332,10 @@ export const useUserForgetPassHandler = () => {
       email: "",
     },
   });
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return forgetPasswordApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
+      return forgetPasswordApi(data);
+    },
   });
   const dispatch = useDispatch();
   const handleForgetPassEmail = async (data: any) => {
@@ -353,8 +368,10 @@ export const useUserResetPassHandler = () => {
       confirmPassword: "",
     },
   });
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return resetPasswordApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
+      return resetPasswordApi(data);
+    },
   });
   const dispatch = useDispatch();
   const handleResetPassEmail = async (data: any) => {
@@ -381,21 +398,19 @@ export const useLogout = () => {
   const dispatch = useDispatch();
   const cookies = Cookies.get("token");
 
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return logoutApi(data);
     },
-    {
-      onSuccess: () => {
-        dispatch(clearUser());
-        Cookies.remove("token");
-        Cookies.remove("admin");
-        Cookies.remove("is_super_admin");
-        Cookies.remove("is_instructor");
-        router.push("/login");
-      },
-    }
-  );
+    onSuccess: () => {
+      dispatch(clearUser());
+      Cookies.remove("token");
+      Cookies.remove("admin");
+      Cookies.remove("is_super_admin");
+      Cookies.remove("is_instructor");
+      router.push("/login");
+    },
+  });
   const logout = async () => {
     try {
       const refreshToken = cookies;

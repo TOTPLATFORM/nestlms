@@ -98,7 +98,10 @@ const tabSections = [
   },
 ];
 
-export default function EditCourse({ params }: { params: { id: any } }) {
+export default async function EditCourse(props: {
+  params: Promise<{ id: any }>;
+}) {
+  const params = (await props.params) || {};
   const [activeTab, setActiveTab] = useState<any>(1);
   const [courseId, setCourseId] = useState<any>("");
 
@@ -145,7 +148,7 @@ export default function EditCourse({ params }: { params: { id: any } }) {
     uploadVideoUrl,
     setUploadVideoUrl,
     isSuccess,
-  } = useAddEditCourseFormHandlerForAdmin();
+  } = useAddEditCourseFormHandlerForAdmin() as any;
 
   const selectedCategory = form.watch("category_id") || {};
   const discountStatusValue = form.watch("discount_status") || {};
@@ -429,9 +432,9 @@ export default function EditCourse({ params }: { params: { id: any } }) {
 
   return (
     <>
-      <div className="mb-5">
-        <div className="inline-block w-full">
-          <ul className="mb-3 flex flex-wrap border-b border-gray-200 text-center dark:border-gray-700 ">
+      <div className='mb-5'>
+        <div className='inline-block w-full'>
+          <ul className='mb-3 flex flex-wrap border-b border-gray-200 text-center dark:border-gray-700 '>
             {tabSections.map((item: any) => (
               <li key={item.id}>
                 <button
@@ -442,8 +445,7 @@ export default function EditCourse({ params }: { params: { id: any } }) {
                   }
                  flex cursor-pointer items-center justify-center gap-x-2 rounded-t-lg p-4  text-sm font-medium first:ml-0  hover:border-b-2 focus:outline-none focus:!ring-0  disabled:cursor-not-allowed disabled:text-gray-400 dark:border-cyan-500 dark:text-cyan-500 disabled:dark:text-gray-500`}
                   onClick={() => setActiveTab(item.id)}
-                  disabled={item.id !== 1 && !courseId}
-                >
+                  disabled={item.id !== 1 && !courseId}>
                   <span>
                     <item.icon size={22} />
                   </span>
@@ -454,19 +456,18 @@ export default function EditCourse({ params }: { params: { id: any } }) {
           </ul>
 
           <div>
-            <div className="mb-5">
+            <div className='mb-5'>
               {activeTab === 1 && (
-                <div className="panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8">
+                <div className='panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8'>
                   {isCategoryListLoading || isDetailsLoading ? (
                     <FormSkelation />
                   ) : (
                     <Form {...form}>
                       <form
                         onSubmit={form.handleSubmit(handleBasicInfo)}
-                        className="space-y-4"
-                      >
+                        className='space-y-4'>
                         <div>
-                          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                          <div className='grid grid-cols-1 gap-2 sm:grid-cols-2'>
                             <InputType
                               form={form}
                               formName={"name"}
@@ -620,26 +621,24 @@ export default function EditCourse({ params }: { params: { id: any } }) {
                               formDescription={null}
                               isErrorMessageShow={false}
                             />
-                            <div className="w-full">
-                              <div className="flex items-center justify-between">
-                                <label className=" text-sm">
+                            <div className='w-full'>
+                              <div className='flex items-center justify-between'>
+                                <label className=' text-sm'>
                                   {t(`What You Will Learn`)}
                                 </label>
 
                                 <button
-                                  type="button"
-                                  className="bg-primary/10 text-primary flex h-6 w-6 items-center justify-center rounded-full"
-                                  onClick={() => addItem()}
-                                >
+                                  type='button'
+                                  className='bg-primary/10 text-primary flex h-6 w-6 items-center justify-center rounded-full'
+                                  onClick={() => addItem()}>
                                   <IoIosAdd size={20} />
                                 </button>
                               </div>
                               {lists.map((item: any) => {
                                 return (
                                   <div
-                                    className="mb-2 flex w-full items-center gap-4"
-                                    key={item.id}
-                                  >
+                                    className='mb-2 flex w-full items-center gap-4'
+                                    key={item.id}>
                                     <InputType
                                       form={form}
                                       formName={`what_you_will_learn[${item.id}].list`}
@@ -647,14 +646,13 @@ export default function EditCourse({ params }: { params: { id: any } }) {
                                       formPlaceholder={"Add Lists Item"}
                                       formDescription={null}
                                       isErrorMessageShow={false}
-                                      className="!w-full"
+                                      className='!w-full'
                                     />
                                     {lists.length > 1 && (
                                       <button
-                                        type="button"
-                                        onClick={() => removeItem(item)}
-                                      >
-                                        <X className="h-4 w-4 text-red-600" />
+                                        type='button'
+                                        onClick={() => removeItem(item)}>
+                                        <X className='h-4 w-4 text-red-600' />
                                       </button>
                                     )}
                                   </div>
@@ -675,19 +673,18 @@ export default function EditCourse({ params }: { params: { id: any } }) {
                 </div>
               )}
             </div>
-            <div className="mb-5">
+            <div className='mb-5'>
               {activeTab === 2 && (
-                <div className="panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8">
+                <div className='panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8'>
                   {isCategoryListLoading ? (
                     <FormSkelation />
                   ) : (
                     <Form {...form}>
                       <form
                         onSubmit={form.handleSubmit(handleMediaInfo)}
-                        className="space-y-4"
-                      >
+                        className='space-y-4'>
                         <div>
-                          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                          <div className='grid grid-cols-1 gap-2 sm:grid-cols-2'>
                             <ImagePicker
                               open={openForThumbnailImage}
                               name={"Thumbnail Image"}
@@ -742,12 +739,11 @@ export default function EditCourse({ params }: { params: { id: any } }) {
                           </div>
                         </div>
 
-                        <div className="flex gap-x-4">
+                        <div className='flex gap-x-4'>
                           <Button
-                            type="button"
-                            color="gray"
-                            onClick={() => setActiveTab(1)}
-                          >
+                            type='button'
+                            color='gray'
+                            onClick={() => setActiveTab(1)}>
                             Previous
                           </Button>
                           <LoaderButton
@@ -762,19 +758,18 @@ export default function EditCourse({ params }: { params: { id: any } }) {
                 </div>
               )}
             </div>
-            <div className="mb-5">
+            <div className='mb-5'>
               {activeTab === 3 && (
-                <div className="panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8">
+                <div className='panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8'>
                   {isCategoryListLoading ? (
                     <FormSkelation />
                   ) : (
                     <Form {...form}>
                       <form
                         onSubmit={form.handleSubmit(handleSeoInfo)}
-                        className="space-y-4"
-                      >
+                        className='space-y-4'>
                         <div>
-                          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                          <div className='grid grid-cols-1 gap-2 sm:grid-cols-2'>
                             <InputType
                               form={form}
                               formName={"meta_title"}
@@ -803,12 +798,11 @@ export default function EditCourse({ params }: { params: { id: any } }) {
                             />
                           </div>
                         </div>
-                        <div className="flex gap-x-2">
+                        <div className='flex gap-x-2'>
                           <Button
-                            type="button"
-                            color="gray"
-                            onClick={() => setActiveTab(2)}
-                          >
+                            type='button'
+                            color='gray'
+                            onClick={() => setActiveTab(2)}>
                             Previous
                           </Button>
                           <LoaderButton
@@ -823,7 +817,7 @@ export default function EditCourse({ params }: { params: { id: any } }) {
                 </div>
               )}
             </div>
-            <div className="mb-5">
+            <div className='mb-5'>
               {activeTab === 4 && (
                 <SectionCompForAdmin
                   courseId={courseId}
