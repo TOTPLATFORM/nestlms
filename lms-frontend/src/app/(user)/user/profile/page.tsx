@@ -1,6 +1,6 @@
 "use client";
 
-import { Tabs, FlowbiteTabTheme } from "flowbite-react";
+import { Tabs, FlowbiteTabsTheme } from "flowbite-react";
 import { HiAdjustments, HiClipboardList, HiUserCircle } from "react-icons/hi";
 import { MdDashboard } from "react-icons/md";
 import React, { useEffect, useState } from "react";
@@ -24,13 +24,17 @@ import {
 import PositiveXAxisAnimation from "@/components/animation/PositiveXAxisAnimation";
 import NegativeXAxisAnimation from "@/components/animation/NegativeXAxisAnimation";
 
+type PageProps = {
+  params: Promise<any>;
+  searchParams: Promise<any>;
+};
 const options = [
   { value: GENDER.MALE, label: "Male" },
   { value: GENDER.FEMALE, label: "Female" },
   { value: GENDER.OTHERS, label: "Others" },
 ];
 
-const customTheme: FlowbiteTabTheme = {
+const customTheme: FlowbiteTabsTheme = {
   base: "flex flex-col gap-2",
   tablist: {
     base: "flex text-center",
@@ -89,7 +93,7 @@ const customTheme: FlowbiteTabTheme = {
   },
   tabpanel: "py-3",
 };
-export default function PanelSettings() {
+export default async  function PanelSettings() {
   const { t } = useTranslation();
   const [openForImage, setOpenForImage] = useState(false);
 
@@ -169,7 +173,7 @@ export default function PanelSettings() {
 
   return (
     <section className="container overflow-auto">
-      <Tabs.Group
+      <Tabs
         aria-label="Tabs with underline"
         style="underline"
         theme={customTheme}
@@ -292,7 +296,7 @@ export default function PanelSettings() {
             </div>
           </div>
         </Tabs.Item>
-      </Tabs.Group>
+      </Tabs>
     </section>
   );
 }

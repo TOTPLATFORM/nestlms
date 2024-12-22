@@ -47,16 +47,30 @@ export async function blogsSeed(prisma: PrismaClient) {
     ];
 
     for (const cat of categories) {
-      const category = await prisma.blogCategory.create({
-        data: {
+      const category = await prisma.blogCategory.upsert({
+        where: { name: cat.name },
+        update: { status: 1 },
+        create: {
           name: cat.name,
           status: 1
         }
       });
 
       // Add Arabic translation
-      await prisma.translation.create({
-        data: {
+      await prisma.translation.upsert({
+        where: {
+          unique_translation: {
+            language_id: arabic.id,
+            table_name: 'blog_categories',
+            table_id: category.id,
+            field_name: 'name'
+          }
+        },
+        update: {
+          translation: cat.translations.ar.name,
+          is_approved: true
+        },
+        create: {
           language_id: arabic.id,
           table_name: 'blog_categories',
           table_id: category.id,
@@ -76,8 +90,10 @@ export async function blogsSeed(prisma: PrismaClient) {
     ];
 
     for (const tagName of tags) {
-      await prisma.blogTag.create({
-        data: {
+      await prisma.blogTag.upsert({
+        where: { name: tagName },
+        update: { status: 1 },
+        create: {
           name: tagName,
           status: 1
         }
@@ -125,8 +141,21 @@ export async function blogsSeed(prisma: PrismaClient) {
       const blog = blogs[i];
       const category = categories_db[i % categories_db.length];
 
-      const createdBlog = await prisma.blog.create({
-        data: {
+      const createdBlog = await prisma.blog.upsert({
+        where: { slug: blog.slug },
+        update: {
+          title: blog.title,
+          description: blog.description,
+          tag: blog.tag,
+          allow_comment: blog.allow_comment,
+          is_featured: blog.is_featured,
+          thumbnail_link: blog.thumbnail_link,
+          status: 1,
+          authorId: admin.id,
+          blogCategoryId: category.id,
+          views: Math.floor(Math.random() * 1000)
+        },
+        create: {
           title: blog.title,
           slug: blog.slug,
           description: blog.description,
@@ -143,8 +172,20 @@ export async function blogsSeed(prisma: PrismaClient) {
 
       // Add Arabic translations
       for (const field of ['title', 'description'] as const) {
-        await prisma.translation.create({
-          data: {
+        await prisma.translation.upsert({
+          where: {
+            unique_translation: {
+              language_id: arabic.id,
+              table_name: 'blogs',
+              table_id: createdBlog.id,
+              field_name: field
+            }
+          },
+          update: {
+            translation: blog.translations.ar[field],
+            is_approved: true
+          },
+          create: {
             language_id: arabic.id,
             table_name: 'blogs',
             table_id: createdBlog.id,
@@ -176,7 +217,15 @@ export async function blogsSeed(prisma: PrismaClient) {
       ];
 
       for (const comment of comments) {
-        const createdComment = await prisma.blogComment.create({
+        const existingComment = await prisma.blogComment.findFirst({
+          where: {
+            message: comment.message,
+            blog_id: createdBlog.id,
+            userId: admin.id
+          }
+        });
+
+        const createdComment = existingComment || await prisma.blogComment.create({
           data: {
             message: comment.message,
             status: 1,
@@ -185,8 +234,20 @@ export async function blogsSeed(prisma: PrismaClient) {
           }
         });
 
-        await prisma.translation.create({
-          data: {
+        await prisma.translation.upsert({
+          where: {
+            unique_translation: {
+              language_id: arabic.id,
+              table_name: 'blog_comments',
+              table_id: createdComment.id,
+              field_name: 'message'
+            }
+          },
+          update: {
+            translation: comment.translations.ar.message,
+            is_approved: true
+          },
+          create: {
             language_id: arabic.id,
             table_name: 'blog_comments',
             table_id: createdComment.id,

@@ -7,7 +7,6 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -16,7 +15,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { IRootState } from "@/store";
 import { ShoppingCart, X } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLogout } from "@/hooks/auth.hook";
@@ -28,41 +26,44 @@ import { MdOutlineArrowRightAlt } from "react-icons/md";
 import LanguageSelector from "@/components/language-selector/LanguageSelector";
 import { useTranslation } from "@/hooks/useTranslation";
 
-export default function NavbarUi({ setOpenCart }: any) {
+interface NavbarUiProps {
+  setOpenCart: (value: boolean | ((prev: boolean) => boolean)) => void;
+}
+
+interface SearchCourse {
+  id: string;
+  name: string;
+  slug: string;
+  thumbnail_link: string;
+}
+
+interface UserRoles {
+  is_instructor: boolean;
+  is_admin: boolean;
+}
+
+interface User {
+  user: {
+    first_name: string;
+    last_name: string;
+    email: string;
+    photo: string;
+  };
+  user_roles: UserRoles;
+}
+
+export default function NavbarUi({ setOpenCart }: NavbarUiProps) {
   const { isLoading, logout } = useLogout();
   const { user, isLoggedIn } = useSelector(
     (state: IRootState) => state.userSlice
   );
-  const { cartInfo } =
-    useSelector((state: IRootState) => state.cartSlice) || {};
-  const { settings } =
-    useSelector((state: IRootState) => state?.common?.data) || {};
+  const { cartInfo } = useSelector((state: IRootState) => state.cartSlice) || {};
+  const { settings } = useSelector((state: IRootState) => state?.common?.data) || {};
 
-  const [isMobileNavOpen, setIsMobileNavOpen] = useState<any>(false);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState<boolean>(false);
 
-  const searchDropdownRef = useRef<any>(null);
-
-  const closeSearchDropdown = () => {
-    setIsSearchEnable(false);
-  };
   const { t } = useTranslation();
-  useEffect(() => {
-    const handleClickOutside = (event: any) => {
-      if (
-        searchDropdownRef.current &&
-        !searchDropdownRef.current.contains(event.target)
-      ) {
-        closeSearchDropdown();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [closeSearchDropdown]);
-
+  
   const {
     data: searchCourseLists,
     setIsSearchEnable,
@@ -71,21 +72,41 @@ export default function NavbarUi({ setOpenCart }: any) {
     isLoading: isSearchLoading,
   } = useGetSearchCourseListsForNavbar();
 
+  const searchDropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        searchDropdownRef.current &&
+        !searchDropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsSearchEnable(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [setIsSearchEnable]);
+
   return (
     <header className="sticky top-0 z-50 bg-[#F5F7F8]">
       <nav
-        className={`left-0   top-0 z-50 mx-auto grid w-full grid-cols-12 items-center gap-x-2 overflow-visible  bg-[#F5F7F8] px-4 lg:gap-x-4  lg:px-6`}
+        className={`left-0 top-0 z-50 mx-auto grid w-full grid-cols-12 items-center gap-x-2 overflow-visible bg-[#F5F7F8] px-4 lg:gap-x-4 lg:px-6`}
       >
+        {/* Logo and Mobile Menu Button */}
         <div className="col-span-6 flex gap-x-2 lg:col-span-2 lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5 py-5">
             <span className="sr-only">Your Company</span>
             <img
-              className="h-[60px] w-auto md:h-[75px] "
+              className="h-[60px] w-auto md:h-[75px]"
               src={settings?.site_logo || "/images/logo.webp"}
               alt=""
             />
           </Link>
-          <div className=" flex justify-start lg:hidden">
+          <div className="flex justify-start lg:hidden">
             <button
               type="button"
               className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
@@ -109,6 +130,8 @@ export default function NavbarUi({ setOpenCart }: any) {
             </button>
           </div>
         </div>
+
+        {/* Search Bar */}
         <div className="col-span-4 hidden lg:flex 2xl:col-span-5">
           <label
             htmlFor="search-dropdown"
@@ -121,7 +144,7 @@ export default function NavbarUi({ setOpenCart }: any) {
             <input
               type="search"
               id="search-dropdown"
-              className="focus:border-primary focus:ring-primary dark:focus:border-primary z-20 block w-full rounded-lg border  border-gray-300   p-3 text-sm text-gray-900 dark:border-gray-600  dark:border-s-gray-700 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+              className="focus:border-primary focus:ring-primary dark:focus:border-primary z-20 block w-full rounded-lg border border-gray-300 p-3 text-sm text-gray-900 dark:border-gray-600 dark:border-s-gray-700 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
               placeholder="Search Courses ..."
               required
               onChange={(e) => {
@@ -167,7 +190,7 @@ export default function NavbarUi({ setOpenCart }: any) {
                   <NoItem notFoundtext={`No Comments.`} />
                 ) : (
                   <div className="w-full">
-                    {searchCourseLists?.data?.map((item: any) => (
+                    {searchCourseLists?.data?.map((item: SearchCourse) => (
                       <div className="mb-4 w-full py-4 last:mb-0" key={item.id}>
                         <Link
                           href={`/course/${item.slug}`}
@@ -194,25 +217,26 @@ export default function NavbarUi({ setOpenCart }: any) {
           </div>
         </div>
 
+        {/* Navigation Links */}
         <div className="col-span-4 hidden w-full items-center justify-end lg:flex 2xl:col-span-3">
-          <Link href="/" className="px-2 text-base font-normal  text-gray-900">
+          <Link href="/" className="px-2 text-base font-normal text-gray-900">
             {t(`menu.links.home`)}
           </Link>
           <Link
             href="/tutors"
-            className="px-2 text-base font-normal  text-gray-900"
+            className="px-2 text-base font-normal text-gray-900"
           >
             {t(`menu.links.instructors`)}
           </Link>
           <Link
             href="/courses"
-            className="px-2 text-base font-normal  text-gray-900"
+            className="px-2 text-base font-normal text-gray-900"
           >
             {t(`menu.links.courses`)}
           </Link>
           <Link
             href="/blogs"
-            className="px-2 text-base font-normal  text-gray-900"
+            className="px-2 text-base font-normal text-gray-900"
           >
             {t(`menu.links.blogs`)}
           </Link>
@@ -238,17 +262,16 @@ export default function NavbarUi({ setOpenCart }: any) {
                 </button>
               </div>
             </Link>
-          ) : (
-            ""
-          )}
+          ) : null}
         </div>
 
-        <div className="col-span-6 flex flex-1 items-center  justify-end gap-x-3 lg:col-span-2 2xl:col-span-2">
+        {/* Right Side Menu */}
+        <div className="col-span-6 flex flex-1 items-center justify-end gap-x-3 lg:col-span-2 2xl:col-span-2">
           <LanguageSelector />
 
           <div
             className="relative mr-2 cursor-pointer"
-            onClick={() => setOpenCart((prev: any) => !prev)}
+            onClick={() => setOpenCart((prev: boolean) => !prev)}
           >
             <ShoppingCart className="h-6 w-6" />
             <div className="bg-primary absolute -top-1/2 left-1/2 flex h-6 w-6 items-center justify-center rounded-full text-xs text-white">
@@ -279,6 +302,7 @@ export default function NavbarUi({ setOpenCart }: any) {
                     <Avatar className="h-8 w-8">
                       <AvatarImage
                         src={user?.user.photo || "/images/avatar.svg"}
+                        alt={user?.user?.first_name}
                       />
                       <AvatarFallback>
                         {user?.user?.first_name.slice(0, 1)}
@@ -331,6 +355,7 @@ export default function NavbarUi({ setOpenCart }: any) {
         </div>
       </nav>
 
+      {/* Mobile Navigation Menu */}
       {isMobileNavOpen && (
         <div className="lg:hidden" role="dialog" aria-modal="true">
           <div className="fixed inset-0 z-[100]"></div>
@@ -372,29 +397,28 @@ export default function NavbarUi({ setOpenCart }: any) {
                   <div className="flex w-full flex-col items-start gap-y-4">
                     <Link
                       href="/"
-                      className="px-2 text-base font-normal  text-gray-900"
+                      className="px-2 text-base font-normal text-gray-900"
                       onClick={() => setIsMobileNavOpen(false)}
                     >
                       {t(`menu.links.home`)}
                     </Link>
                     <Link
                       href="/tutors"
-                      className="px-2 text-base font-normal  text-gray-900"
+                      className="px-2 text-base font-normal text-gray-900"
                       onClick={() => setIsMobileNavOpen(false)}
                     >
                       {t(`menu.links.instructors`)}
                     </Link>
                     <Link
                       href="/courses"
-                      className="px-2 text-base font-normal  text-gray-900"
+                      className="px-2 text-base font-normal text-gray-900"
                       onClick={() => setIsMobileNavOpen(false)}
                     >
                       {t(`menu.links.courses`)}
-                      Courses
                     </Link>
                     <Link
                       href="/blogs"
-                      className="px-2 text-base font-normal  text-gray-900"
+                      className="px-2 text-base font-normal text-gray-900"
                       onClick={() => setIsMobileNavOpen(false)}
                     >
                       {t(`menu.links.blogs`)}
@@ -423,9 +447,7 @@ export default function NavbarUi({ setOpenCart }: any) {
                           </button>
                         </div>
                       </Link>
-                    ) : (
-                      ""
-                    )}
+                    ) : null}
                   </div>
                 </div>
               </div>

@@ -1,36 +1,42 @@
 "use client";
-import { Metadata } from "next";
 import * as React from "react";
-
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Provider } from "react-redux";
 
 import "react-toastify/dist/ReactToastify.css";
-
 import "@/styles/globals.css";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useRouter } from "next/router";
 import "@/styles/colors.css";
 import "react-perfect-scrollbar/dist/css/styles.css";
 
 import ProgressBarComp from "@/components/progress-bar/ProgressBarComp";
-import { Provider } from "react-redux";
-import store from "../store/index";
+import store from "@/store/index";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import GlobalLayout from "@/components/layout/global.layout";
 import { commonSettingsApi } from "@/service/common";
 import RootLoader from "@/components/RootLoader";
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        refetchOnWindowFocus: false,
-      },
-    },
-  });
+  const queryClient = React.useMemo(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false,
+            retry: 1,
+            staleTime: 5 * 1000,
+          },
+          mutations: {
+            retry: 1,
+          },
+        },
+      }),
+    []
+  );
 
   const [data, setData] = React.useState<any>({});
 
@@ -46,7 +52,7 @@ export default function RootLayout({
   };
 
   return (
-    <html>
+    <html lang="en">
       <head>
         <link
           rel="stylesheet"

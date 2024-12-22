@@ -15,7 +15,14 @@ import { errorToast } from "@/lib/helper";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 
-export default function EditLiveClass({ params }: { params: { id: any } }) {
+
+type PageProps = {
+  params: Promise<any>;
+  searchParams: Promise<any>;
+};
+
+export default async function EditLiveClass( props: PageProps ) {
+  const { params } = await props.params;
   const { t } = useTranslation();
   const { data: liveClassDetail, isLoading: isDetailsLoading } =
     useGetLiveClassDetailsForInstructor(params?.id) || {};

@@ -27,8 +27,10 @@ export async function languageSeed(prisma: PrismaClient) {
     ];
 
     for (const lang of languages) {
-      await prisma.language.create({
-        data: lang
+      await prisma.language.upsert({
+        where: { code: lang.code },
+        update: lang,
+        create: lang
       });
     }
 
@@ -70,9 +72,19 @@ export async function languageSeed(prisma: PrismaClient) {
 
     // Create system messages with translations
     for (const msg of systemMessages) {
-      // Create English message
-      await prisma.systemMessage.create({
-        data: {
+      // Upsert English message
+      await prisma.systemMessage.upsert({
+        where: {
+          unique_message: {
+            language_id: english.id,
+            key: msg.key
+          }
+        },
+        update: {
+          value: msg.translations.en,
+          category: msg.category
+        },
+        create: {
           language_id: english.id,
           key: msg.key,
           value: msg.translations.en,
@@ -80,9 +92,19 @@ export async function languageSeed(prisma: PrismaClient) {
         }
       });
 
-      // Create Arabic message
-      await prisma.systemMessage.create({
-        data: {
+      // Upsert Arabic message
+      await prisma.systemMessage.upsert({
+        where: {
+          unique_message: {
+            language_id: arabic.id,
+            key: msg.key
+          }
+        },
+        update: {
+          value: msg.translations.ar,
+          category: msg.category
+        },
+        create: {
           language_id: arabic.id,
           key: msg.key,
           value: msg.translations.ar,

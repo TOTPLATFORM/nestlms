@@ -26,6 +26,7 @@ import SectionCompForAdmin from "@/section/admin/course/SectionCompForAdmin";
 import { HelpCircle, X } from "lucide-react";
 import { IoIosAdd } from "react-icons/io";
 import QuizComp from "@/section/user/course/QuizComp";
+import { FieldValues, UseFormReturn } from "react-hook-form";
 
 const options = [
   { value: 0, label: "In-Active" },
@@ -113,6 +114,13 @@ export default function CreateCourse() {
   const [instructorOptions, setInstructorOptions] = useState([]);
   const [subCategoryOptions, setSubCategoryOptions] = useState([]);
 
+  interface CourseDetails {
+    data?: {
+      id: string | number;
+      [key: string]: any;
+    };
+  }
+
   const {
     data: courseDetails,
     form,
@@ -131,7 +139,25 @@ export default function CreateCourse() {
     uploadVideoUrl,
     setUploadVideoUrl,
     isSuccess,
-  } = useAddEditCourseFormHandlerForAdmin();
+  } = useAddEditCourseFormHandlerForAdmin() as {
+      data: CourseDetails;
+      form: UseFormReturn<FieldValues>;
+      handleCourseSettings: (data: any) => Promise<void>;
+      isLoading: boolean;
+      thumbnailImageId?: string;
+      setThumbnailImageId: React.Dispatch<React.SetStateAction<string | undefined>>;
+      setUploadImageUrlForThumbnailImage: React.Dispatch<React.SetStateAction<string | undefined>>;
+      uploadImageUrlForThumbnailImage?: string;
+      uploadImageUrlForCoverImage?: string;
+      setUploadImageUrlForCoverImage: React.Dispatch<React.SetStateAction<string | undefined>>;
+      setCoverImageId: React.Dispatch<React.SetStateAction<string | undefined>>;
+      coverImageId?: string;
+      videoId?: string;
+      setVideoId: React.Dispatch<React.SetStateAction<string | undefined>>;
+      uploadVideoUrl?: string;
+      setUploadVideoUrl: React.Dispatch<React.SetStateAction<string | undefined>>;
+      isSuccess: boolean;
+    };
 
   const selectedCategory = form.watch("category_id") || {};
   const discountStatusValue = form.watch("discount_status") || {};

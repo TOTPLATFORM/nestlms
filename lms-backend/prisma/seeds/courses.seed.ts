@@ -51,8 +51,14 @@ export async function coursesSeed(prisma: PrismaClient) {
     ];
 
     for (const cat of categories) {
-      const category = await prisma.category.create({
-        data: {
+      const category = await prisma.category.upsert({
+        where: { name: cat.name },
+        update: {
+          slug: cat.slug,
+          logo: cat.logo,
+          status: 1
+        },
+        create: {
           name: cat.name,
           slug: cat.slug,
           logo: cat.logo,
@@ -61,8 +67,20 @@ export async function coursesSeed(prisma: PrismaClient) {
       });
 
       // Add Arabic translation
-      await prisma.translation.create({
-        data: {
+      await prisma.translation.upsert({
+        where: {
+          unique_translation: {
+            language_id: arabic.id,
+            table_name: 'categories',
+            table_id: category.id,
+            field_name: 'name'
+          }
+        },
+        update: {
+          translation: cat.translations.ar.name,
+          is_approved: true
+        },
+        create: {
           language_id: arabic.id,
           table_name: 'categories',
           table_id: category.id,
@@ -118,8 +136,21 @@ export async function coursesSeed(prisma: PrismaClient) {
       const instructor = instructors[i % instructors.length];
       const category = categories_db[i % categories_db.length];
 
-      const createdCourse = await prisma.course.create({
-        data: {
+      const createdCourse = await prisma.course.upsert({
+        where: { name: course.name },
+        update: {
+          slug: course.slug,
+          short_description: course.short_description,
+          description: course.description,
+          course_level: course.course_level,
+          price: course.price,
+          payable_price: course.payable_price,
+          duration: course.duration,
+          status: 1,
+          instructorId: instructor.id,
+          category_id: category.id
+        },
+        create: {
           name: course.name,
           slug: course.slug,
           short_description: course.short_description,
@@ -136,8 +167,20 @@ export async function coursesSeed(prisma: PrismaClient) {
 
       // Add Arabic translations
       for (const field of ['name', 'short_description', 'description'] as const) {
-        await prisma.translation.create({
-          data: {
+        await prisma.translation.upsert({
+          where: {
+            unique_translation: {
+              language_id: arabic.id,
+              table_name: 'courses',
+              table_id: createdCourse.id,
+              field_name: field
+            }
+          },
+          update: {
+            translation: course.translations.ar[field],
+            is_approved: true
+          },
+          create: {
             language_id: arabic.id,
             table_name: 'courses',
             table_id: createdCourse.id,
@@ -197,16 +240,40 @@ export async function coursesSeed(prisma: PrismaClient) {
       ];
 
       for (const section of sections) {
-        const createdSection = await prisma.section.create({
-          data: {
+        const createdSection = await prisma.section.upsert({
+          where: {
+            id: await prisma.section.findFirst({
+              where: {
+                title: section.title,
+                course_id: createdCourse.id
+              }
+            }).then(s => s?.id ?? -1)
+          },
+          update: {
+            title: section.title,
+            course_id: createdCourse.id
+          },
+          create: {
             title: section.title,
             course_id: createdCourse.id
           }
         });
 
         // Add Arabic translation for section
-        await prisma.translation.create({
-          data: {
+        await prisma.translation.upsert({
+          where: {
+            unique_translation: {
+              language_id: arabic.id,
+              table_name: 'sections',
+              table_id: createdSection.id,
+              field_name: 'title'
+            }
+          },
+          update: {
+            translation: section.translations.ar.title,
+            is_approved: true
+          },
+          create: {
             language_id: arabic.id,
             table_name: 'sections',
             table_id: createdSection.id,
@@ -218,8 +285,25 @@ export async function coursesSeed(prisma: PrismaClient) {
 
         // Create lessons for this section
         for (const lesson of section.lessons) {
-          const createdLesson = await prisma.lesson.create({
-            data: {
+          const createdLesson = await prisma.lesson.upsert({
+            where: {
+              id: await prisma.lesson.findFirst({
+                where: {
+                  title: lesson.title,
+                  course_id: createdCourse.id,
+                  section_id: createdSection.id
+                }
+              }).then(l => l?.id ?? -1)
+            },
+            update: {
+              title: lesson.title,
+              description: lesson.description,
+              video_upload_source: lesson.video_upload_source,
+              video_url: lesson.video_url,
+              course_id: createdCourse.id,
+              section_id: createdSection.id
+            },
+            create: {
               title: lesson.title,
               description: lesson.description,
               video_upload_source: lesson.video_upload_source,
@@ -231,8 +315,20 @@ export async function coursesSeed(prisma: PrismaClient) {
 
           // Add Arabic translations for lesson
           for (const field of ['title', 'description'] as const) {
-            await prisma.translation.create({
-              data: {
+            await prisma.translation.upsert({
+              where: {
+                unique_translation: {
+                  language_id: arabic.id,
+                  table_name: 'lessons',
+                  table_id: createdLesson.id,
+                  field_name: field
+                }
+              },
+              update: {
+                translation: lesson.translations.ar[field],
+                is_approved: true
+              },
+              create: {
                 language_id: arabic.id,
                 table_name: 'lessons',
                 table_id: createdLesson.id,

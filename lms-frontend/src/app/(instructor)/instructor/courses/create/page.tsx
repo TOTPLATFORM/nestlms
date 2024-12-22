@@ -1,6 +1,7 @@
 "use client";
-
-import { HiAdjustments, HiClipboardList, HiUserCircle } from "react-icons/hi";
+import { HiUserCircle } from "react-icons/hi";
+import type { UseFormReturn, FieldValues } from "react-hook-form";
+import type { Dispatch, SetStateAction } from "react";
 
 import BackButton from "@/components/back-button/BackButton";
 import LoaderButton from "@/components/button/LoaderButton";
@@ -111,8 +112,23 @@ export default function CreateCourse() {
   const [openForThumbnailImage, setOpenForThumbnailImage] = useState(false);
   const [openForVideo, setOpenForVideo] = useState(false);
 
+  interface CategoryList {
+    data?: {
+      length: number;
+      map: Function;
+      [key: string]: any;
+    };
+  }
+
+  interface CourseDetails {
+    data?: {
+      id: string | number;
+      [key: string]: any;
+    };
+  }
+
   const { data: categoryLists, isLoading: isCategoryListLoading } =
-    useGetActiveCategoryListsForUser();
+    useGetActiveCategoryListsForUser() as { data: CategoryList; isLoading: boolean };
 
   const [openForCoverImage, setOpenForCoverImage] = useState(false);
   const [categoryOptions, setCategoryOptions] = useState([]);
@@ -136,7 +152,25 @@ export default function CreateCourse() {
     uploadVideoUrl,
     setUploadVideoUrl,
     isSuccess,
-  } = useAddEditCourseFormHandler();
+  } = useAddEditCourseFormHandler() as {
+    data: CourseDetails;
+    form: UseFormReturn<FieldValues>;
+    handleCourseSettings: (data: any) => Promise<void>;
+    isLoading: boolean;
+    thumbnailImageId?: string;
+    setThumbnailImageId: React.Dispatch<React.SetStateAction<string | undefined>>;
+    setUploadImageUrlForThumbnailImage: React.Dispatch<React.SetStateAction<string | undefined>>;
+    uploadImageUrlForThumbnailImage?: string;
+    uploadImageUrlForCoverImage?: string;
+    setUploadImageUrlForCoverImage: React.Dispatch<React.SetStateAction<string | undefined>>;
+    setCoverImageId: React.Dispatch<React.SetStateAction<string | undefined>>;
+    coverImageId?: string;
+    videoId?: string;
+    setVideoId: React.Dispatch<React.SetStateAction<string | undefined>>;
+    uploadVideoUrl?: string;
+    setUploadVideoUrl: React.Dispatch<React.SetStateAction<string | undefined>>;
+    isSuccess: boolean;
+  };
 
   const selectedCategory = form.watch("category_id") || {};
   const discountStatusValue = form.watch("discount_status") || {};
@@ -190,11 +224,11 @@ export default function CreateCourse() {
   }, [selectedCategory?.value]);
 
   useEffect(() => {
-    if (!isSuccess || !courseDetails?.data?.id) {
+    if (!isSuccess || !courseDetails || !courseDetails.data || !courseDetails.data.id) {
       return;
     }
     setActiveTab((prev: any) => prev + 1);
-  }, [isSuccess]);
+  }, [isSuccess, courseDetails]);
 
   useEffect(() => {
     if (!courseDetails?.data?.id) {
@@ -493,6 +527,7 @@ export default function CreateCourse() {
                                   type="button"
                                   className="bg-primary/10 text-primary flex h-6 w-6 items-center justify-center rounded-full"
                                   onClick={() => addItem()}
+                                  aria-label="Add new item to learn"
                                 >
                                   <IoIosAdd size={20} />
                                 </button>
@@ -516,6 +551,7 @@ export default function CreateCourse() {
                                       <button
                                         type="button"
                                         onClick={() => removeItem(item)}
+                                        aria-label="Remove item"
                                       >
                                         <X className="h-4 w-4 text-red-600" />
                                       </button>

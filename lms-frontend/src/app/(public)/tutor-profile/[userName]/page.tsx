@@ -10,13 +10,12 @@ import VerticalProduct from "@/section/product/VerticalProduct";
 import { AtSign } from "lucide-react";
 import React from "react";
 
-const Page = ({
-  params: { userName },
-}: {
-  params: {
-    userName: string;
-  };
-}) => {
+type PageProps = {
+  params: Promise<any>;
+  searchParams: Promise<any>;
+};
+export default async function Page (props: PageProps) { 
+  const { userName } = await props.params;
   const { data, isLoading } = useInstructorProfile(userName);
   return (
     <div className="profile-page">
@@ -183,6 +182,4 @@ const Page = ({
       </section>
     </div>
   );
-};
-
-export default Page;
+}

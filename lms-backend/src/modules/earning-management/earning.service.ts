@@ -12,7 +12,8 @@ import {
   processException,
   successResponse,
 } from 'src/shared/helpers/functions';
-import { Decimal } from '@prisma/client/runtime';
+import { Prisma } from '@prisma/client';
+const { Decimal } = Prisma;
 import { WithdrawStatusUpdatedDto } from './admin/dto/withdraw-status-updated.dto';
 import {
   WithdrawStatusConstant,

@@ -14,7 +14,7 @@ export class StripeService {
       PaymentMethodStripeSettingsSlugs,
     );
     this.stripe = new Stripe(response?.pm_stripe_secret_key_live, {
-      apiVersion: '2023-08-16', // Replace with the desired Stripe API version
+      apiVersion: '2023-10-16',
     });
   }
 
