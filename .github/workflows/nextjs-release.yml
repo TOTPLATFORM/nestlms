@@ -9,10 +9,10 @@ on:
   push:
     #   branches: ['feature/v2-dev']
     tags:
-      - 'v*.*.*' # Push events to matching v*, i.e. v1.0.0, v20.15.10
-      - 'p*.*.*' # Push events to matching p*, i.e. p1.0.0, p20.15.10
-      - 'd*.*.*' # Push events to matching d*, i.e. d1.0.0, d20.15.10
-      - 'demo.*.*.*' # Push events to matching demo.*, i.e. demo.1.0.0, demo.20.15.10
+      - "v*.*.*" # Push events to matching v*, i.e. v1.0.0, v20.15.10
+      - "p*.*.*" # Push events to matching p*, i.e. p1.0.0, p20.15.10
+      - "d*.*.*" # Push events to matching d*, i.e. d1.0.0, d20.15.10
+      - "demo.*.*.*" # Push events to matching demo.*, i.e. demo.1.0.0, demo.20.15.10
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -73,7 +73,8 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          cache-dependency-path: lms-frontend/yarn.lock
+          node-version: "20"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
       - name: Restore cache
         uses: actions/cache@v4
@@ -145,8 +146,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
           artifactErrorsFailBuild: true
-          artifacts: 'release.tar'
-          artifactContentType: 'tar'
+          artifacts: "release.tar"
+          artifactContentType: "tar"
           generateReleaseNotes: true
           tag: ${{ steps.extract-package.outputs.tag_name }}
           name: ${{ steps.extract-package.outputs.release_name }}
