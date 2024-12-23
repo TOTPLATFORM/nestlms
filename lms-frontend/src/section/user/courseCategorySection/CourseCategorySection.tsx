@@ -163,7 +163,9 @@ export default function CourseCategorySection() {
 
   useEffect(() => {
     if (!searchParams) return;
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(
+      searchParams as unknown as Record<string, string>
+    );
     if (Array.isArray(courseLevelParams) && courseLevelParams.length > 1) {
       params.set("course_level", courseLevelParams.join(","));
     }
@@ -194,7 +196,9 @@ export default function CourseCategorySection() {
   };
 
   const handleQueryParams = (type: string, value: any) => {
-    const params: any = new URLSearchParams(searchParams);
+    const params: any = new URLSearchParams(
+      searchParams as unknown as Record<string, string>
+    );
     if (type == "delete_all") {
       let newParams: any = new URLSearchParams();
       setActiveDurationId(0);

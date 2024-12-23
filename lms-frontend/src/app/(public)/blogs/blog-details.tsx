@@ -29,13 +29,15 @@ const BlogDetailsComp: React.FC = () => {
 
   useEffect(() => {
     if (!searchParams) return;
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(searchParams as unknown as Record<string, string>);
     setPage(1);
     setQueryParams(params.toString());
   }, [searchParams]);
 
   const handleQueryParams = (type: string, value: any) => {
-    const params: any = new URLSearchParams(searchParams);
+    const params: any = new URLSearchParams(
+      searchParams as unknown as Record<string, string>
+    );
     if (!value) {
       params.delete(type);
     } else {
