@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev -p 3001",
     "build": "next build",
-    "start": "next start -p 3006",
+    "build:linux": "rm -rf .next && yarn build && cp -R ./public/ ./.next/standalone/public && cp -R ./.next/static/ ./.next/standalone/.next/static",
+    "start": "next start -p 3001",
     "lint": "next lint",
     "lint:fix": "eslint src --fix && yarn format",
     "lint:strict": "eslint --max-warnings=0 src",

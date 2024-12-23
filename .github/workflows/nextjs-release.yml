@@ -1,0 +1,212 @@
+# Sample workflow for building and deploying a Next.js site to GitHub Pages
+#
+# To get started with Next.js see: https://nextjs.org/docs/getting-started
+#
+name: Create Release for Next.js App
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    #   branches: ['feature/v2-dev']
+    tags:
+      - 'v*.*.*' # Push events to matching v*, i.e. v1.0.0, v20.15.10
+      - 'p*.*.*' # Push events to matching p*, i.e. p1.0.0, p20.15.10
+      - 'd*.*.*' # Push events to matching d*, i.e. d1.0.0, d20.15.10
+      - 'demo.*.*.*' # Push events to matching demo.*, i.e. demo.1.0.0, demo.20.15.10
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+  # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: write
+  id-token: write
+  actions: write
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Clear Old Releases
+        uses: dev-drprasad/delete-older-releases@v0.3.4
+        with:
+          # ref: https://github.com/dev-drprasad/delete-older-releases
+          keep_latest: 4
+          delete_tags: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Remove Old Runs
+        run: sh ${{ github.workspace }}/.github/scripts/delete-old-run.sh ${{ github.repository_owner }} ${{ github.event.repository.name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Detect package manager
+        id: detect-package-manager
+        run: |
+          if [ -f "${{ github.workspace }}/lms-frontend/yarn.lock" ]; then
+            echo "manager=yarn" >> $GITHUB_OUTPUT
+            echo "command=install" >> $GITHUB_OUTPUT
+            echo "runner=yarn" >> $GITHUB_OUTPUT
+            exit 0
+          elif [ -f "${{ github.workspace }}/lms-frontend/bun.lockb" ]; then
+            echo "manager=bun" >> $GITHUB_OUTPUT
+            echo "command=install" >> $GITHUB_OUTPUT
+            echo "runner=bun run" >> $GITHUB_OUTPUT
+            exit 0
+          elif [ -f "${{ github.workspace }}/lms-frontend/package.json" ]; then
+            echo "manager=npm" >> $GITHUB_OUTPUT
+            echo "command=ci" >> $GITHUB_OUTPUT
+            echo "runner=npx --no-install" >> $GITHUB_OUTPUT
+            exit 0
+          else
+            echo "Unable to determine package manager"
+            exit 1
+          fi
+      # - name: Setup Bun
+      #   uses: oven-sh/setup-bun@v2
+      #   with:
+      #     bun-version: latest
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: ${{ steps.detect-package-manager.outputs.manager }}
+      - name: Restore cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            .next/cache
+          # Generate a new cache whenever packages or source files change.
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/lms-frontend/package-lock.json', '**/lms-frontend/yarn.lock', '**/lms-frontend/bun.lockb') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          # If source files changed but packages didn't, rebuild from a prior cache.
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/lms-frontend/package-lock.json', '**/lms-frontend/yarn.lock', '**/lms-frontend/bun.lockb') }}-
+      - name: Install dependencies
+        run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+      - name: Build with Next.js
+        run: ${{ steps.detect-package-manager.outputs.runner }} build:linux
+      - name: Prepare Release Package
+        run: |
+          mkdir -p ./release
+          cp -a ./.next/standalone/. ./release
+          cp ./pm2.config.js ./release/pm2.config.js
+          if [[ "${GITHUB_REF}" == "refs/tags/demo."* ]]; then
+            rm -f ./release/.env.production
+            cp ./.env.demo ./release/.env.production
+          elif [[ "${GITHUB_REF}" == "refs/tags/p"* ]]; then
+            rm -f ./release/.env.production
+            cp ./.env.staging ./release/.env.production
+          elif [[ "${GITHUB_REF}" == "refs/tags/d"* ]]; then
+            rm -f ./release/.env.production
+            cp ./.env.test ./release/.env.production
+          fi
+          echo 'Files Copied'
+          tar -cvf release.tar ./release
+          echo 'Files are tar'
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nextjs-artifact
+          path: release.tar
+
+  # Deployment job
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: nextjs-artifact
+      - name: Extract Package
+        id: extract-package
+        run: |
+          tar -xf release.tar
+          export package_version=$(cat ./release/package.json | jq -r '.version')
+          echo "tag_name=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
+          echo "is_draft=false" >> $GITHUB_OUTPUT
+          echo "is_prerelease=false" >> $GITHUB_OUTPUT
+          echo "release_name=Release v$package_version" >> $GITHUB_OUTPUT
+          if [[ "${GITHUB_REF}" == "refs/tags/d"* ]]; then
+            echo "is_draft=true" >> $GITHUB_OUTPUT
+            echo "release_name=Release d$package_version" >> $GITHUB_OUTPUT
+          elif [[ "${GITHUB_REF}" == "refs/tags/p"* ]]; then
+            echo "is_prerelease=true" >> $GITHUB_OUTPUT
+            echo "release_name=Release p$package_version" >> $GITHUB_OUTPUT
+          fi
+      - name: Create Release
+        id: create_release
+        uses: ncipollo/release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          artifactErrorsFailBuild: true
+          artifacts: 'release.tar'
+          artifactContentType: 'tar'
+          generateReleaseNotes: true
+          tag: ${{ steps.extract-package.outputs.tag_name }}
+          name: ${{ steps.extract-package.outputs.release_name }}
+          draft: ${{ steps.extract-package.outputs.is_draft }}
+          prerelease: ${{ steps.extract-package.outputs.is_prerelease }}
+      - name: Remove Artifact
+        uses: geekyeggo/delete-artifact@v5
+        with:
+          name: nextjs-artifact
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # Specify connection via URL (replaces server_address, server_port, secure,
+          # username and password)
+          #
+          # Format:
+          #
+          #  * smtp://user:password@server:port
+          #  * smtp+starttls://user:password@server:port
+          # connection_url: ${{secrets.MAIL_CONNECTION}}
+          # Required mail server address if not connection_url:
+          server_address: smtp.gmail.com
+          # Server port, default 25:
+          server_port: 465
+          # Optional whether this connection use TLS (default is true if server_port is 465)
+          secure: true
+          # Optional (recommended) mail server username:
+          username: ${{secrets.MAIL_USERNAME}}
+          # Optional (recommended) mail server password:
+          password: ${{secrets.MAIL_PASSWORD}}
+          # Required mail subject:
+          subject: Github Actions job result
+          # Required recipients' addresses:
+          to: ${{vars.RECIPIENTS_ADDRESSES}}
+          # Required sender full name (address can be skipped):
+          from: TOT Dev # <user@example.com>
+          # Optional plain body:
+          body: |
+            Release new version of ${{github.repository}} completed successfully!
+            Process ID: ${{ steps.create_release.outputs.id  }}
+            Release URL: ${{ steps.create_release.outputs.html_url  }}
+          # Optional HTML body read from file:
+          # html_body: file://README.html
+          # Optional carbon copy recipients:
+          # cc: kyloren@example.com,leia@example.com
+          # Optional blind carbon copy recipients:
+          # bcc: r2d2@example.com,hansolo@example.com
+          # Optional recipient of the email response:
+          reply_to: ${{secrets.MAIL_USERNAME}}
+          # Optional Message ID this message is replying to:
+          in_reply_to: <${{secrets.MAIL_USERNAME}}>
+          # Optional unsigned/invalid certificates allowance:
+          ignore_cert: true
+          # Optional converting Markdown to HTML (set content_type to text/html too):
+          convert_markdown: true
+          # Optional attachments:
+          # attachments: release.tar
+          # Optional priority: 'high', 'normal' (default) or 'low'
+          priority: normal
+          # Optional nodemailerlog: true/false
+          # nodemailerlog: false
+          # Optional nodemailerdebug: true/false if true lognodem will also be set true
+          # nodemailerdebug: false
