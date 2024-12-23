@@ -87,13 +87,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/lms-frontend/package-lock.json', '**/lms-frontend/yarn.lock', '**/lms-frontend/bun.lockb') }}-
       - name: Install dependencies
-        run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+        run: |
+          cd lms-frontend
+          ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
         run: |
           cd lms-frontend
           ${{ steps.detect-package-manager.outputs.runner }} build:linux
       - name: Prepare Release Package
         run: |
+          cd lms-frontend
           mkdir -p ./release
           cp -a ./.next/standalone/. ./release
           cp ./pm2.config.js ./release/pm2.config.js
