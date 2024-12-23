@@ -8,10 +8,8 @@ import {
   List,
   Minus,
   Plus,
-  X,
 } from "lucide-react";
 import VerticalProduct from "@/section/product/VerticalProduct";
-import Link from "next/link";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import HorizontalProduct from "@/section/product/HorizontalProduct";
@@ -135,40 +133,21 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 
-function Search() {
-  const searchParams = useSearchParams();
-
-  return {
-    is_free: searchParams.get("is_free"),
-    discount_status: searchParams.get("discount_status"),
-    sort_by: searchParams.get("sort_by"),
-    course_level: searchParams.get("course_level"),
-    category_id: searchParams.get("category_id") || 0,
-    sub_category_id: searchParams.get("sub_category_id"),
-    min_price: searchParams.get("min_price") || "",
-    max_price: searchParams.get("max_price") || "",
-    min_duration: searchParams.get("min_duration") || -1,
-    max_duration: searchParams.get("max_duration") || -1,
-    min_average_rating: searchParams.get("min_average_rating") || 0,
-    search: searchParams.get("search") || "",
-  } as Record<string, string>;
-}
-
 export default function CourseCategorySection() {
-  const searchParams = Search();
+  const searchParams = useSearchParams();
   const router = useRouter();
-  const isFreeParams = searchParams.is_free;
-  const discountStatusParams = searchParams.discount_status;
-  const sortByParams = searchParams.sort_by;
-  const courseLevelParams = searchParams.course_level;
-  const categorIdParams = searchParams.category_id;
-  const subCategoryIdParams = searchParams.sub_category_id;
-  const minPriceParams = searchParams.min_price;
-  const maxPriceParams = searchParams.max_price;
-  const minDurationParams = searchParams.min_duration;
-  const maxDurationParams = searchParams.max_duration;
-  const minAverageRatingParams = searchParams.min_average_rating;
-  const searchAllParams = searchParams.search;
+  const isFreeParams = searchParams.get("is_free");
+  const discountStatusParams = searchParams.get("discount_status");
+  const sortByParams = searchParams.get("sort_by");
+  const courseLevelParams = searchParams.get("course_level");
+  const categorIdParams = searchParams.get("category_id") || 0;
+  const subCategoryIdParams = searchParams.get("sub_category_id");
+  const minPriceParams = searchParams.get("min_price") || "";
+  const maxPriceParams = searchParams.get("max_price") || "";
+  const minDurationParams = searchParams.get("min_duration") || -1;
+  const maxDurationParams = searchParams.get("max_duration") || -1;
+  const minAverageRatingParams = searchParams.get("min_average_rating") || 0;
+  const searchAllParams = searchParams.get("search") || "";
 
   const {
     data: courseLists,
