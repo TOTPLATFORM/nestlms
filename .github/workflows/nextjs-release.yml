@@ -64,6 +64,8 @@ jobs:
             echo "Unable to determine package manager"
             exit 1
           fi
+          pwd
+          ll ${{ github.workspace }}/lms-frontend
       # - name: Setup Bun
       #   uses: oven-sh/setup-bun@v2
       #   with:
