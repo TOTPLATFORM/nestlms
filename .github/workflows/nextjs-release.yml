@@ -89,7 +89,9 @@ jobs:
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
-        run: ${{ steps.detect-package-manager.outputs.runner }} build:linux
+        run: |
+          cd lms-frontend
+          ${{ steps.detect-package-manager.outputs.runner }} build:linux
       - name: Prepare Release Package
         run: |
           mkdir -p ./release
