@@ -7,6 +7,7 @@
     "build": "next build",
     "build:linux": "rm -rf .next && yarn build && cp -R ./public/ ./.next/standalone/public && cp -R ./.next/static/ ./.next/standalone/.next/static",
     "start": "next start -p 3001",
+    "start:linux": "yarn build:linux && cd ./.next/standalone && next start -p 3001",
     "lint": "next lint",
     "lint:fix": "eslint src --fix && yarn format",
     "lint:strict": "eslint --max-warnings=0 src",
