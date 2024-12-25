@@ -321,68 +321,74 @@ export default function CourseCategorySection() {
   };
 
   return (
-    <div className='mt-7'>
-      <div className='container'>
+    <div className="mt-7">
+      <div className="container">
         <Transition.Root show={mobileFiltersOpen} as={Fragment}>
           <Dialog
-            as='div'
-            className='relative z-40 lg:hidden'
-            onClose={setMobileFiltersOpen}>
+            as="div"
+            className="relative z-40 lg:hidden"
+            onClose={setMobileFiltersOpen}
+          >
             <Transition.Child
               as={Fragment}
-              enter='transition-opacity ease-linear duration-300'
-              enterFrom='opacity-0'
-              enterTo='opacity-100'
-              leave='transition-opacity ease-linear duration-300'
-              leaveFrom='opacity-100'
-              leaveTo='opacity-0'>
-              <div className='fixed inset-0 bg-black bg-opacity-25' />
+              enter="transition-opacity ease-linear duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="transition-opacity ease-linear duration-300"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-black bg-opacity-25" />
             </Transition.Child>
 
-            <div className='fixed inset-0 z-40 flex'>
+            <div className="fixed inset-0 z-40 flex">
               <Transition.Child
                 as={Fragment}
-                enter='transition ease-in-out duration-300 transform'
-                enterFrom='translate-x-full'
-                enterTo='translate-x-0'
-                leave='transition ease-in-out duration-300 transform'
-                leaveFrom='translate-x-0'
-                leaveTo='translate-x-full'>
-                <Dialog.Panel className='relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl'>
+                enter="transition ease-in-out duration-300 transform"
+                enterFrom="translate-x-full"
+                enterTo="translate-x-0"
+                leave="transition ease-in-out duration-300 transform"
+                leaveFrom="translate-x-0"
+                leaveTo="translate-x-full"
+              >
+                <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
                   <Disclosure
-                    as='div'
-                    className='mb-4 rounded-[8px] bg-white p-4 shadow-sm'
-                    defaultOpen={true}>
+                    as="div"
+                    className="mb-4 rounded-[8px] bg-white p-4 shadow-sm"
+                    defaultOpen={true}
+                  >
                     {({ open }) => (
                       <>
-                        <div className='mb-10 w-full'>
+                        <div className="mb-10 w-full">
                           <label
-                            htmlFor='default-search'
-                            className='sr-only mb-2 text-sm font-medium text-gray-900 dark:text-white'>
+                            htmlFor="default-search"
+                            className="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                          >
                             Search
                           </label>
-                          <div className='relative'>
-                            <div className='pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3'>
+                          <div className="relative">
+                            <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
                               <svg
-                                className='h-4 w-4 text-gray-500 dark:text-gray-400'
-                                aria-hidden='true'
-                                xmlns='http://www.w3.org/2000/svg'
-                                fill='none'
-                                viewBox='0 0 20 20'>
+                                className="h-4 w-4 text-gray-500 dark:text-gray-400"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 20 20"
+                              >
                                 <path
-                                  stroke='currentColor'
-                                  strokeLinecap='round'
-                                  strokeLinejoin='round'
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
                                   strokeWidth={2}
-                                  d='m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z'
+                                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
                                 />
                               </svg>
                             </div>
                             <input
-                              type='search'
-                              id='default-search'
-                              className='block w-full rounded-lg border border-gray-300  p-2 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500'
-                              placeholder='Search Courses...'
+                              type="search"
+                              id="default-search"
+                              className="block w-full rounded-lg border border-gray-300  p-2 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                              placeholder="Search Courses..."
                               required
                               onChange={(e) =>
                                 handleQueryParams("search", e.target.value)
@@ -391,32 +397,33 @@ export default function CourseCategorySection() {
                             />
                           </div>
                         </div>
-                        <h3 className='-my-3 flow-root'>
-                          <Disclosure.Button className='flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500'>
-                            <span className=' font-bold text-gray-900'>
+                        <h3 className="-my-3 flow-root">
+                          <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                            <span className=" font-bold text-gray-900">
                               Ratings
                             </span>
-                            <span className='ml-6 flex items-center'>
+                            <span className="ml-6 flex items-center">
                               {open ? (
-                                <Minus className='h-5 w-5' />
+                                <Minus className="h-5 w-5" />
                               ) : (
-                                <Plus className='h-5 w-5' />
+                                <Plus className="h-5 w-5" />
                               )}
                             </span>
                           </Disclosure.Button>
                         </h3>
-                        <Disclosure.Panel className='pt-6'>
-                          <div className='space-y-4'>
+                        <Disclosure.Panel className="pt-6">
+                          <div className="space-y-4">
                             {ratingFilter.map((option, optionIdx) => (
                               <div
                                 key={option.value}
-                                className='flex items-center'>
+                                className="flex items-center"
+                              >
                                 <input
                                   id={`rating-${option.value}-${optionIdx}`}
                                   name={`rating`}
                                   defaultValue={option.value}
-                                  type='radio'
-                                  className='accent-primary h-4 w-4 rounded border-gray-300 '
+                                  type="radio"
+                                  className="accent-primary h-4 w-4 rounded border-gray-300 "
                                   onChange={() =>
                                     handleQueryParams(
                                       "min_average_rating",
@@ -432,12 +439,13 @@ export default function CourseCategorySection() {
                                 />
                                 <label
                                   htmlFor={`rating-${option.value}-${optionIdx}`}
-                                  className='ml-3 flex min-w-0 items-center gap-x-1 text-gray-500'>
+                                  className="mx-3 flex min-w-0 items-center gap-x-1 text-gray-500"
+                                >
                                   {[1, 2, 3, 4, 5].map((index) => {
                                     if (index <= option.value) {
                                       return (
                                         <IoIosStar
-                                          color='#34495e'
+                                          color="#34495e"
                                           size={13}
                                           key={index}
                                         />
@@ -445,14 +453,14 @@ export default function CourseCategorySection() {
                                     }
                                     return (
                                       <IoIosStarOutline
-                                        color='#34495e'
+                                        color="#34495e"
                                         size={13}
                                         key={index}
                                       />
                                     );
                                   })}
 
-                                  <p className='pl-2 text-sm'>{option.name}</p>
+                                  <p className="pl-2 text-sm">{option.name}</p>
                                 </label>
                               </div>
                             ))}
@@ -463,36 +471,38 @@ export default function CourseCategorySection() {
                   </Disclosure>
 
                   <Disclosure
-                    as='div'
-                    className='mb-4 rounded-[8px] bg-white p-4 shadow-sm'
-                    defaultOpen={true}>
+                    as="div"
+                    className="mb-4 rounded-[8px] bg-white p-4 shadow-sm"
+                    defaultOpen={true}
+                  >
                     {({ open }) => (
                       <>
-                        <h3 className='-my-3 flow-root'>
-                          <Disclosure.Button className='flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500'>
-                            <span className=' font-bold text-gray-900'>
+                        <h3 className="-my-3 flow-root">
+                          <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                            <span className=" font-bold text-gray-900">
                               Video Duration
                             </span>
-                            <span className='ml-6 flex items-center'>
+                            <span className="ml-6 flex items-center">
                               {open ? (
-                                <Minus className='h-5 w-5' />
+                                <Minus className="h-5 w-5" />
                               ) : (
-                                <Plus className='h-5 w-5' />
+                                <Plus className="h-5 w-5" />
                               )}
                             </span>
                           </Disclosure.Button>
                         </h3>
-                        <Disclosure.Panel className='pt-6'>
-                          <div className='space-y-4'>
+                        <Disclosure.Panel className="pt-6">
+                          <div className="space-y-4">
                             {videoDurationFilter.map((option, optionIdx) => (
                               <div
                                 key={optionIdx}
-                                className='flex items-center'>
+                                className="flex items-center"
+                              >
                                 <input
                                   id={`duration-${option.id}`}
                                   name={`duration`}
-                                  type='radio'
-                                  className='accent-primary h-4 w-4 rounded border-gray-300 '
+                                  type="radio"
+                                  className="accent-primary h-4 w-4 rounded border-gray-300 "
                                   onChange={() => {
                                     handleQueryParams(
                                       "video_duration",
@@ -506,8 +516,9 @@ export default function CourseCategorySection() {
                                 />
                                 <label
                                   htmlFor={`duration-${option.id}`}
-                                  className='ml-3 flex min-w-0 items-center gap-x-1 text-gray-500'>
-                                  <p className='pl-2 text-sm'>{option.name}</p>
+                                  className="mx-3 flex min-w-0 items-center gap-x-1 text-gray-500"
+                                >
+                                  <p className="pl-2 text-sm">{option.name}</p>
                                 </label>
                               </div>
                             ))}
@@ -521,27 +532,28 @@ export default function CourseCategorySection() {
                     <p>Loading..</p>
                   ) : (
                     <Disclosure
-                      as='div'
-                      className='mb-4 rounded-[8px] bg-white p-4 shadow-sm'
-                      defaultOpen={false}>
+                      as="div"
+                      className="mb-4 rounded-[8px] bg-white p-4 shadow-sm"
+                      defaultOpen={false}
+                    >
                       {({ open }) => (
                         <>
-                          <h3 className='-my-3 flow-root'>
-                            <Disclosure.Button className='flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500'>
-                              <span className=' font-bold text-gray-900'>
+                          <h3 className="-my-3 flow-root">
+                            <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                              <span className=" font-bold text-gray-900">
                                 Categories
                               </span>
-                              <span className='ml-6 flex items-center'>
+                              <span className="ml-6 flex items-center">
                                 {open ? (
-                                  <Minus className='h-5 w-5' />
+                                  <Minus className="h-5 w-5" />
                                 ) : (
-                                  <Plus className='h-5 w-5' />
+                                  <Plus className="h-5 w-5" />
                                 )}
                               </span>
                             </Disclosure.Button>
                           </h3>
-                          <Disclosure.Panel className='pt-6'>
-                            <div className='space-y-4'>
+                          <Disclosure.Panel className="pt-6">
+                            <div className="space-y-4">
                               {filterCategory?.data?.category_list?.length ===
                               0 ? (
                                 <NoItem notFoundtext={`No Data Found.`} />
@@ -550,13 +562,14 @@ export default function CourseCategorySection() {
                                   (option: any, optionIdx: any) => (
                                     <div
                                       key={option.id}
-                                      className='flex items-center'>
+                                      className="flex items-center"
+                                    >
                                       <input
                                         id={`category-${option.id}-${optionIdx}`}
                                         name={`category`}
                                         defaultValue={option.id}
-                                        type='radio'
-                                        className='accent-primary h-4 w-4 rounded border-gray-300 '
+                                        type="radio"
+                                        className="accent-primary h-4 w-4 rounded border-gray-300 "
                                         onChange={() => {
                                           handleQueryParams(
                                             "category_id",
@@ -574,8 +587,9 @@ export default function CourseCategorySection() {
                                       />
                                       <label
                                         htmlFor={`category-${option.id}-${optionIdx}`}
-                                        className='ml-3 flex min-w-0 items-center gap-x-1 text-gray-500'>
-                                        <p className='pl-2 text-sm'>
+                                        className="mx-3 flex min-w-0 items-center gap-x-1 text-gray-500"
+                                      >
+                                        <p className="pl-2 text-sm">
                                           {option.name}
                                         </p>
                                       </label>
@@ -591,27 +605,28 @@ export default function CourseCategorySection() {
                   )}
 
                   <Disclosure
-                    as='div'
-                    className='mb-4 rounded-[8px] bg-white p-4 shadow-sm'
-                    defaultOpen={false}>
+                    as="div"
+                    className="mb-4 rounded-[8px] bg-white p-4 shadow-sm"
+                    defaultOpen={false}
+                  >
                     {({ open }) => (
                       <>
-                        <h3 className='-my-3 flow-root'>
-                          <Disclosure.Button className='flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500'>
-                            <span className=' font-bold text-gray-900'>
+                        <h3 className="-my-3 flow-root">
+                          <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                            <span className=" font-bold text-gray-900">
                               SubCategories
                             </span>
-                            <span className='ml-6 flex items-center'>
+                            <span className="ml-6 flex items-center">
                               {open ? (
-                                <Minus className='h-5 w-5' />
+                                <Minus className="h-5 w-5" />
                               ) : (
-                                <Plus className='h-5 w-5' />
+                                <Plus className="h-5 w-5" />
                               )}
                             </span>
                           </Disclosure.Button>
                         </h3>
-                        <Disclosure.Panel className='pt-6'>
-                          <div className='space-y-4'>
+                        <Disclosure.Panel className="pt-6">
+                          <div className="space-y-4">
                             {subCategoryOptions?.length === 0 ? (
                               <NoItem notFoundtext={`No Data Found.`} />
                             ) : (
@@ -619,13 +634,14 @@ export default function CourseCategorySection() {
                                 (option: any, optionIdx: any) => (
                                   <div
                                     key={option.id}
-                                    className='flex items-center'>
+                                    className="flex items-center"
+                                  >
                                     <input
                                       id={`sub-category-${option.id}-${optionIdx}`}
                                       name={`${option.id}[]`}
                                       defaultValue={option.id}
-                                      type='checkbox'
-                                      className='accent-primary h-4 w-4 rounded border-gray-300 '
+                                      type="checkbox"
+                                      className="accent-primary h-4 w-4 rounded border-gray-300 "
                                       onChange={() => {
                                         handleQueryParams(
                                           "sub_category_id",
@@ -642,8 +658,9 @@ export default function CourseCategorySection() {
                                     />
                                     <label
                                       htmlFor={`sub-category-${option.id}-${optionIdx}`}
-                                      className='ml-3 flex min-w-0 items-center gap-x-1 text-gray-500'>
-                                      <p className='pl-2 text-sm'>
+                                      className="mx-3 flex min-w-0 items-center gap-x-1 text-gray-500"
+                                    >
+                                      <p className="pl-2 text-sm">
                                         {option.name}
                                       </p>
                                     </label>
@@ -658,37 +675,39 @@ export default function CourseCategorySection() {
                   </Disclosure>
 
                   <Disclosure
-                    as='div'
-                    className='mb-4 rounded-[8px] bg-white p-4 shadow-sm'
-                    defaultOpen={false}>
+                    as="div"
+                    className="mb-4 rounded-[8px] bg-white p-4 shadow-sm"
+                    defaultOpen={false}
+                  >
                     {({ open }) => (
                       <>
-                        <h3 className='-my-3 flow-root'>
-                          <Disclosure.Button className='flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500'>
-                            <span className=' font-bold text-gray-900'>
+                        <h3 className="-my-3 flow-root">
+                          <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                            <span className=" font-bold text-gray-900">
                               Level
                             </span>
-                            <span className='ml-6 flex items-center'>
+                            <span className="ml-6 flex items-center">
                               {open ? (
-                                <Minus className='h-5 w-5' />
+                                <Minus className="h-5 w-5" />
                               ) : (
-                                <Plus className='h-5 w-5' />
+                                <Plus className="h-5 w-5" />
                               )}
                             </span>
                           </Disclosure.Button>
                         </h3>
-                        <Disclosure.Panel className='pt-6'>
-                          <div className='space-y-4'>
+                        <Disclosure.Panel className="pt-6">
+                          <div className="space-y-4">
                             {coursesLevelOptions.map((option, optionIdx) => (
                               <div
                                 key={option.value}
-                                className='flex items-center'>
+                                className="flex items-center"
+                              >
                                 <input
                                   id={`level-${option.value}-${optionIdx}`}
                                   name={`${option.value}[]`}
                                   defaultValue={option.value}
-                                  type='checkbox'
-                                  className='accent-primary h-4 w-4 rounded border-gray-300 '
+                                  type="checkbox"
+                                  className="accent-primary h-4 w-4 rounded border-gray-300 "
                                   onChange={() =>
                                     handleQueryParams(
                                       "course_level",
@@ -706,8 +725,9 @@ export default function CourseCategorySection() {
                                 />
                                 <label
                                   htmlFor={`level-${option.value}-${optionIdx}`}
-                                  className='ml-3 flex min-w-0 items-center gap-x-1 text-gray-500'>
-                                  <p className='pl-2 text-sm'>{option.name}</p>
+                                  className="mx-3 flex min-w-0 items-center gap-x-1 text-gray-500"
+                                >
+                                  <p className="pl-2 text-sm">{option.name}</p>
                                 </label>
                               </div>
                             ))}
@@ -718,33 +738,34 @@ export default function CourseCategorySection() {
                   </Disclosure>
 
                   <Disclosure
-                    as='div'
-                    className='mb-4 rounded-[8px] bg-white p-4 shadow-sm'
-                    defaultOpen={false}>
+                    as="div"
+                    className="mb-4 rounded-[8px] bg-white p-4 shadow-sm"
+                    defaultOpen={false}
+                  >
                     {({ open }) => (
                       <>
-                        <h3 className='-my-3 flow-root'>
-                          <Disclosure.Button className='flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500'>
-                            <span className=' font-bold text-gray-900'>
+                        <h3 className="-my-3 flow-root">
+                          <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                            <span className=" font-bold text-gray-900">
                               Price
                             </span>
-                            <span className='ml-6 flex items-center'>
+                            <span className="ml-6 flex items-center">
                               {open ? (
-                                <Minus className='h-5 w-5' />
+                                <Minus className="h-5 w-5" />
                               ) : (
-                                <Plus className='h-5 w-5' />
+                                <Plus className="h-5 w-5" />
                               )}
                             </span>
                           </Disclosure.Button>
                         </h3>
-                        <Disclosure.Panel className='pt-6'>
-                          <div className='space-y-4'>
-                            <label htmlFor='' className='text-xs'>
+                        <Disclosure.Panel className="pt-6">
+                          <div className="space-y-4">
+                            <label htmlFor="" className="text-xs">
                               Min Price
                             </label>
                             <Input
-                              type='number'
-                              className='!mt-1'
+                              type="number"
+                              className="!mt-1"
                               value={priceFilter.minPrice}
                               onChange={(e) =>
                                 setPriceFilter((prev: any) => ({
@@ -754,13 +775,13 @@ export default function CourseCategorySection() {
                               }
                             />
                           </div>
-                          <div className='space-y-4'>
-                            <label htmlFor='' className='text-xs'>
+                          <div className="space-y-4">
+                            <label htmlFor="" className="text-xs">
                               Max Price
                             </label>
                             <Input
-                              type='number'
-                              className='!mt-1'
+                              type="number"
+                              className="!mt-1"
                               value={priceFilter.maxPrice}
                               onChange={(e) =>
                                 setPriceFilter((prev: any) => ({
@@ -771,11 +792,12 @@ export default function CourseCategorySection() {
                             />
                           </div>
                           <Button
-                            type='button'
+                            type="button"
                             onClick={() =>
                               handleQueryParams("price_filter", priceFilter)
                             }
-                            className='mt-4 w-full'>
+                            className="mt-4 w-full"
+                          >
                             Price Filter
                           </Button>
                         </Disclosure.Panel>
@@ -789,51 +811,55 @@ export default function CourseCategorySection() {
         </Transition.Root>
 
         <main>
-          <section aria-labelledby='products-heading' className='pb-24 pt-6'>
-            <h2 id='products-heading' className='sr-only'>
+          <section aria-labelledby="products-heading" className="pb-24 pt-6">
+            <h2 id="products-heading" className="sr-only">
               Products
             </h2>
 
-            <div className='grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4'>
+            <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
               <NegativeXAxisAnimation
                 isOneTime={true}
-                classes={`hidden lg:block`}>
-                <h3 className='sr-only'>Categories</h3>
+                classes={`hidden lg:block`}
+              >
+                <h3 className="sr-only">Categories</h3>
 
                 <Disclosure
-                  as='div'
-                  className='mb-4 rounded-[8px] bg-white p-4 shadow-sm'
-                  defaultOpen={true}>
+                  as="div"
+                  className="mb-4 rounded-[8px] bg-white p-4 shadow-sm"
+                  defaultOpen={true}
+                >
                   {({ open }) => (
                     <>
-                      <div className='mb-10 w-full'>
+                      <div className="mb-10 w-full">
                         <label
-                          htmlFor='default-search'
-                          className='sr-only mb-2 text-sm font-medium text-gray-900 dark:text-white'>
+                          htmlFor="default-search"
+                          className="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        >
                           Search
                         </label>
-                        <div className='relative'>
-                          <div className='pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3'>
+                        <div className="relative">
+                          <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
                             <svg
-                              className='h-4 w-4 text-gray-500 dark:text-gray-400'
-                              aria-hidden='true'
-                              xmlns='http://www.w3.org/2000/svg'
-                              fill='none'
-                              viewBox='0 0 20 20'>
+                              className="h-4 w-4 text-gray-500 dark:text-gray-400"
+                              aria-hidden="true"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 20 20"
+                            >
                               <path
-                                stroke='currentColor'
-                                strokeLinecap='round'
-                                strokeLinejoin='round'
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                                 strokeWidth={2}
-                                d='m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z'
+                                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
                               />
                             </svg>
                           </div>
                           <input
-                            type='search'
-                            id='default-search'
-                            className='block w-full rounded-lg border border-gray-300  p-2 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500'
-                            placeholder='Search Courses...'
+                            type="search"
+                            id="default-search"
+                            className="block w-full rounded-lg border border-gray-300  p-2 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                            placeholder="Search Courses..."
                             required
                             onChange={(e) =>
                               handleQueryParams("search", e.target.value)
@@ -842,32 +868,33 @@ export default function CourseCategorySection() {
                           />
                         </div>
                       </div>
-                      <h3 className='-my-3 flow-root'>
-                        <Disclosure.Button className='flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500'>
-                          <span className=' font-bold text-gray-900'>
+                      <h3 className="-my-3 flow-root">
+                        <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                          <span className=" font-bold text-gray-900">
                             Ratings
                           </span>
-                          <span className='ml-6 flex items-center'>
+                          <span className="ml-6 flex items-center">
                             {open ? (
-                              <Minus className='h-5 w-5' />
+                              <Minus className="h-5 w-5" />
                             ) : (
-                              <Plus className='h-5 w-5' />
+                              <Plus className="h-5 w-5" />
                             )}
                           </span>
                         </Disclosure.Button>
                       </h3>
-                      <Disclosure.Panel className='pt-6'>
-                        <div className='space-y-4'>
+                      <Disclosure.Panel className="pt-6">
+                        <div className="space-y-4">
                           {ratingFilter.map((option, optionIdx) => (
                             <div
                               key={option.value}
-                              className='flex items-center'>
+                              className="flex items-center"
+                            >
                               <input
                                 id={`rating-${option.value}-${optionIdx}`}
                                 name={`rating`}
                                 defaultValue={option.value}
-                                type='radio'
-                                className='accent-primary h-4 w-4 rounded border-gray-300 '
+                                type="radio"
+                                className="accent-primary h-4 w-4 rounded border-gray-300 "
                                 onChange={() =>
                                   handleQueryParams(
                                     "min_average_rating",
@@ -883,12 +910,13 @@ export default function CourseCategorySection() {
                               />
                               <label
                                 htmlFor={`rating-${option.value}-${optionIdx}`}
-                                className='ml-3 flex min-w-0 items-center gap-x-1 text-gray-500'>
+                                className="mx-3 flex min-w-0 items-center gap-x-1 text-gray-500"
+                              >
                                 {[1, 2, 3, 4, 5].map((index) => {
                                   if (index <= option.value) {
                                     return (
                                       <IoIosStar
-                                        color='#34495e'
+                                        color="#34495e"
                                         size={13}
                                         key={index}
                                       />
@@ -896,14 +924,14 @@ export default function CourseCategorySection() {
                                   }
                                   return (
                                     <IoIosStarOutline
-                                      color='#34495e'
+                                      color="#34495e"
                                       size={13}
                                       key={index}
                                     />
                                   );
                                 })}
 
-                                <p className='pl-2 text-sm'>{option.name}</p>
+                                <p className="pl-2 text-sm">{option.name}</p>
                               </label>
                             </div>
                           ))}
@@ -914,34 +942,35 @@ export default function CourseCategorySection() {
                 </Disclosure>
 
                 <Disclosure
-                  as='div'
-                  className='mb-4 rounded-[8px] bg-white p-4 shadow-sm'
-                  defaultOpen={true}>
+                  as="div"
+                  className="mb-4 rounded-[8px] bg-white p-4 shadow-sm"
+                  defaultOpen={true}
+                >
                   {({ open }) => (
                     <>
-                      <h3 className='-my-3 flow-root'>
-                        <Disclosure.Button className='flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500'>
-                          <span className=' font-bold text-gray-900'>
+                      <h3 className="-my-3 flow-root">
+                        <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                          <span className=" font-bold text-gray-900">
                             Video Duration
                           </span>
-                          <span className='ml-6 flex items-center'>
+                          <span className="ml-6 flex items-center">
                             {open ? (
-                              <Minus className='h-5 w-5' />
+                              <Minus className="h-5 w-5" />
                             ) : (
-                              <Plus className='h-5 w-5' />
+                              <Plus className="h-5 w-5" />
                             )}
                           </span>
                         </Disclosure.Button>
                       </h3>
-                      <Disclosure.Panel className='pt-6'>
-                        <div className='space-y-4'>
+                      <Disclosure.Panel className="pt-6">
+                        <div className="space-y-4">
                           {videoDurationFilter.map((option, optionIdx) => (
-                            <div key={optionIdx} className='flex items-center'>
+                            <div key={optionIdx} className="flex items-center">
                               <input
                                 id={`duration-${option.id}`}
                                 name={`duration`}
-                                type='radio'
-                                className='accent-primary h-4 w-4 rounded border-gray-300 '
+                                type="radio"
+                                className="accent-primary h-4 w-4 rounded border-gray-300 "
                                 onChange={() => {
                                   handleQueryParams(
                                     "video_duration",
@@ -955,8 +984,9 @@ export default function CourseCategorySection() {
                               />
                               <label
                                 htmlFor={`duration-${option.id}`}
-                                className='ml-3 flex min-w-0 items-center gap-x-1 text-gray-500'>
-                                <p className='pl-2 text-sm'>{option.name}</p>
+                                className="mx-3 flex min-w-0 items-center gap-x-1 text-gray-500"
+                              >
+                                <p className="pl-2 text-sm">{option.name}</p>
                               </label>
                             </div>
                           ))}
@@ -970,27 +1000,28 @@ export default function CourseCategorySection() {
                   <p>Loading..</p>
                 ) : (
                   <Disclosure
-                    as='div'
-                    className='mb-4 rounded-[8px] bg-white p-4 shadow-sm'
-                    defaultOpen={false}>
+                    as="div"
+                    className="mb-4 rounded-[8px] bg-white p-4 shadow-sm"
+                    defaultOpen={false}
+                  >
                     {({ open }) => (
                       <>
-                        <h3 className='-my-3 flow-root'>
-                          <Disclosure.Button className='flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500'>
-                            <span className=' font-bold text-gray-900'>
+                        <h3 className="-my-3 flow-root">
+                          <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                            <span className=" font-bold text-gray-900">
                               Categories
                             </span>
-                            <span className='ml-6 flex items-center'>
+                            <span className="ml-6 flex items-center">
                               {open ? (
-                                <Minus className='h-5 w-5' />
+                                <Minus className="h-5 w-5" />
                               ) : (
-                                <Plus className='h-5 w-5' />
+                                <Plus className="h-5 w-5" />
                               )}
                             </span>
                           </Disclosure.Button>
                         </h3>
-                        <Disclosure.Panel className='pt-6'>
-                          <div className='space-y-4'>
+                        <Disclosure.Panel className="pt-6">
+                          <div className="space-y-4">
                             {filterCategory?.data?.category_list?.length ===
                             0 ? (
                               <NoItem notFoundtext={`No Data Found.`} />
@@ -999,13 +1030,14 @@ export default function CourseCategorySection() {
                                 (option: any, optionIdx: any) => (
                                   <div
                                     key={option.id}
-                                    className='flex items-center'>
+                                    className="flex items-center"
+                                  >
                                     <input
                                       id={`category-${option.id}-${optionIdx}`}
                                       name={`category`}
                                       defaultValue={option.id}
-                                      type='radio'
-                                      className='accent-primary h-4 w-4 rounded border-gray-300 '
+                                      type="radio"
+                                      className="accent-primary h-4 w-4 rounded border-gray-300 "
                                       onChange={() => {
                                         handleQueryParams(
                                           "category_id",
@@ -1023,8 +1055,9 @@ export default function CourseCategorySection() {
                                     />
                                     <label
                                       htmlFor={`category-${option.id}-${optionIdx}`}
-                                      className='ml-3 flex min-w-0 items-center gap-x-1 text-gray-500'>
-                                      <p className='pl-2 text-sm'>
+                                      className="mx-3 flex min-w-0 items-center gap-x-1 text-gray-500"
+                                    >
+                                      <p className="pl-2 text-sm">
                                         {option.name}
                                       </p>
                                     </label>
@@ -1040,27 +1073,28 @@ export default function CourseCategorySection() {
                 )}
 
                 <Disclosure
-                  as='div'
-                  className='mb-4 rounded-[8px] bg-white p-4 shadow-sm'
-                  defaultOpen={false}>
+                  as="div"
+                  className="mb-4 rounded-[8px] bg-white p-4 shadow-sm"
+                  defaultOpen={false}
+                >
                   {({ open }) => (
                     <>
-                      <h3 className='-my-3 flow-root'>
-                        <Disclosure.Button className='flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500'>
-                          <span className=' font-bold text-gray-900'>
+                      <h3 className="-my-3 flow-root">
+                        <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                          <span className=" font-bold text-gray-900">
                             SubCategories
                           </span>
-                          <span className='ml-6 flex items-center'>
+                          <span className="ml-6 flex items-center">
                             {open ? (
-                              <Minus className='h-5 w-5' />
+                              <Minus className="h-5 w-5" />
                             ) : (
-                              <Plus className='h-5 w-5' />
+                              <Plus className="h-5 w-5" />
                             )}
                           </span>
                         </Disclosure.Button>
                       </h3>
-                      <Disclosure.Panel className='pt-6'>
-                        <div className='space-y-4'>
+                      <Disclosure.Panel className="pt-6">
+                        <div className="space-y-4">
                           {subCategoryOptions?.length === 0 ? (
                             <NoItem notFoundtext={`No Data Found.`} />
                           ) : (
@@ -1068,13 +1102,14 @@ export default function CourseCategorySection() {
                               (option: any, optionIdx: any) => (
                                 <div
                                   key={option.id}
-                                  className='flex items-center'>
+                                  className="flex items-center"
+                                >
                                   <input
                                     id={`sub-category-${option.id}-${optionIdx}`}
                                     name={`${option.id}[]`}
                                     defaultValue={option.id}
-                                    type='checkbox'
-                                    className='accent-primary h-4 w-4 rounded border-gray-300 '
+                                    type="checkbox"
+                                    className="accent-primary h-4 w-4 rounded border-gray-300 "
                                     onChange={() => {
                                       handleQueryParams(
                                         "sub_category_id",
@@ -1092,8 +1127,9 @@ export default function CourseCategorySection() {
                                   />
                                   <label
                                     htmlFor={`sub-category-${option.id}-${optionIdx}`}
-                                    className='ml-3 flex min-w-0 items-center gap-x-1 text-gray-500'>
-                                    <p className='pl-2 text-sm'>
+                                    className="mx-3 flex min-w-0 items-center gap-x-1 text-gray-500"
+                                  >
+                                    <p className="pl-2 text-sm">
                                       {option.name}
                                     </p>
                                   </label>
@@ -1108,37 +1144,39 @@ export default function CourseCategorySection() {
                 </Disclosure>
 
                 <Disclosure
-                  as='div'
-                  className='mb-4 rounded-[8px] bg-white p-4 shadow-sm'
-                  defaultOpen={false}>
+                  as="div"
+                  className="mb-4 rounded-[8px] bg-white p-4 shadow-sm"
+                  defaultOpen={false}
+                >
                   {({ open }) => (
                     <>
-                      <h3 className='-my-3 flow-root'>
-                        <Disclosure.Button className='flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500'>
-                          <span className=' font-bold text-gray-900'>
+                      <h3 className="-my-3 flow-root">
+                        <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                          <span className=" font-bold text-gray-900">
                             Level
                           </span>
-                          <span className='ml-6 flex items-center'>
+                          <span className="ml-6 flex items-center">
                             {open ? (
-                              <Minus className='h-5 w-5' />
+                              <Minus className="h-5 w-5" />
                             ) : (
-                              <Plus className='h-5 w-5' />
+                              <Plus className="h-5 w-5" />
                             )}
                           </span>
                         </Disclosure.Button>
                       </h3>
-                      <Disclosure.Panel className='pt-6'>
-                        <div className='space-y-4'>
+                      <Disclosure.Panel className="pt-6">
+                        <div className="space-y-4">
                           {coursesLevelOptions.map((option, optionIdx) => (
                             <div
                               key={option.value}
-                              className='flex items-center'>
+                              className="flex items-center"
+                            >
                               <input
                                 id={`level-${option.value}-${optionIdx}`}
                                 name={`${option.value}[]`}
                                 defaultValue={option.value}
-                                type='checkbox'
-                                className='accent-primary h-4 w-4 rounded border-gray-300 '
+                                type="checkbox"
+                                className="accent-primary h-4 w-4 rounded border-gray-300 "
                                 onChange={() =>
                                   handleQueryParams(
                                     "course_level",
@@ -1155,8 +1193,9 @@ export default function CourseCategorySection() {
                               />
                               <label
                                 htmlFor={`level-${option.value}-${optionIdx}`}
-                                className='ml-3 flex min-w-0 items-center gap-x-1 text-gray-500'>
-                                <p className='pl-2 text-sm'>{option.name}</p>
+                                className="mx-3 flex min-w-0 items-center gap-x-1 text-gray-500"
+                              >
+                                <p className="pl-2 text-sm">{option.name}</p>
                               </label>
                             </div>
                           ))}
@@ -1167,33 +1206,34 @@ export default function CourseCategorySection() {
                 </Disclosure>
 
                 <Disclosure
-                  as='div'
-                  className='mb-4 rounded-[8px] bg-white p-4 shadow-sm'
-                  defaultOpen={false}>
+                  as="div"
+                  className="mb-4 rounded-[8px] bg-white p-4 shadow-sm"
+                  defaultOpen={false}
+                >
                   {({ open }) => (
                     <>
-                      <h3 className='-my-3 flow-root'>
-                        <Disclosure.Button className='flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500'>
-                          <span className=' font-bold text-gray-900'>
+                      <h3 className="-my-3 flow-root">
+                        <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                          <span className=" font-bold text-gray-900">
                             Price
                           </span>
-                          <span className='ml-6 flex items-center'>
+                          <span className="ml-6 flex items-center">
                             {open ? (
-                              <Minus className='h-5 w-5' />
+                              <Minus className="h-5 w-5" />
                             ) : (
-                              <Plus className='h-5 w-5' />
+                              <Plus className="h-5 w-5" />
                             )}
                           </span>
                         </Disclosure.Button>
                       </h3>
-                      <Disclosure.Panel className='pt-6'>
-                        <div className='space-y-4'>
-                          <label htmlFor='' className='text-xs'>
+                      <Disclosure.Panel className="pt-6">
+                        <div className="space-y-4">
+                          <label htmlFor="" className="text-xs">
                             Min Price
                           </label>
                           <Input
-                            type='number'
-                            className='!mt-1'
+                            type="number"
+                            className="!mt-1"
                             value={priceFilter.minPrice}
                             onChange={(e) =>
                               setPriceFilter((prev: any) => ({
@@ -1203,13 +1243,13 @@ export default function CourseCategorySection() {
                             }
                           />
                         </div>
-                        <div className='space-y-4'>
-                          <label htmlFor='' className='text-xs'>
+                        <div className="space-y-4">
+                          <label htmlFor="" className="text-xs">
                             Max Price
                           </label>
                           <Input
-                            type='number'
-                            className='!mt-1'
+                            type="number"
+                            className="!mt-1"
                             value={priceFilter.maxPrice}
                             onChange={(e) =>
                               setPriceFilter((prev: any) => ({
@@ -1220,11 +1260,12 @@ export default function CourseCategorySection() {
                           />
                         </div>
                         <Button
-                          type='button'
+                          type="button"
                           onClick={() =>
                             handleQueryParams("price_filter", priceFilter)
                           }
-                          className='mt-4 w-full'>
+                          className="mt-4 w-full"
+                        >
                           Price Filter
                         </Button>
                       </Disclosure.Panel>
@@ -1233,32 +1274,33 @@ export default function CourseCategorySection() {
                 </Disclosure>
               </NegativeXAxisAnimation>
 
-              <div className='lg:col-span-3'>
-                <div className='mb-6 flex flex-col justify-between gap-4 rounded-[8px] bg-white p-4 lg:flex-row lg:items-center'>
-                  <div className='flex items-center gap-x-4'>
+              <div className="lg:col-span-3">
+                <div className="mb-6 flex flex-col justify-between gap-4 rounded-[8px] bg-white p-4 lg:flex-row lg:items-center">
+                  <div className="flex items-center gap-x-4">
                     {Number(searchParams.size) &&
                     Number(searchParams.size) > 0 ? (
                       <span
-                        className='text-primary cursor-pointer text-sm'
-                        onClick={() => handleQueryParams("delete_all", "")}>
+                        className="text-primary cursor-pointer text-sm"
+                        onClick={() => handleQueryParams("delete_all", "")}
+                      >
                         Clear All
                       </span>
                     ) : null}
 
-                    <div className='flex items-center space-x-2'>
-                      <Label htmlFor='is-free'>Free</Label>
+                    <div className="flex items-center space-x-2">
+                      <Label htmlFor="is-free">Free</Label>
                       <Switch
-                        id='is-free'
+                        id="is-free"
                         checked={isFreeParams == "true" ? true : false}
                         onCheckedChange={(value) =>
                           handleQueryParams("is_free", value)
                         }
                       />
                     </div>
-                    <div className='flex items-center space-x-2'>
-                      <Label htmlFor='discount'>Discount</Label>
+                    <div className="flex items-center space-x-2">
+                      <Label htmlFor="discount">Discount</Label>
                       <Switch
-                        id='discount'
+                        id="discount"
                         checked={discountStatusParams == "true" ? true : false}
                         onCheckedChange={(value) =>
                           handleQueryParams("discount_status", value)
@@ -1266,29 +1308,30 @@ export default function CourseCategorySection() {
                       />
                     </div>
                   </div>
-                  <div className='flex items-center'>
-                    <Menu as='div' className='relative inline-block text-left'>
+                  <div className="flex items-center">
+                    <Menu as="div" className="relative inline-block text-left">
                       <div>
-                        <Menu.Button className='group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900'>
+                        <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
                           {!sortByParams
                             ? "Sort By"
                             : sortOptions.find(
                                 (item) => item.value == sortByParams
                               )?.name}
-                          <ChevronDown className='-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500' />
+                          <ChevronDown className="mx-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500" />
                         </Menu.Button>
                       </div>
 
                       <Transition
                         as={Fragment}
-                        enter='transition ease-out duration-100'
-                        enterFrom='transform opacity-0 scale-95'
-                        enterTo='transform opacity-100 scale-100'
-                        leave='transition ease-in duration-75'
-                        leaveFrom='transform opacity-100 scale-100'
-                        leaveTo='transform opacity-0 scale-95'>
-                        <Menu.Items className='absolute left-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none md:right-0'>
-                          <div className='py-1'>
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                      >
+                        <Menu.Items className="absolute left-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none md:right-0">
+                          <div className="py-1">
                             {sortOptions.map((option) => (
                               <Menu.Item key={option.name}>
                                 {({ active }) => (
@@ -1303,7 +1346,8 @@ export default function CourseCategorySection() {
                                     )}
                                     onClick={() =>
                                       handleQueryParams("sort_by", option.value)
-                                    }>
+                                    }
+                                  >
                                     {option.name}
                                   </div>
                                 )}
@@ -1315,37 +1359,40 @@ export default function CourseCategorySection() {
                     </Menu>
 
                     <button
-                      type='button'
+                      type="button"
                       className={cn(
                         "-m-2 ml-5 p-2 text-gray-400  sm:ml-7",
                         itemView == "grid" && "text-primary"
                       )}
-                      onClick={() => handleItemView("grid")}>
-                      <span className='sr-only'>View grid</span>
-                      <LayoutGrid className='h-5 w-5' />
+                      onClick={() => handleItemView("grid")}
+                    >
+                      <span className="sr-only">View grid</span>
+                      <LayoutGrid className="h-5 w-5" />
                     </button>
                     <button
-                      type='button'
+                      type="button"
                       className={cn(
-                        "-m-2 ml-2 p-2 text-gray-400  sm:ml-3",
+                        "-m-2 ml-2 p-2 text-gray-400  sm:mx-3",
                         itemView == "list" && "text-primary"
                       )}
-                      onClick={() => handleItemView("list")}>
-                      <span className='sr-only'>List View</span>
-                      <List className='h-5 w-5' />
+                      onClick={() => handleItemView("list")}
+                    >
+                      <span className="sr-only">List View</span>
+                      <List className="h-5 w-5" />
                     </button>
                     <button
-                      type='button'
-                      className='-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden'
-                      onClick={() => setMobileFiltersOpen(true)}>
-                      <span className='sr-only'>Filters</span>
-                      <Filter className='h-5 w-5' />
+                      type="button"
+                      className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
+                      onClick={() => setMobileFiltersOpen(true)}
+                    >
+                      <span className="sr-only">Filters</span>
+                      <Filter className="h-5 w-5" />
                     </button>
                   </div>
                 </div>
 
                 {isLoading ? (
-                  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(
                       (item: any, index: number) => (
                         <VerticalProductLoading key={index} />
@@ -1355,7 +1402,7 @@ export default function CourseCategorySection() {
                 ) : (
                   <>
                     {courseLists?.data?.list?.length === 0 ? (
-                      <div className='m-4 '>
+                      <div className="m-4 ">
                         <NoItem notFoundtext={`No Data Found.`} />
                       </div>
                     ) : (
@@ -1363,12 +1410,13 @@ export default function CourseCategorySection() {
                         {itemView == "grid" ? (
                           <PositiveYAxisAnimation
                             isOneTime={true}
-                            classes={`grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3`}>
+                            classes={`grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3`}
+                          >
                             {courseLists?.data?.list?.map(
                               (item: any, index: number) => (
                                 <VerticalProduct
                                   isFullPadding={false}
-                                  titleClass='text-base'
+                                  titleClass="text-base"
                                   key={index}
                                   course={item.course}
                                 />
@@ -1378,7 +1426,8 @@ export default function CourseCategorySection() {
                         ) : (
                           <PositiveYAxisAnimation
                             isOneTime={true}
-                            classes={`grid grid-cols-1 gap-4`}>
+                            classes={`grid grid-cols-1 gap-4`}
+                          >
                             {courseLists?.data?.list?.map(
                               (item: any, index: number) => (
                                 <HorizontalProduct
@@ -1395,8 +1444,8 @@ export default function CourseCategorySection() {
                 )}
 
                 {courseLists?.data?.list?.length !== 0 && (
-                  <div className='mt-5'>
-                    <div className='flex w-full flex-col justify-center'>
+                  <div className="mt-5">
+                    <div className="flex w-full flex-col justify-center">
                       <CustomPagination
                         totalItems={courseLists?.data?.meta?.total}
                         perPageItems={limit}

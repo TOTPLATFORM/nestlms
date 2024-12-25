@@ -57,13 +57,15 @@ export default function NavbarUi({ setOpenCart }: NavbarUiProps) {
   const { user, isLoggedIn } = useSelector(
     (state: IRootState) => state.userSlice
   );
-  const { cartInfo } = useSelector((state: IRootState) => state.cartSlice) || {};
-  const { settings } = useSelector((state: IRootState) => state?.common?.data) || {};
+  const { cartInfo } =
+    useSelector((state: IRootState) => state.cartSlice) || {};
+  const { settings } =
+    useSelector((state: IRootState) => state?.common?.data) || {};
 
   const [isMobileNavOpen, setIsMobileNavOpen] = useState<boolean>(false);
 
   const { t } = useTranslation();
-  
+
   const {
     data: searchCourseLists,
     setIsSearchEnable,
@@ -219,24 +221,27 @@ export default function NavbarUi({ setOpenCart }: NavbarUiProps) {
 
         {/* Navigation Links */}
         <div className="col-span-4 hidden w-full items-center justify-end lg:flex 2xl:col-span-3">
-          <Link href="/" className="px-2 text-base font-normal text-gray-900">
+          <Link
+            href="/"
+            className="px-2 text-base font-normal whitespace-nowrap text-gray-900"
+          >
             {t(`menu.links.home`)}
           </Link>
           <Link
             href="/tutors"
-            className="px-2 text-base font-normal text-gray-900"
+            className="px-2 text-base font-normal whitespace-nowrap text-gray-900"
           >
             {t(`menu.links.instructors`)}
           </Link>
           <Link
             href="/courses"
-            className="px-2 text-base font-normal text-gray-900"
+            className="px-2 text-base font-normal whitespace-nowrap text-gray-900"
           >
             {t(`menu.links.courses`)}
           </Link>
           <Link
             href="/blogs"
-            className="px-2 text-base font-normal text-gray-900"
+            className="px-2 text-base font-normal whitespace-nowrap text-gray-900"
           >
             {t(`menu.links.blogs`)}
           </Link>

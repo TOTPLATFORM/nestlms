@@ -19,7 +19,7 @@ export default function HeroSection({ landing_data }: any) {
       style={{ backdropFilter: "blur(14px)" }}
     >
       <div className="from-primary/50 absolute -left-[20%] aspect-square w-[600px] rounded-full bg-gradient-to-r to-[#FEFBF6] blur-[20px]"></div>
-      <div className="from-primary/50 absolute -right-[100px] -top-[20%] aspect-square w-[500px] rounded-full bg-gradient-to-l to-[#FEFBF6] blur-[20px]"></div>
+      <div className="from-primary/50 absolute -right-[100px] -top-[20%] aspect-square w-[500px] rounded-full bg-gradient-to-l to-[#FEFBF6] blur-[20px] -z-50"></div>
 
       <div className="container overflow-visible">
         <div className="flex flex-col-reverse items-center gap-12 lg:flex-row lg:gap-3">

@@ -184,7 +184,7 @@ export default function CourseSinglePage({ params: { slug } }: any) {
         </div>
       </section>
       <PositiveXAxisAnimation
-        classes={`top-0 z-10 mt-12 h-full w-full lg:absolute lg:right-[7%]  lg:w-[24rem] 2xl:right-[16%]`}
+        classes={`top-0 z-10 mt-12 h-full w-full lg:absolute lg:end-[7%]  lg:w-[24rem] 2xl:end-[16%]`}
       >
         <div className="sticky top-0 rounded-[8px] bg-white shadow-md ">
           <div>
@@ -358,8 +358,8 @@ export default function CourseSinglePage({ params: { slug } }: any) {
                         {data?.course_level === COURSE_LEVEL.BEGINNER
                           ? "Beginner"
                           : data?.duration === COURSE_LEVEL.INTERMEDIATE
-                          ? "Intermediate"
-                          : "Advanced"}
+                            ? "Intermediate"
+                            : "Advanced"}
                       </p>
                     )}
                   </div>
