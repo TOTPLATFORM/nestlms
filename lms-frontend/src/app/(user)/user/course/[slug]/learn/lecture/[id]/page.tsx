@@ -228,7 +228,7 @@ export default function CourseLecture({ params: { id } }: any) {
         showQuizResultHandler();
         setTimeout(() => {
           window.location.reload();
-        }, 3000);
+        }, 2000);
       } catch (error) {}
       return;
     }
