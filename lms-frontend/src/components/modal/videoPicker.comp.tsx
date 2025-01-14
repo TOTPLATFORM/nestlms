@@ -34,23 +34,23 @@ const VideoPicker = ({
   const { t } = useTranslation();
 
   return (
-    <div className="mb-5">
+    <div className='mb-5'>
       <div onClick={handleVideoPickerClick} style={{}}>
-        <label htmlFor="site_logo" className="text-sm">
+        <label htmlFor='site_logo' className='text-sm'>
           {name}
         </label>
         <input
-          id="site_logo"
-          type="file"
-          accept="video/* , application/pdf"
+          id='site_logo'
+          type='file'
+          accept='video/* , application/pdf'
           onChange={handleVideoInputChange}
-          className="hidden"
+          className='hidden'
           disabled={true}
         />
 
         <div>
-          <div className="mt-2 flex h-10 cursor-pointer items-center justify-center rounded-md border px-3 py-2 text-sm">
-            <p className="text-gray-600">{t(inputText)}</p>
+          <div className='mt-2 flex h-10 cursor-pointer items-center justify-center rounded-md border px-3 py-2 text-sm'>
+            <p className='text-gray-600'>{t(inputText)}</p>
           </div>
         </div>
       </div>
@@ -58,64 +58,59 @@ const VideoPicker = ({
         (uploadVideoUrl.includes(".pdf") ? (
           <PdfViewer pdfUrl={uploadVideoUrl} />
         ) : (
-          <div className="mt-3 max-h-[150px] max-w-[250px] mx-auto">
+          <div className='mt-3 max-h-[150px] max-w-[250px] mx-auto'>
             <video
               controls
               src={uploadVideoUrl?.toString()}
-              className="h-[150px] w-[250px] cursor-pointer rounded-lg object-contain object-center"
-            ></video>
+              className='h-[150px] w-[250px] cursor-pointer rounded-lg object-contain object-center'></video>
           </div>
         ))}
       <Transition appear show={open} as={Fragment}>
-        <Dialog as="div" open={open} onClose={() => setopen(false)}>
+        <Dialog as='div' open={open} onClose={() => setopen(false)}>
           <Transition.Child
             as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0" />
+            enter='ease-out duration-300'
+            enterFrom='opacity-0'
+            enterTo='opacity-100'
+            leave='ease-in duration-200'
+            leaveFrom='opacity-100'
+            leaveTo='opacity-0'>
+            <div className='fixed inset-0' />
           </Transition.Child>
-          <div className="fixed inset-0 z-[999] overflow-y-auto bg-[black]/60">
-            <div className="flex min-h-screen items-center justify-center px-4">
+          <div className='fixed inset-0 z-[999] overflow-y-auto bg-[black]/60'>
+            <div className='flex min-h-screen items-center justify-center px-4'>
               <Transition.Child
                 as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
+                enter='ease-out duration-300'
+                enterFrom='opacity-0 scale-95'
+                enterTo='opacity-100 scale-100'
+                leave='ease-in duration-200'
+                leaveFrom='opacity-100 scale-100'
+                leaveTo='opacity-0 scale-95'>
                 <Dialog.Panel
-                  as="div"
-                  className="panel dark:text-white-dark my-8 w-full max-w-5xl overflow-hidden rounded-lg border-0 p-0 text-black"
-                >
-                  <div className="mt-5 flex items-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
-                    <h5 className="text-2xl font-bold">{t(`Video Picker`)}</h5>
+                  as='div'
+                  className='panel dark:text-white-dark my-8 w-full max-w-5xl overflow-hidden rounded-lg border-0 p-0 text-black'>
+                  <div className='mt-5 flex items-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]'>
+                    <h5 className='text-2xl font-bold'>{t(`Video Picker`)}</h5>
                   </div>
-                  <div className="p-5">
-                    <div className="flex flex-col gap-y-2">
+                  <div className='p-5'>
+                    <div className='flex flex-col gap-y-2'>
                       <label
-                        htmlFor="site_fav_icon"
-                        className="text-sm font-bold"
-                      >
+                        htmlFor='site_fav_icon'
+                        className='text-sm font-bold'>
                         {t(`Add Videos`)}
                       </label>
                       <input
-                        id="site_fav_icon"
-                        type="file"
-                        accept="video/* , application/pdf"
+                        id='site_fav_icon'
+                        type='file'
+                        accept='video/* , application/pdf'
                         onChange={handleVideoInputChange}
-                        className="rtl:file-ml-5 form-input file:bg-primary/90 file:hover:bg-primary mt-2 p-0 file:border-0 file:px-4 file:py-2 file:font-semibold file:text-white ltr:file:mr-5"
+                        className='rtl:file-ml-5 form-input file:bg-primary/90 file:hover:bg-primary mt-2 p-0 file:border-0 file:px-4 file:py-2 file:font-semibold file:text-white ltr:file:mr-5'
                       />
                     </div>
                     {selectedVideo && (
-                      <div className="mt-8 flex flex-col items-start justify-center">
-                        <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+                      <div className='mt-8 flex flex-col items-start justify-center'>
+                        <div className='grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3'>
                           {selectedVideo?.name?.split(".")[1] !== "pdf" ? (
                             <video
                               src={
@@ -124,33 +119,38 @@ const VideoPicker = ({
                                   : //@ts-ignore
                                     selectedVideo.toString()
                               }
-                              className="h-[150px] w-full cursor-pointer rounded-lg object-cover"
+                              className='h-[150px] w-full cursor-pointer rounded-lg object-cover'
                               onClick={() => setopen(true)}
-                              controls
-                            ></video>
+                              controls></video>
                           ) : (
-                            <PdfViewer pdfUrl={selectedVideo} />
+                            <PdfViewer
+                              pdfUrl={
+                                typeof selectedVideo === "object"
+                                  ? URL.createObjectURL(selectedVideo)
+                                  : //@ts-ignore
+                                    selectedVideo.toString()
+                              }
+                            />
                           )}
                         </div>
                         <button
-                          type="button"
-                          className="btn btn-primary mt-3"
-                          onClick={() => handleUpload()}
-                        >
+                          type='button'
+                          className='btn btn-primary mt-3'
+                          onClick={() => handleUpload()}>
                           <LoaderButton
-                            buttonText="Add"
-                            loaderText="Adding...."
+                            buttonText='Add'
+                            loaderText='Adding....'
                             isLoading={isLoading}
                           />
                         </button>
                       </div>
                     )}
                     {videoGallery?.length > 0 && (
-                      <div className="mt-8">
-                        <h5 className="mb-2 text-lg font-bold">
+                      <div className='mt-8'>
+                        <h5 className='mb-2 text-lg font-bold'>
                           {t(`Video Gallery`)}
                         </h5>
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 ">
+                        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 '>
                           {videoGallery.map((video: any, index) => (
                             <div
                               key={index}
@@ -165,8 +165,7 @@ const VideoPicker = ({
                                   setId(video.id);
                                   setSelectedVideoIndex(index);
                                 }
-                              }}
-                            >
+                              }}>
                               <div
                                 className={`${
                                   selectedVideoIndex === index && "bg-primary"
@@ -177,29 +176,26 @@ const VideoPicker = ({
                                     setId(video.id);
                                     setSelectedVideoIndex(index);
                                   }
-                                }}
-                              ></div>
+                                }}></div>
                               {video?.file_path.includes(".pdf") ? (
                                 <PdfViewer pdfUrl={video?.file_path} />
                               ) : (
                                 <video
                                   controls
                                   src={video?.file_path}
-                                  className="h-[150px] w-full rounded-lg object-cover"
-                                  onClick={(e) => e.stopPropagation()}
-                                ></video>
+                                  className='h-[150px] w-full rounded-lg object-cover'
+                                  onClick={(e) => e.stopPropagation()}></video>
                               )}
                             </div>
                           ))}
                         </div>
                       </div>
                     )}
-                    <div className="mt-4 flex items-center justify-end space-x-4">
+                    <div className='mt-4 flex items-center justify-end space-x-4'>
                       <button
-                        type="button"
-                        className="btn btn-primary"
-                        onClick={() => setopen(false)}
-                      >
+                        type='button'
+                        className='btn btn-primary'
+                        onClick={() => setopen(false)}>
                         {t(`Confirm Select`)}
                       </button>
                     </div>

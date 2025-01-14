@@ -1,9 +1,7 @@
 "use client";
 import { HiUserCircle } from "react-icons/hi";
 import type { UseFormReturn, FieldValues } from "react-hook-form";
-import type { Dispatch, SetStateAction } from "react";
 
-import BackButton from "@/components/back-button/BackButton";
 import LoaderButton from "@/components/button/LoaderButton";
 import { InputType } from "@/components/form/InputType";
 import SelectType from "@/components/form/SelectType";
@@ -14,28 +12,19 @@ import FormSkelation from "@/components/skelaton/FormSkelation";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { COURSE_LEVEL, DISCOUNT_TYPE, UPLOAD_SOURCE } from "@/constant/core";
-import { useAddCategoriesFormHandler } from "@/hooks/admin/category.hook";
-import { LuLayoutDashboard } from "react-icons/lu";
 
 import {
-  useAddCourseFormHandler,
   useAddEditCourseFormHandler,
   useGetActiveCategoryListsForUser,
 } from "@/hooks/user/course.hook";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "@/hooks/useTranslation";
-import CustomModal from "@/components/modal/CustomModal";
 import SectionComp from "@/section/user/course/SectionComp";
-import { toast } from "react-toastify";
 import { errorToast } from "@/lib/helper";
 import { IoIosAdd } from "react-icons/io";
 import { HelpCircle, X } from "lucide-react";
 import QuizComp from "@/section/user/course/QuizComp";
 
-const options = [
-  { value: 0, label: "In-Active" },
-  { value: 1, label: "Active" },
-];
 
 const optionsForPrivateStatus = [
   { value: true, label: "Yes" },
