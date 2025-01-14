@@ -1,7 +1,7 @@
 {
   "name": "tradexpro-admin",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Tradexpro Admin backend with nodejs",
   "license": "MIT",
   "scripts": {
