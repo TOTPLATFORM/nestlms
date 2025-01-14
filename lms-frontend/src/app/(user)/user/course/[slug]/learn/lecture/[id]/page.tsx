@@ -116,7 +116,7 @@ const liveClass = {
 export default function CourseLecture({ params: { id } }: any) {
   const [page, setPage] = useState<any>(1);
   const [limit, setLimit] = useState(1);
-
+  const [allAnswers, setAllAnswers] = useState<any>([]);
   const router = useRouter();
   const [totalCompletePercentege, setTotalCompletePercentege] =
     useState<any>(0);
@@ -182,38 +182,56 @@ export default function CourseLecture({ params: { id } }: any) {
     setStartQuiz(true);
     setStartedQuizQuestions(response.data);
   };
-
   const submitQuizHandler = async () => {
+    // Validate quiz selection
     if (!activeQuiz?.id) {
       errorToast("Select a Quiz");
       return;
     }
 
+    // Validate answer selection
     if (checkedAnswer?.length === 0) {
-      errorToast("Please select a Answer");
+      errorToast("Please select an Answer");
       return;
     }
 
-    let submitAnswerValue = {
+    // Create new answer object
+    const submitAnswerValue = {
       quiz_id: activeQuiz?.id,
       quiz_question_id: startedQuizQuestions?.list[0].id,
       answer: checkedAnswer.join(",").toString(),
     };
 
-    const answer = await submitQuizAnswerApi(submitAnswerValue);
+    // Add new answer to state using functional update
+    const updatedAnswers = [...allAnswers, submitAnswerValue];
+    setAllAnswers(updatedAnswers);
 
-    if (!answer.success) {
-      errorToast(answer.message);
-      return;
-    }
-
+    // Clear current answer selection
     setcheckedAnswer([]);
 
-    if (!startedQuizQuestions.meta.next) {
-      showQuizResultHandler();
+    // If this is the last question, submit all answers
+    if (!startedQuizQuestions?.meta?.next) {
+      try {
+        // Use Promise.all to handle multiple API calls concurrently
+        await Promise.all(
+          updatedAnswers.map(async (ans) => {
+            const response = await submitQuizAnswerApi(ans);
+            if (!response.success) {
+              throw new Error(response.message);
+            }
+            return response;
+          })
+        );
+
+        // Clear answers and show results after successful submission
+        setAllAnswers([]);
+        showQuizResultHandler();
+        window.location.reload();
+      } catch (error) {}
       return;
     }
 
+    // Move to next question
     startQuizHandler();
   };
 
@@ -224,10 +242,11 @@ export default function CourseLecture({ params: { id } }: any) {
       errorToast(result.message);
       return;
     }
-    setShowQuizResults(true);
 
-    setQuizResults(result?.data);
+    await setQuizResults(result.data.user_quiz_details);
+    setShowQuizResults(true);
   };
+
   useEffect(() => {
     if (!enrolledCourseDetails) {
       return;

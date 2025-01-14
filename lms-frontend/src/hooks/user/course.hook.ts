@@ -407,14 +407,18 @@ export const useAddSectionFormHandler = () => {
       title: "",
     },
   });
-  const { mutateAsync, isPending:isLoading, isSuccess } = useMutation(
-    {mutationFn: async (data: any) => {
+  const {
+    mutateAsync,
+    isPending: isLoading,
+    isSuccess,
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return addSectionApi(data);
     },
     onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: [`sectionLists`] });
-      },}
-  );
+      queryClient.invalidateQueries({ queryKey: [`sectionLists`] });
+    },
+  });
 
   const handleAddSection = async (data: any) => {
     try {
@@ -456,14 +460,18 @@ export const useEditSectionFormHandler = () => {
       title: "",
     },
   });
-  const { mutateAsync, isPending:isLoading, isSuccess } = useMutation(
-    {mutationFn: async (data: any) => {
+  const {
+    mutateAsync,
+    isPending: isLoading,
+    isSuccess,
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return updateSectionApi(data);
     },
-     onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: [`sectionLists`] });
-      },}
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [`sectionLists`] });
+    },
+  });
 
   const handleUpdateSection = async (data: any) => {
     try {
@@ -485,14 +493,14 @@ export const useEditSectionFormHandler = () => {
 export const useDeleteSectionItem = () => {
   const queryClient = useQueryClient();
 
-  const { mutateAsync, isPending: isLoading } = useMutation(
-    {mutationFn: async (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return sectionDeleteApi(data);
     },
     onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["sectionLists"] });
-      },}
-  );
+      queryClient.invalidateQueries({ queryKey: ["sectionLists"] });
+    },
+  });
 
   const handleDelete = async (item: any) => {
     try {
@@ -522,14 +530,14 @@ export const useAddLessonFormHandler = () => {
     isPending: isLoading,
     data,
     isSuccess,
-  } = useMutation(
-    {mutationFn: async (data: any) => {
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return addLessonApi(data);
     },
     onSuccess: () => {
-        queryClient.invalidateQueries({queryKey: ["lessonLists"]});
-      },}
-  );
+      queryClient.invalidateQueries({ queryKey: ["lessonLists"] });
+    },
+  });
 
   const handleLesonSettings = async (data: any) => {
     try {
@@ -580,14 +588,14 @@ export const useUpdateLessonFormHandler = () => {
     isPending: isLoading,
     data,
     isSuccess,
-  } = useMutation(
-    {mutationFn: async (data: any) => {
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return updateLessonApi(data);
     },
     onSuccess: () => {
-        queryClient.invalidateQueries({queryKey: ["lessonLists"]});
-      },}
-  );
+      queryClient.invalidateQueries({ queryKey: ["lessonLists"] });
+    },
+  });
 
   const handleLesonSettings = async (data: any) => {
     try {
@@ -615,14 +623,14 @@ export const useUpdateLessonFormHandler = () => {
 export const useDeleteLessonItem = () => {
   const queryClient = useQueryClient();
 
-  const { mutateAsync, isPending: isLoading } = useMutation(
-    {mutationFn: async (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return lessonDeleteApi(data);
     },
     onSuccess: () => {
-        queryClient.invalidateQueries({queryKey: ["lessonLists"]});
-      },}
-  );
+      queryClient.invalidateQueries({ queryKey: ["lessonLists"] });
+    },
+  });
 
   const handleDeleteLesson = async (item: any) => {
     try {
@@ -712,14 +720,14 @@ export const useAddQuizFormHandler = () => {
     mutateAsync,
     isPending: isLoading,
     isSuccess,
-  } = useMutation(
-    {mutationFn: async (data: any) => {
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return addQuizApi(data);
     },
-     onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: [`quizLists`]});
-      },}
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [`quizLists`] });
+    },
+  });
 
   const handleAddQuiz = async (data: any) => {
     try {
@@ -760,14 +768,14 @@ export const useAddQuizFormHandler = () => {
 export const useDeleteQuizItem = () => {
   const queryClient = useQueryClient();
 
-  const { mutateAsync, isPending: isLoading } = useMutation(
-    {mutationFn: async (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return quizDeleteApi(data);
     },
     onSuccess: () => {
-        queryClient.invalidateQueries({queryKey:["quizLists"]});
-      },}
-  );
+      queryClient.invalidateQueries({ queryKey: ["quizLists"] });
+    },
+  });
 
   const handleDelete = async (item: any) => {
     try {
@@ -809,14 +817,14 @@ export const useUpdateQuizFormHandler = () => {
     mutateAsync,
     isPending: isLoading,
     isSuccess,
-  } = useMutation(
-    {mutationFn: async (data: any) => {
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return updateQuizApi(data);
     },
-     onSuccess: () => {
-        queryClient.invalidateQueries({queryKey:[`quizLists`]});
-      },}
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [`quizLists`] });
+    },
+  });
 
   const handleUpdateQuiz = async (data: any) => {
     try {
@@ -880,14 +888,14 @@ export const useAddQuestionFormHandler = () => {
     isPending: isLoading,
     data,
     isSuccess,
-  } = useMutation(
-    {mutationFn: async (data: any) => {
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return addQuestionApi(data);
     },
     onSuccess: () => {
-        queryClient.invalidateQueries({queryKey:["quesionLists"]});
-      },}
-  );
+      queryClient.invalidateQueries({ queryKey: ["quesionLists"] });
+    },
+  });
 
   const handleQuestionSettings = async (data: any) => {
     try {
@@ -915,14 +923,14 @@ export const useAddQuestionFormHandler = () => {
 export const useDeleteQuestionItem = () => {
   const queryClient = useQueryClient();
 
-  const { mutateAsync, isPending: isLoading } = useMutation(
-    {mutationFn: async (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return questionDeleteApi(data);
     },
-     onSuccess: () => {
-        queryClient.invalidateQueries({queryKey:["quesionLists"]});
-      },}
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["quesionLists"] });
+    },
+  });
 
   const handleDeleteQuestion = async (item: any) => {
     try {
@@ -947,14 +955,19 @@ export const useUpdateQuestionFormHandler = () => {
   const [uploadVideoUrl, setUploadVideoUrl] = useState<any>();
 
   const form = useForm<any>();
-  const { mutateAsync, isPending:isLoading, data, isSuccess } = useMutation(
-    {mutationFn: async (data: any) => {
+  const {
+    mutateAsync,
+    isPending: isLoading,
+    data,
+    isSuccess,
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return updateQuestionApi(data);
     },
-     onSuccess: () => {
-        queryClient.invalidateQueries({queryKey:["quesionLists"]});
-      },}
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["quesionLists"] });
+    },
+  });
 
   const handleQuestionSettings = async (data: any, quesId: any) => {
     try {
@@ -1008,14 +1021,14 @@ export const useAddAnswerFormHandler = () => {
     mutateAsync,
     isPending: isLoading,
     isSuccess,
-  } = useMutation(
-    {mutationFn: async (data: any) => {
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return addAnswerApi(data);
     },
     onSuccess: () => {
-        queryClient.invalidateQueries({queryKey:[`answerLists`]});
-      },}
-  );
+      queryClient.invalidateQueries({ queryKey: [`answerLists`] });
+    },
+  });
 
   const handleAddAnswer = async (data: any) => {
     try {
@@ -1044,14 +1057,14 @@ export const useAddAnswerFormHandler = () => {
 export const useDeleteAnswerItem = () => {
   const queryClient = useQueryClient();
 
-  const { mutateAsync, isPending: isLoading } = useMutation(
-    {mutationFn: async (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return answerDeleteApi(data);
     },
-     onSuccess: () => {
-        queryClient.invalidateQueries({queryKey:["answerLists"]});
-      },}
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["answerLists"] });
+    },
+  });
 
   const handleDeleteAnswer = async (item: any) => {
     try {
@@ -1085,14 +1098,14 @@ export const useUpdateAnswerFormHandler = () => {
     mutateAsync,
     isPending: isLoading,
     isSuccess,
-  } = useMutation(
-    {mutationFn: async (data: any) => {
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return updateAnswerApi(data);
     },
-     onSuccess: () => {
-        queryClient.invalidateQueries({queryKey:[`answerLists`]});
-      },}
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [`answerLists`] });
+    },
+  });
 
   const handleUpdateAnswer = async (data: any) => {
     try {
@@ -1146,14 +1159,16 @@ export const useAddReviewForUserFormHandler = () => {
     mutateAsync,
     isPending: isLoading,
     isSuccess,
-  } = useMutation(
-   { mutationFn: async (data: any) => {
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return addUserReviewApi(data);
     },
     onSuccess: () => {
-        queryClient.invalidateQueries({queryKey:[`userReviewDetailsByCourseId`]});
-      },}
-  );
+      queryClient.invalidateQueries({
+        queryKey: [`userReviewDetailsByCourseId`],
+      });
+    },
+  });
 
   const handleAddReviewForUser = async (data: any) => {
     try {

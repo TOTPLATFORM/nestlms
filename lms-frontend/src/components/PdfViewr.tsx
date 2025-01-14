@@ -12,8 +12,8 @@ export function PdfViewer({
   height,
 }: {
   pdfUrl: string;
-  width?: number;
-  height?: number;
+  width?: any;
+  height?: any;
 }) {
   const [numPages, setNumPages] = useState(1);
   const [pageNumber, setPageNumber] = useState(1);
