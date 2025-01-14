@@ -226,7 +226,9 @@ export default function CourseLecture({ params: { id } }: any) {
         // Clear answers and show results after successful submission
         setAllAnswers([]);
         showQuizResultHandler();
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
       } catch (error) {}
       return;
     }
