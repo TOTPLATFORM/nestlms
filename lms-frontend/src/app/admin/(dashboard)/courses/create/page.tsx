@@ -1,6 +1,6 @@
 "use client";
 
-import { HiAdjustments, HiClipboardList, HiUserCircle } from "react-icons/hi";
+import { HiUserCircle } from "react-icons/hi";
 
 import LoaderButton from "@/components/button/LoaderButton";
 import { InputType } from "@/components/form/InputType";
@@ -15,7 +15,6 @@ import { COURSE_LEVEL, DISCOUNT_TYPE, UPLOAD_SOURCE } from "@/constant/core";
 
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { toast } from "react-toastify";
 import { errorToast } from "@/lib/helper";
 import {
   useAddEditCourseFormHandlerForAdmin,
@@ -23,15 +22,9 @@ import {
   useGetInstructorListsForAdmin,
 } from "@/hooks/admin/course.hook";
 import SectionCompForAdmin from "@/section/admin/course/SectionCompForAdmin";
-import { HelpCircle, X } from "lucide-react";
+import { X } from "lucide-react";
 import { IoIosAdd } from "react-icons/io";
-import QuizComp from "@/section/user/course/QuizComp";
 import { FieldValues, UseFormReturn } from "react-hook-form";
-
-const options = [
-  { value: 0, label: "In-Active" },
-  { value: 1, label: "Active" },
-];
 
 const optionsForPrivateStatus = [
   { value: true, label: "Yes" },

@@ -25,7 +25,6 @@ import { IoIosAdd } from "react-icons/io";
 import { HelpCircle, X } from "lucide-react";
 import QuizComp from "@/section/user/course/QuizComp";
 
-
 const optionsForPrivateStatus = [
   { value: true, label: "Yes" },
   { value: false, label: "No" },
@@ -117,7 +116,7 @@ export default function CreateCourse() {
   }
 
   const { data: categoryLists, isLoading: isCategoryListLoading } =
-    useGetActiveCategoryListsForUser() as { data: CategoryList; isLoading: boolean };
+    useGetActiveCategoryListsForUser();
 
   const [openForCoverImage, setOpenForCoverImage] = useState(false);
   const [categoryOptions, setCategoryOptions] = useState([]);
@@ -141,25 +140,7 @@ export default function CreateCourse() {
     uploadVideoUrl,
     setUploadVideoUrl,
     isSuccess,
-  } = useAddEditCourseFormHandler() as {
-    data: CourseDetails;
-    form: UseFormReturn<FieldValues>;
-    handleCourseSettings: (data: any) => Promise<void>;
-    isLoading: boolean;
-    thumbnailImageId?: string;
-    setThumbnailImageId: React.Dispatch<React.SetStateAction<string | undefined>>;
-    setUploadImageUrlForThumbnailImage: React.Dispatch<React.SetStateAction<string | undefined>>;
-    uploadImageUrlForThumbnailImage?: string;
-    uploadImageUrlForCoverImage?: string;
-    setUploadImageUrlForCoverImage: React.Dispatch<React.SetStateAction<string | undefined>>;
-    setCoverImageId: React.Dispatch<React.SetStateAction<string | undefined>>;
-    coverImageId?: string;
-    videoId?: string;
-    setVideoId: React.Dispatch<React.SetStateAction<string | undefined>>;
-    uploadVideoUrl?: string;
-    setUploadVideoUrl: React.Dispatch<React.SetStateAction<string | undefined>>;
-    isSuccess: boolean;
-  };
+  } = useAddEditCourseFormHandler();
 
   const selectedCategory = form.watch("category_id") || {};
   const discountStatusValue = form.watch("discount_status") || {};
@@ -213,7 +194,12 @@ export default function CreateCourse() {
   }, [selectedCategory?.value]);
 
   useEffect(() => {
-    if (!isSuccess || !courseDetails || !courseDetails.data || !courseDetails.data.id) {
+    if (
+      !isSuccess ||
+      !courseDetails ||
+      !courseDetails.data ||
+      !courseDetails.data.id
+    ) {
       return;
     }
     setActiveTab((prev: any) => prev + 1);
@@ -323,9 +309,9 @@ export default function CreateCourse() {
 
   return (
     <>
-      <div className="mb-5">
-        <div className="inline-block w-full">
-          <ul className="mb-3 flex flex-wrap border-b border-gray-200 text-center dark:border-gray-700 ">
+      <div className='mb-5'>
+        <div className='inline-block w-full'>
+          <ul className='mb-3 flex flex-wrap border-b border-gray-200 text-center dark:border-gray-700 '>
             {tabSections.map((item: any) => (
               <li key={item.id}>
                 <button
@@ -336,8 +322,7 @@ export default function CreateCourse() {
                   }
                  flex cursor-pointer items-center justify-center gap-x-2 rounded-t-lg p-4  text-sm font-medium first:ml-0  hover:border-b-2 focus:outline-none focus:!ring-0  disabled:cursor-not-allowed disabled:text-gray-400 dark:border-cyan-500 dark:text-cyan-500 disabled:dark:text-gray-500`}
                   onClick={() => setActiveTab(item.id)}
-                  disabled={item.id !== 1 && !courseId}
-                >
+                  disabled={item.id !== 1 && !courseId}>
                   <span>
                     <item.icon size={22} />
                   </span>
@@ -348,19 +333,18 @@ export default function CreateCourse() {
           </ul>
 
           <div>
-            <div className="mb-5">
+            <div className='mb-5'>
               {activeTab === 1 && (
-                <div className="panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8">
+                <div className='panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8'>
                   {isCategoryListLoading ? (
                     <FormSkelation />
                   ) : (
                     <Form {...form}>
                       <form
                         onSubmit={form.handleSubmit(handleBasicInfo)}
-                        className="space-y-4"
-                      >
+                        className='space-y-4'>
                         <div>
-                          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                          <div className='grid grid-cols-1 gap-2 sm:grid-cols-2'>
                             <InputType
                               form={form}
                               formName={"name"}
@@ -506,27 +490,25 @@ export default function CreateCourse() {
                               formDescription={null}
                               isErrorMessageShow={false}
                             />
-                            <div className="w-full">
-                              <div className="flex items-center justify-between">
-                                <label className=" text-sm">
+                            <div className='w-full'>
+                              <div className='flex items-center justify-between'>
+                                <label className=' text-sm'>
                                   {t(`What You Will Learn`)}
                                 </label>
 
                                 <button
-                                  type="button"
-                                  className="bg-primary/10 text-primary flex h-6 w-6 items-center justify-center rounded-full"
+                                  type='button'
+                                  className='bg-primary/10 text-primary flex h-6 w-6 items-center justify-center rounded-full'
                                   onClick={() => addItem()}
-                                  aria-label="Add new item to learn"
-                                >
+                                  aria-label='Add new item to learn'>
                                   <IoIosAdd size={20} />
                                 </button>
                               </div>
                               {lists.map((item: any) => {
                                 return (
                                   <div
-                                    className="mb-2 flex w-full items-center gap-4"
-                                    key={item.id}
-                                  >
+                                    className='mb-2 flex w-full items-center gap-4'
+                                    key={item.id}>
                                     <InputType
                                       form={form}
                                       formName={`what_you_will_learn[${item.id}].list`}
@@ -534,15 +516,14 @@ export default function CreateCourse() {
                                       formPlaceholder={"Add Lists Item"}
                                       formDescription={null}
                                       isErrorMessageShow={false}
-                                      className="!w-full"
+                                      className='!w-full'
                                     />
                                     {lists.length > 1 && (
                                       <button
-                                        type="button"
+                                        type='button'
                                         onClick={() => removeItem(item)}
-                                        aria-label="Remove item"
-                                      >
-                                        <X className="h-4 w-4 text-red-600" />
+                                        aria-label='Remove item'>
+                                        <X className='h-4 w-4 text-red-600' />
                                       </button>
                                     )}
                                   </div>
@@ -563,19 +544,18 @@ export default function CreateCourse() {
                 </div>
               )}
             </div>
-            <div className="mb-5">
+            <div className='mb-5'>
               {activeTab === 2 && (
-                <div className="panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8">
+                <div className='panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8'>
                   {isCategoryListLoading ? (
                     <FormSkelation />
                   ) : (
                     <Form {...form}>
                       <form
                         onSubmit={form.handleSubmit(handleMediaInfo)}
-                        className="space-y-4"
-                      >
+                        className='space-y-4'>
                         <div>
-                          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                          <div className='grid grid-cols-1 gap-2 sm:grid-cols-2'>
                             <ImagePicker
                               open={openForThumbnailImage}
                               name={"Thumbnail Image"}
@@ -630,12 +610,11 @@ export default function CreateCourse() {
                           </div>
                         </div>
 
-                        <div className="flex gap-x-4">
+                        <div className='flex gap-x-4'>
                           <Button
-                            type="button"
-                            color="gray"
-                            onClick={() => setActiveTab(1)}
-                          >
+                            type='button'
+                            color='gray'
+                            onClick={() => setActiveTab(1)}>
                             Previous
                           </Button>
                           <LoaderButton
@@ -650,19 +629,18 @@ export default function CreateCourse() {
                 </div>
               )}
             </div>
-            <div className="mb-5">
+            <div className='mb-5'>
               {activeTab === 3 && (
-                <div className="panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8">
+                <div className='panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8'>
                   {isCategoryListLoading ? (
                     <FormSkelation />
                   ) : (
                     <Form {...form}>
                       <form
                         onSubmit={form.handleSubmit(handleSeoInfo)}
-                        className="space-y-4"
-                      >
+                        className='space-y-4'>
                         <div>
-                          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                          <div className='grid grid-cols-1 gap-2 sm:grid-cols-2'>
                             <InputType
                               form={form}
                               formName={"meta_title"}
@@ -691,12 +669,11 @@ export default function CreateCourse() {
                             />
                           </div>
                         </div>
-                        <div className="flex gap-x-2">
+                        <div className='flex gap-x-2'>
                           <Button
-                            type="button"
-                            color="gray"
-                            onClick={() => setActiveTab(2)}
-                          >
+                            type='button'
+                            color='gray'
+                            onClick={() => setActiveTab(2)}>
                             Previous
                           </Button>
                           <LoaderButton
@@ -711,12 +688,12 @@ export default function CreateCourse() {
                 </div>
               )}
             </div>
-            <div className="mb-5">
+            <div className='mb-5'>
               {activeTab === 4 && (
                 <SectionComp courseId={courseId} setActiveTab={setActiveTab} />
               )}
             </div>
-            <div className="mb-5">
+            <div className='mb-5'>
               {activeTab === 5 && (
                 <QuizComp courseId={courseId} setActiveTab={setActiveTab} />
               )}
