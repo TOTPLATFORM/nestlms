@@ -62,6 +62,7 @@ export const UPLOAD_SOURCE = {
   LOCAL: 1,
   YOUTUBE: 2,
   VIMEO: 3,
+  PDF:4,
 };
 
 export const packageTypeConstant = {

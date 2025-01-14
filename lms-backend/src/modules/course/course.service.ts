@@ -154,7 +154,10 @@ export class CourseService {
         meta: paginationMeta,
       };
 
-      return successResponse('Enrolled students for the instructor retrieved successfully.', data);
+      return successResponse(
+        'Enrolled students for the instructor retrieved successfully.',
+        data,
+      );
     } catch (error) {
       processException(error);
     }
@@ -295,6 +298,7 @@ export class CourseService {
       ) {
         return errorResponse('Please select video upload source');
       }
+
       if (
         createEditCourseDto.video_upload_source === UPLOAD_SOURCE.LOCAL &&
         createEditCourseDto.demo_video
@@ -322,33 +326,49 @@ export class CourseService {
         return errorResponse('Cover image id is not valid');
       }
 
-      if (createEditCourseDto.discount_status === true && createEditCourseDto.discount_value <= 0) {
+      if (
+        createEditCourseDto.discount_status === true &&
+        createEditCourseDto.discount_value <= 0
+      ) {
         return errorResponse('Discount value must be greater than 0');
       }
 
-      if(createEditCourseDto.discount_status === true && createEditCourseDto.discount_type === DISCOUNT_TYPE.PERCENTAGE)
-      {
-        if(createEditCourseDto.discount_value > 100)
-        {
+      if (
+        createEditCourseDto.discount_status === true &&
+        createEditCourseDto.discount_type === DISCOUNT_TYPE.PERCENTAGE
+      ) {
+        if (createEditCourseDto.discount_value > 100) {
           return errorResponse('Discount value must be less than 100');
         }
       }
 
       let payable_price = createEditCourseDto.price;
 
-      if(createEditCourseDto.discount_status === true && createEditCourseDto.discount_type === DISCOUNT_TYPE.PERCENTAGE)
-      {
-        if(createEditCourseDto.discount_value > 100)
-        {
+      if (
+        createEditCourseDto.discount_status === true &&
+        createEditCourseDto.discount_type === DISCOUNT_TYPE.PERCENTAGE
+      ) {
+        if (createEditCourseDto.discount_value > 100) {
           return errorResponse('Discount value must be less than 100');
         }
       }
 
-      if (createEditCourseDto.discount_status === true && createEditCourseDto.discount_value) {
-        payable_price = createEditCourseDto.price - getTotalDiscountAmount(createEditCourseDto.price,createEditCourseDto.discount_value, createEditCourseDto.discount_type);
+      if (
+        createEditCourseDto.discount_status === true &&
+        createEditCourseDto.discount_value
+      ) {
+        payable_price =
+          createEditCourseDto.price -
+          getTotalDiscountAmount(
+            createEditCourseDto.price,
+            createEditCourseDto.discount_value,
+            createEditCourseDto.discount_type,
+          );
       }
-      if (payable_price <= 0 ) {
-        return errorResponse('Decrease Discount Value, because discount price can not be less than 0!');
+      if (payable_price <= 0) {
+        return errorResponse(
+          'Decrease Discount Value, because discount price can not be less than 0!',
+        );
       }
 
       let prepareData = {
@@ -726,27 +746,34 @@ export class CourseService {
       if (!cover_image_link && payload.cover_image_link) {
         return errorResponse('Cover image id is not valid');
       }
-      
 
       if (payload.discount_status === true && payload.discount_value <= 0) {
         return errorResponse('Discount value must be greater than 0');
       }
 
-      if(payload.discount_status === true && payload.discount_type === DISCOUNT_TYPE.PERCENTAGE)
-      {
-        if(payload.discount_value > 100)
-        {
+      if (
+        payload.discount_status === true &&
+        payload.discount_type === DISCOUNT_TYPE.PERCENTAGE
+      ) {
+        if (payload.discount_value > 100) {
           return errorResponse('Discount value must be less than 100');
         }
       }
       let payable_price = payload.price;
       if (payload.discount_status === true && payload.discount_value) {
-        payable_price = payload.price - getTotalDiscountAmount(payload.price,payload.discount_value, payload.discount_type);
+        payable_price =
+          payload.price -
+          getTotalDiscountAmount(
+            payload.price,
+            payload.discount_value,
+            payload.discount_type,
+          );
       }
-      if (payable_price <= 0 ) {
-        return errorResponse('Decrease Discount Value, because discount price can not be less than 0!');
+      if (payable_price <= 0) {
+        return errorResponse(
+          'Decrease Discount Value, because discount price can not be less than 0!',
+        );
       }
-
 
       let prepareData = {
         ...payload,
@@ -1408,10 +1435,10 @@ export class CourseService {
           private_status: false,
           ...(payload.search && {
             name: {
-              contains: payload.search
-            }
-          })
-        }
+              contains: payload.search,
+            },
+          }),
+        },
       };
 
       const courseList = await PrismaClient.course.findMany({
@@ -1423,30 +1450,34 @@ export class CourseService {
               id: true,
               first_name: true,
               last_name: true,
-              photo: true
-            }
-          }
+              photo: true,
+            },
+          },
         },
         orderBy: {
-          created_at: 'desc'
+          created_at: 'desc',
         },
-        ...paginate
+        ...paginate,
       });
 
-      const formattedCourses = courseList.map(course => ({
+      const formattedCourses = courseList.map((course) => ({
         ...course,
         thumbnail_link: addPhotoPrefix(course.thumbnail_link),
         cover_image_link: addPhotoPrefix(course.cover_image_link),
         demo_video: addPhotoPrefix(course.demo_video),
         User: {
           ...course.User,
-          photo: course.User.photo ? addPhotoPrefix(course.User.photo) : null
-        }
+          photo: course.User.photo ? addPhotoPrefix(course.User.photo) : null,
+        },
       }));
 
       const data = {
         list: formattedCourses,
-        meta: await paginationMetaData('course', payload, whereConditions.where)
+        meta: await paginationMetaData(
+          'course',
+          payload,
+          whereConditions.where,
+        ),
       };
 
       return successResponse('Course search results', data);

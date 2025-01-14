@@ -41,6 +41,7 @@ import { toast } from "react-toastify";
 import NegativeXAxisAnimation from "@/components/animation/NegativeXAxisAnimation";
 import PositiveXAxisAnimation from "@/components/animation/PositiveXAxisAnimation";
 import { useAddCourseToWishlistOrRemove } from "@/hooks/user/public/course.category.hook";
+import { PdfViewer } from "@/components/PdfViewr";
 
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
@@ -191,6 +192,8 @@ export default function CourseSinglePage({ params: { slug } }: any) {
             <div className="relative overflow-hidden rounded-t-[8px]">
               {isLoading ? (
                 <Skeleton className="h-[12rem] w-full" />
+              ) : data?.demo_video?.includes(".pdf") ? (
+                <PdfViewer width={300} height={400} pdfUrl={data?.demo_video} />
               ) : (
                 <ReactPlayer
                   url={data?.demo_video}

@@ -77,6 +77,7 @@ import CustomImage from "@/components/CustomImage";
 import { Badge } from "flowbite-react";
 import moment from "moment";
 import { useJoinLiveClassForStudentFormHandler } from "@/hooks/user/user.settings.hook";
+import { PdfViewer } from "@/components/PdfViewr";
 
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
@@ -453,36 +454,39 @@ export default function CourseLecture({ params: { id } }: any) {
             )}
 
             <div className="h-[300px] w-full lg:h-[600px]">
-              {activeLesson?.id && (
-                <ReactPlayer
-                  url={` ${
-                    activeLesson?.video_url
-                      ? activeLesson?.video_url
-                      : "https://www.youtube.com/watch?v=HihakYi5M2I"
-                  } `}
-                  controls
-                  width="100%"
-                  height="100%"
-                  config={{
-                    youtube: {
-                      playerVars: {
-                        modestbranding: 1,
-                        showinfo: 0,
-                        fs: 1,
-                        rel: 0,
-                        start: 3,
+              {activeLesson?.id &&
+                (activeLesson?.video_url.includes("pdf") ? (
+                  <PdfViewer width={"100%"} pdfUrl={activeLesson?.video_url} />
+                ) : (
+                  <ReactPlayer
+                    url={` ${
+                      activeLesson?.video_url
+                        ? activeLesson?.video_url
+                        : "https://www.youtube.com/watch?v=HihakYi5M2I"
+                    } `}
+                    controls
+                    width="100%"
+                    height="100%"
+                    config={{
+                      youtube: {
+                        playerVars: {
+                          modestbranding: 1,
+                          showinfo: 0,
+                          fs: 1,
+                          rel: 0,
+                          start: 3,
+                        },
                       },
-                    },
-                    file: { attributes: { controlsList: "nodownload" } },
-                  }}
-                  playIcon={<PlayCircleIcon size={75} color="white" />}
-                  light={
-                    enrolledCourseDetails?.thumbnail_link ||
-                    "/images/course_banner.avif"
-                  }
-                  onContextMenu={(e: any) => e.preventDefault()}
-                />
-              )}
+                      file: { attributes: { controlsList: "nodownload" } },
+                    }}
+                    playIcon={<PlayCircleIcon size={75} color="white" />}
+                    light={
+                      enrolledCourseDetails?.thumbnail_link ||
+                      "/images/course_banner.avif"
+                    }
+                    onContextMenu={(e: any) => e.preventDefault()}
+                  />
+                ))}
               {activeQuiz?.id && (
                 <div className="h-[600px] w-full text-[#000000]">
                   {showQuizResults ? (
