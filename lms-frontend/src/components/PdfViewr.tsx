@@ -1,10 +1,10 @@
 import { cn } from "@/lib/utils";
 import { useState } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
+import { Document, Page } from "react-pdf";
+import { pdfjs } from "react-pdf";
 
-// Configure PDF.js worker
-// Important: You need to set up the worker
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+// Set worker path directly - this is the recommended way for Next.js
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 export function PdfViewer({
   pdfUrl,
@@ -15,15 +15,15 @@ export function PdfViewer({
   width?: any;
   height?: any;
 }) {
-  const [numPages, setNumPages] = useState(1);
+  const [numPages, setNumPages] = useState<number>(1);
   const [pageNumber, setPageNumber] = useState(1);
 
-  function onDocumentLoadSuccess({ numPages }: any) {
+  function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
   }
 
-  function onDocumentLoadError(error: any) {
-    console.log("error from PdfViewr", error);
+  function onDocumentLoadError(error: Error) {
+    console.log("error from PdfViewer", error);
   }
 
   const nextPage = () => {
@@ -53,10 +53,11 @@ export function PdfViewer({
               renderTextLayer={false}
               className={cn(
                 !width
-                  ? " w-[250px] h-[300px]  [&>canvas]:!w-[250px] [&>canvas]:!h-[300px] overflow-auto"
+                  ? "w-[250px] h-[300px] [&>canvas]:!w-[250px] [&>canvas]:!h-[300px] overflow-auto"
                   : "w-full"
               )}
               renderAnnotationLayer={false}
+              scale={1.0}
             />
           </Document>
         )}

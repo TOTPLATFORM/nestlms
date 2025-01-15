@@ -2,9 +2,8 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { useState, Fragment } from "react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { useFile, useVideoFile } from "@/hooks/file.hook";
+import { useVideoFile } from "@/hooks/file.hook";
 import LoaderButton from "../button/LoaderButton";
-import { pdfjs } from "react-pdf";
 import { PdfViewer } from "../PdfViewr";
 
 const VideoPicker = ({
@@ -129,7 +128,9 @@ const VideoPicker = ({
                               controls
                             ></video>
                           ) : (
-                            <PdfViewer pdfUrl={selectedVideo} />
+                            <PdfViewer
+                              pdfUrl={URL.createObjectURL(selectedVideo)}
+                            />
                           )}
                         </div>
                         <button
