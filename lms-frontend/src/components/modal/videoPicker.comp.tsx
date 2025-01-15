@@ -129,7 +129,12 @@ const VideoPicker = ({
                             ></video>
                           ) : (
                             <PdfViewer
-                              pdfUrl={URL.createObjectURL(selectedVideo)}
+                              pdfUrl={
+                                typeof selectedVideo === "object"
+                                  ? URL.createObjectURL(selectedVideo)
+                                  : //@ts-ignore
+                                    selectedVideo.toString()
+                              }
                             />
                           )}
                         </div>
