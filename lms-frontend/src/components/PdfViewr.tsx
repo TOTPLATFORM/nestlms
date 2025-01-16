@@ -51,7 +51,7 @@ export function PdfViewer({
               renderTextLayer={false}
               className={cn(
                 !className
-                  ? " [&>canvas]:max-h-[250px] [&>canvas]:max-w-[350px] overflow-auto"
+                  ? " [&>canvas]:max-h-[350px] [&>canvas]:max-w-[250px] overflow-auto"
                   : className
               )}
               renderAnnotationLayer={false}
