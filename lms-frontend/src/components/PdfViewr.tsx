@@ -8,12 +8,10 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 export function PdfViewer({
   pdfUrl,
-  width,
-  height,
+  className,
 }: {
   pdfUrl: string;
-  width?: any;
-  height?: any;
+  className?: string;
 }) {
   const [numPages, setNumPages] = useState<number>(1);
   const [pageNumber, setPageNumber] = useState(1);
@@ -52,9 +50,9 @@ export function PdfViewer({
               pageNumber={pageNumber}
               renderTextLayer={false}
               className={cn(
-                !width
-                  ? "w-[250px] h-[300px] [&>canvas]:!w-[250px] [&>canvas]:!h-[300px] overflow-auto"
-                  : "w-full"
+                !className
+                  ? " [&>canvas]:max-h-[250px] [&>canvas]:max-w-[350px] overflow-auto"
+                  : className
               )}
               renderAnnotationLayer={false}
               scale={1.0}

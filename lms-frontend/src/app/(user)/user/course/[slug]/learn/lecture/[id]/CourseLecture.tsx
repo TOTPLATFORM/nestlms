@@ -73,7 +73,7 @@ const liveClass = {
   name: "Live Class",
 };
 
-export default function CourseLecture({ id }: {id:any}) {
+export default function CourseLecture({ id }: { id: any }) {
   const [page, setPage] = useState<any>(1);
   const [limit, setLimit] = useState(1);
   const [allAnswers, setAllAnswers] = useState<any>([]);
@@ -412,24 +412,29 @@ export default function CourseLecture({ id }: {id:any}) {
 
   return (
     <>
-      <div className='relative'>
+      <div className="relative">
         <section>
           <div
             className={` relative  text-white ${
               isCourseContentOpen && "lg:mr-[24rem]"
-            }`}>
+            }`}
+          >
             {!isCourseContentOpen && (
               <div
-                className='bg-primary absolute right-0 top-[30px] z-50 inline-block cursor-pointer rounded-[8px] p-2'
-                onClick={() => setIsCourseContentOpen(!isCourseContentOpen)}>
-                <ArrowLeftFromLine className='h-6 w-6 text-white' />
+                className="bg-primary absolute right-0 top-[30px] z-50 inline-block cursor-pointer rounded-[8px] p-2"
+                onClick={() => setIsCourseContentOpen(!isCourseContentOpen)}
+              >
+                <ArrowLeftFromLine className="h-6 w-6 text-white" />
               </div>
             )}
 
-            <div className='h-[300px] w-full lg:h-[600px]'>
+            <div className="h-[300px] w-full lg:h-[600px]">
               {activeLesson?.id &&
                 (activeLesson?.video_url?.includes("pdf") ? (
-                  <PdfViewer width={"100%"} pdfUrl={activeLesson?.video_url} />
+                  <PdfViewer
+                    className="w-full [&>canvas]:max-w-[700px] [&>canvas]:max-h-[550px] "
+                    pdfUrl={activeLesson?.video_url}
+                  />
                 ) : (
                   <ReactPlayer
                     url={` ${
@@ -438,8 +443,8 @@ export default function CourseLecture({ id }: {id:any}) {
                         : "https://www.youtube.com/watch?v=HihakYi5M2I"
                     } `}
                     controls
-                    width='100%'
-                    height='100%'
+                    width="100%"
+                    height="100%"
                     config={{
                       youtube: {
                         playerVars: {
@@ -452,7 +457,7 @@ export default function CourseLecture({ id }: {id:any}) {
                       },
                       file: { attributes: { controlsList: "nodownload" } },
                     }}
-                    playIcon={<PlayCircleIcon size={75} color='white' />}
+                    playIcon={<PlayCircleIcon size={75} color="white" />}
                     light={
                       enrolledCourseDetails?.thumbnail_link ||
                       "/images/course_banner.avif"
@@ -461,54 +466,56 @@ export default function CourseLecture({ id }: {id:any}) {
                   />
                 ))}
               {activeQuiz?.id && (
-                <div className='h-[600px] w-full text-[#000000]'>
+                <div className="h-[600px] w-full text-[#000000]">
                   {showQuizResults ? (
-                    <div className='flex h-full w-full items-center justify-center'>
-                      <div className='mx-auto w-2/3 max-w-2xl border  p-6'>
-                        <h2 className='text-3xl font-bold'>
+                    <div className="flex h-full w-full items-center justify-center">
+                      <div className="mx-auto w-2/3 max-w-2xl border  p-6">
+                        <h2 className="text-3xl font-bold">
                           {quizDetails?.data?.title}
                         </h2>
-                        <div className='mt-2 flex items-center gap-4 divide-x text-sm'>
+                        <div className="mt-2 flex items-center gap-4 divide-x text-sm">
                           <p>Total Marks: {quizResults?.total_marks} </p>
-                          <p className='pl-4'>
+                          <p className="pl-4">
                             Result:{" "}
                             {quizResults?.total_marks <
                             quizResults?.pass_mark ? (
-                              <span className='text-red-600'>Failed</span>
+                              <span className="text-red-600">Failed</span>
                             ) : (
-                              <span className='text-primary'>Passed</span>
+                              <span className="text-primary">Passed</span>
                             )}
                           </p>
                         </div>
                       </div>
                     </div>
                   ) : (
-                    <div className='h-full w-full p-6'>
+                    <div className="h-full w-full p-6">
                       {startQuiz ? (
-                        <div className='flex h-full w-full flex-col justify-between'>
-                          <div className='flex h-full py-8'>
+                        <div className="flex h-full w-full flex-col justify-between">
+                          <div className="flex h-full py-8">
                             {startedQuizQuestions?.list?.length > 0 &&
                               startedQuizQuestions?.list?.map(
                                 (question: any) => (
                                   <div
-                                    className=' mx-auto w-2/3 max-w-2xl'
-                                    key={question.id}>
-                                    <p className='mb-1 text-sm'>
+                                    className=" mx-auto w-2/3 max-w-2xl"
+                                    key={question.id}
+                                  >
+                                    <p className="mb-1 text-sm">
                                       Question{" "}
                                       {startedQuizQuestions?.meta?.currentPage}{" "}
                                       :
                                     </p>
-                                    <h2 className='text-lg capitalize'>
+                                    <h2 className="text-lg capitalize">
                                       {question.title}
                                     </h2>
-                                    <div className='mt-4'>
+                                    <div className="mt-4">
                                       {question?.QuizQuestionAnswer?.length >
                                       0 ? (
                                         question?.QuizQuestionAnswer?.map(
                                           (answer: any) => (
                                             <div
-                                              className='hover:bg-primary/10 mb-4 flex flex-row items-start space-x-3 space-y-0 border p-4 last:mb-0'
-                                              key={answer?.id}>
+                                              className="hover:bg-primary/10 mb-4 flex flex-row items-start space-x-3 space-y-0 border p-4 last:mb-0"
+                                              key={answer?.id}
+                                            >
                                               <Checkbox
                                                 id={`answer-${answer.id}`}
                                                 onCheckedChange={(value) => {
@@ -518,10 +525,11 @@ export default function CourseLecture({ id }: {id:any}) {
                                                   );
                                                 }}
                                               />
-                                              <div className='space-y-1 leading-none'>
+                                              <div className="space-y-1 leading-none">
                                                 <label
                                                   htmlFor={`answer-${answer.id}`}
-                                                  className='cursor-pointer'>
+                                                  className="cursor-pointer"
+                                                >
                                                   {answer.title}
                                                 </label>
                                               </div>
@@ -538,36 +546,38 @@ export default function CourseLecture({ id }: {id:any}) {
                                 )
                               )}
                           </div>
-                          <div className='flex items-center justify-between border-y py-2'>
+                          <div className="flex items-center justify-between border-y py-2">
                             <p>
                               Question {startedQuizQuestions?.meta?.currentPage}{" "}
                               of {startedQuizQuestions?.meta?.total}
                             </p>
 
-                            <div className='flex items-center gap-4'>
+                            <div className="flex items-center gap-4">
                               {!startedQuizQuestions?.meta?.next ? (
                                 <Button
-                                  type='button'
-                                  color='gray'
+                                  type="button"
+                                  color="gray"
                                   onClick={() =>
                                     quizNextButtonHandler(
                                       startedQuizQuestions?.meta?.next,
                                       startedQuizQuestions?.meta?.currentPage
                                     )
-                                  }>
+                                  }
+                                >
                                   Submit
                                 </Button>
                               ) : (
                                 <Button
-                                  type='button'
-                                  color='gray'
+                                  type="button"
+                                  color="gray"
                                   disabled={!startedQuizQuestions?.meta?.next}
                                   onClick={() =>
                                     quizNextButtonHandler(
                                       startedQuizQuestions?.meta?.next,
                                       startedQuizQuestions?.meta?.currentPage
                                     )
-                                  }>
+                                  }
+                                >
                                   Next
                                 </Button>
                               )}
@@ -576,30 +586,31 @@ export default function CourseLecture({ id }: {id:any}) {
                         </div>
                       ) : (
                         <div>
-                          <h2 className='text-3xl font-bold'>
+                          <h2 className="text-3xl font-bold">
                             {quizDetails?.data?.title}
                           </h2>
-                          <div className='mt-2 flex items-center gap-4 divide-x text-sm'>
+                          <div className="mt-2 flex items-center gap-4 divide-x text-sm">
                             <p>{quizDetails?.data?.total_question} Question </p>
-                            <p className='pl-4'>
+                            <p className="pl-4">
                               {quizDetails?.data?.time} Min{" "}
                             </p>
-                            <p className='pl-4'>
+                            <p className="pl-4">
                               Maximum Attempts {quizDetails?.data?.max_attempts}{" "}
                             </p>
-                            <p className='pl-4'>
+                            <p className="pl-4">
                               Pass Mark {quizDetails?.data?.pass_mark}{" "}
                             </p>
                           </div>
-                          <div className='mt-8 flex items-center gap-4'>
+                          <div className="mt-8 flex items-center gap-4">
                             <Button
-                              type='button'
+                              type="button"
                               onClick={startQuizHandler}
                               disabled={
                                 quizDetails?.data?.total_question == 0
                                   ? true
                                   : false
-                              }>
+                              }
+                            >
                               Start Quiz
                             </Button>
                           </div>
@@ -614,28 +625,28 @@ export default function CourseLecture({ id }: {id:any}) {
         </section>
 
         {isCourseContentOpen && (
-          <div className='absolute bottom-0 top-0 z-10 w-[80vw] overflow-y-auto bg-white shadow-md lg:right-0  lg:w-[24rem]'>
-            <div className='sticky top-0'>
+          <div className="absolute bottom-0 top-0 z-10 w-[80vw] overflow-y-auto bg-white shadow-md lg:right-0  lg:w-[24rem]">
+            <div className="sticky top-0">
               {enrolledCourseDetails?.data?.Section?.length === 0 ? (
                 <NoItem notFoundtext={`No results.`} />
               ) : (
                 <div>
-                  <div className='flex  w-full  items-center justify-between bg-white p-4 text-sm text-gray-900 hover:text-gray-900'>
-                    <h3 className='font-bold text-gray-900'>Course content</h3>
+                  <div className="flex  w-full  items-center justify-between bg-white p-4 text-sm text-gray-900 hover:text-gray-900">
+                    <h3 className="font-bold text-gray-900">Course content</h3>
 
-                    <div className='flex items-center gap-x-4'>
-                      <div className='max-w-[30px]'>
+                    <div className="flex items-center gap-x-4">
+                      <div className="max-w-[30px]">
                         <CircularProgressbar
                           value={totalCompletePercentege}
                           text={`${totalCompletePercentege}%`}
                           minValue={0}
                           maxValue={100}
-                          className='stroke-primary h-[30px] w-[30px]'
+                          className="stroke-primary h-[30px] w-[30px]"
                         />
                       </div>
                       <div>
                         <X
-                          className='h-4 w-4 cursor-pointer'
+                          className="h-4 w-4 cursor-pointer"
                           onClick={() => setIsCourseContentOpen(false)}
                         />
                       </div>
@@ -644,33 +655,34 @@ export default function CourseLecture({ id }: {id:any}) {
                   {enrolledCourseDetails?.data?.Section.map(
                     (item: any, index: any) => (
                       <Disclosure
-                        as='div'
-                        className=' border-b'
+                        as="div"
+                        className=" border-b"
                         defaultOpen={index == 0 ? true : false}
-                        key={index}>
+                        key={index}
+                      >
                         {({ open }) => (
                           <>
-                            <h3 className=' flow-root'>
-                              <Disclosure.Button className='w-full  bg-[#f7f9fa]  p-4 text-sm text-gray-900 hover:text-gray-900'>
-                                <div className='flex items-center justify-between'>
-                                  <span className=' font-bold text-gray-900'>
+                            <h3 className=" flow-root">
+                              <Disclosure.Button className="w-full  bg-[#f7f9fa]  p-4 text-sm text-gray-900 hover:text-gray-900">
+                                <div className="flex items-center justify-between">
+                                  <span className=" font-bold text-gray-900">
                                     Section {index + 1}: {item.title}
                                   </span>
-                                  <span className='ml-6 flex items-center'>
+                                  <span className="ml-6 flex items-center">
                                     {open ? (
-                                      <Minus className='h-5 w-5' />
+                                      <Minus className="h-5 w-5" />
                                     ) : (
-                                      <Plus className='h-5 w-5' />
+                                      <Plus className="h-5 w-5" />
                                     )}
                                   </span>
                                 </div>
-                                <div className='mt-1 text-left text-xs'>
+                                <div className="mt-1 text-left text-xs">
                                   <span>0-3 / 3min</span>
                                 </div>
                               </Disclosure.Button>
                             </h3>
-                            <Disclosure.Panel className=' bg-white '>
-                              <div className='space-y-4'>
+                            <Disclosure.Panel className=" bg-white ">
+                              <div className="space-y-4">
                                 {item?.Lesson?.length > 0 &&
                                   item?.Lesson?.map(
                                     (lessonItem: any, index: any) => (
@@ -686,9 +698,10 @@ export default function CourseLecture({ id }: {id:any}) {
                                             "lesson",
                                             lessonItem
                                           );
-                                        }}>
-                                        <div className='flex items-start gap-x-4'>
-                                          <div className='mt-0.5'>
+                                        }}
+                                      >
+                                        <div className="flex items-start gap-x-4">
+                                          <div className="mt-0.5">
                                             <Checkbox
                                               checked={checkIsLessonComp(
                                                 lessonItem.id
@@ -706,9 +719,9 @@ export default function CourseLecture({ id }: {id:any}) {
                                             <p>
                                               {index + 1}. {lessonItem.title}
                                             </p>
-                                            <div className='mt-2 flex items-center gap-x-1 text-[#6a6f73]'>
-                                              <Youtube className='h-4 w-4 ' />
-                                              <span className='text-xs'>
+                                            <div className="mt-2 flex items-center gap-x-1 text-[#6a6f73]">
+                                              <Youtube className="h-4 w-4 " />
+                                              <span className="text-xs">
                                                 3min
                                               </span>
                                             </div>
@@ -718,7 +731,7 @@ export default function CourseLecture({ id }: {id:any}) {
                                     )
                                   )}
                               </div>
-                              <div className='space-y-4'>
+                              <div className="space-y-4">
                                 {item?.Quiz?.length > 0 &&
                                   item?.Quiz?.map(
                                     (quizItem: any, index: any) => (
@@ -731,9 +744,10 @@ export default function CourseLecture({ id }: {id:any}) {
                                         key={index}
                                         onClick={() => {
                                           handleQuizWarning("quiz", quizItem);
-                                        }}>
-                                        <div className='flex items-start gap-x-4'>
-                                          <div className='mt-0.5'>
+                                        }}
+                                      >
+                                        <div className="flex items-start gap-x-4">
+                                          <div className="mt-0.5">
                                             <Checkbox
                                               checked={
                                                 quizItem?.is_completed == 1
@@ -747,9 +761,9 @@ export default function CourseLecture({ id }: {id:any}) {
                                             <p>
                                               Quiz {index + 1}. {quizItem.title}
                                             </p>
-                                            <div className='mt-2 flex items-center gap-x-1 text-[#6a6f73]'>
-                                              <File className='h-4 w-4 ' />
-                                              <span className='text-xs'>
+                                            <div className="mt-2 flex items-center gap-x-1 text-[#6a6f73]">
+                                              <File className="h-4 w-4 " />
+                                              <span className="text-xs">
                                                 {quizItem.time}min
                                               </span>
                                             </div>
@@ -773,10 +787,10 @@ export default function CourseLecture({ id }: {id:any}) {
 
         <section>
           <div className={`px-4 ${isCourseContentOpen && "lg:pr-[24rem]"}`}>
-            <div className=' bg-white'>
-              <div className=''>
-                <div className='inline-block w-full'>
-                  <ul className='mb-3 flex flex-wrap border-b border-gray-200 text-center dark:border-gray-700 '>
+            <div className=" bg-white">
+              <div className="">
+                <div className="inline-block w-full">
+                  <ul className="mb-3 flex flex-wrap border-b border-gray-200 text-center dark:border-gray-700 ">
                     {tabSections.map((item: any) => (
                       <li key={item.id}>
                         <button
@@ -786,7 +800,8 @@ export default function CourseLecture({ id }: {id:any}) {
                               : ""
                           }
                  dark:border-primary dark:text-primary flex cursor-pointer items-center justify-center gap-x-2  rounded-t-lg p-4 text-sm  font-medium first:ml-0 hover:border-b-2  focus:outline-none focus:!ring-0 disabled:cursor-not-allowed disabled:text-gray-400 disabled:dark:text-gray-500`}
-                          onClick={() => handleActiveTabHandler(item.id)}>
+                          onClick={() => handleActiveTabHandler(item.id)}
+                        >
                           <span>{t(item.name)}</span>
                         </button>
                       </li>
@@ -799,25 +814,26 @@ export default function CourseLecture({ id }: {id:any}) {
                             : ""
                         }
                  dark:border-primary dark:text-primary flex cursor-pointer items-center justify-center gap-x-2  rounded-t-lg p-4 text-sm  font-medium first:ml-0 hover:border-b-2  focus:outline-none focus:!ring-0 disabled:cursor-not-allowed disabled:text-gray-400 disabled:dark:text-gray-500`}
-                        onClick={() => handleActiveTabHandler(liveClass.id)}>
+                        onClick={() => handleActiveTabHandler(liveClass.id)}
+                      >
                         <span>{t(liveClass.name)}</span>
                       </button>
                     </li>
                   </ul>
 
                   <div>
-                    <div className='mb-5'>
+                    <div className="mb-5">
                       {activeTab === 1 && (
-                        <div className=' flex h-full flex-1 flex-col space-y-8 px-4'>
-                          <div className='border-b pb-5'>
-                            <h3 className=' mb-5 text-xl font-bold'>
+                        <div className=" flex h-full flex-1 flex-col space-y-8 px-4">
+                          <div className="border-b pb-5">
+                            <h3 className=" mb-5 text-xl font-bold">
                               About this course
                             </h3>
-                            <p className='max-w-2xl text-sm'>
+                            <p className="max-w-2xl text-sm">
                               {enrolledCourseDetails?.data?.short_description}
                             </p>
                           </div>
-                          <div className='grid grid-cols-3 gap-4 border-b pb-5 text-sm'>
+                          <div className="grid grid-cols-3 gap-4 border-b pb-5 text-sm">
                             <p>By the numbers</p>
                             <div>
                               <p>
@@ -845,24 +861,26 @@ export default function CourseLecture({ id }: {id:any}) {
                             </div>
                           </div>
 
-                          <div className='grid grid-cols-3 gap-4 border-b pb-5 text-sm'>
+                          <div className="grid grid-cols-3 gap-4 border-b pb-5 text-sm">
                             <p>Description</p>
-                            <div className='col-span-2'>
+                            <div className="col-span-2">
                               <p>{enrolledCourseDetails?.data?.description}</p>
                             </div>
                           </div>
 
-                          <div className='grid grid-cols-3 gap-4 border-b pb-5 text-sm'>
+                          <div className="grid grid-cols-3 gap-4 border-b pb-5 text-sm">
                             <p>Instructor</p>
-                            <div className='col-span-2'>
+                            <div className="col-span-2">
                               <div
                                 className={cn(
                                   "mb-4 flex items-center gap-x-4 text-base"
-                                )}>
+                                )}
+                              >
                                 <div
                                   className={cn(
                                     "h-[50px] w-[50px] overflow-hidden rounded-full"
-                                  )}>
+                                  )}
+                                >
                                   <CustomImage
                                     imageUrl={
                                       enrolledCourseDetails?.data?.User?.photo
@@ -873,7 +891,7 @@ export default function CourseLecture({ id }: {id:any}) {
                                   />
                                 </div>
                                 <div>
-                                  <h2 className='text-lg font-bold'>
+                                  <h2 className="text-lg font-bold">
                                     {
                                       enrolledCourseDetails?.data?.User
                                         ?.first_name
@@ -890,22 +908,22 @@ export default function CourseLecture({ id }: {id:any}) {
                         </div>
                       )}
                     </div>
-                    <div className='mb-5'>
+                    <div className="mb-5">
                       {activeTab === 2 && (
-                        <div className=' flex h-full flex-1 flex-col space-y-8 px-4'>
-                          <div className='pb-5'>
-                            <h3 className=' mb-5 text-xl font-bold'>
+                        <div className=" flex h-full flex-1 flex-col space-y-8 px-4">
+                          <div className="pb-5">
+                            <h3 className=" mb-5 text-xl font-bold">
                               Student feedback
                             </h3>
-                            <div className='grid grid-cols-1 items-center gap-4 md:grid-cols-12'>
-                              <div className='col-span-2 2xl:col-span-1'>
-                                <p className='text-5xl font-bold text-[#FFA41B]'>
+                            <div className="grid grid-cols-1 items-center gap-4 md:grid-cols-12">
+                              <div className="col-span-2 2xl:col-span-1">
+                                <p className="text-5xl font-bold text-[#FFA41B]">
                                   {
                                     reviewDetails?.data?.total_review_data
                                       ?.average_rating
                                   }
                                 </p>
-                                <div className='flex items-center gap-1 pb-2.5'>
+                                <div className="flex items-center gap-1 pb-2.5">
                                   {[1, 2, 3, 4, 5].map((index) => {
                                     if (
                                       index <=
@@ -916,7 +934,7 @@ export default function CourseLecture({ id }: {id:any}) {
                                     ) {
                                       return (
                                         <IoIosStar
-                                          color='#FFA41B'
+                                          color="#FFA41B"
                                           size={18}
                                           key={index}
                                         />
@@ -924,7 +942,7 @@ export default function CourseLecture({ id }: {id:any}) {
                                     }
                                     return (
                                       <IoIosStarOutline
-                                        color='#FFA41B'
+                                        color="#FFA41B"
                                         size={18}
                                         key={index}
                                       />
@@ -933,31 +951,33 @@ export default function CourseLecture({ id }: {id:any}) {
                                 </div>
 
                                 <div>
-                                  <p className='text-sm font-bold text-[#FFA41B]'>
+                                  <p className="text-sm font-bold text-[#FFA41B]">
                                     Tutorial rating
                                   </p>
                                 </div>
                               </div>
-                              <div className='col-span-10 2xl:col-span-11'>
+                              <div className="col-span-10 2xl:col-span-11">
                                 {[5, 4, 3, 2, 1].map((item) => (
                                   <div
-                                    className='mb-2 flex items-center gap-x-2'
-                                    key={item}>
-                                    <div className='h-2  w-9/12 bg-slate-200'>
+                                    className="mb-2 flex items-center gap-x-2"
+                                    key={item}
+                                  >
+                                    <div className="h-2  w-9/12 bg-slate-200">
                                       <div
-                                        className='h-full bg-slate-500'
+                                        className="h-full bg-slate-500"
                                         style={{
                                           width: `${ratingFilterHandler(
                                             item
                                           )}%`,
-                                        }}></div>
+                                        }}
+                                      ></div>
                                     </div>
-                                    <div className='flex w-2/12 items-center justify-end gap-1'>
+                                    <div className="flex w-2/12 items-center justify-end gap-1">
                                       {[1, 2, 3, 4, 5].map((index) => {
                                         if (index <= item) {
                                           return (
                                             <IoIosStar
-                                              color='#FFA41B'
+                                              color="#FFA41B"
                                               size={18}
                                               key={index}
                                             />
@@ -965,15 +985,15 @@ export default function CourseLecture({ id }: {id:any}) {
                                         }
                                         return (
                                           <IoIosStarOutline
-                                            color='#FFA41B'
+                                            color="#FFA41B"
                                             size={18}
                                             key={index}
                                           />
                                         );
                                       })}
                                     </div>
-                                    <div className='w-1/12 text-right'>
-                                      <p className='text-primary text-sm underline'>
+                                    <div className="w-1/12 text-right">
+                                      <p className="text-primary text-sm underline">
                                         {ratingFilterHandler(item)}%
                                       </p>
                                     </div>
@@ -982,19 +1002,20 @@ export default function CourseLecture({ id }: {id:any}) {
                               </div>
                             </div>
                           </div>
-                          <div className='pb-5'>
-                            <div className='flex items-center justify-between'>
-                              <h3 className=' mb-5 text-xl font-bold'>
+                          <div className="pb-5">
+                            <div className="flex items-center justify-between">
+                              <h3 className=" mb-5 text-xl font-bold">
                                 Reviews
                               </h3>
                               <Button
-                                type='button'
-                                onClick={() => setOpenModalForReview(true)}>
+                                type="button"
+                                onClick={() => setOpenModalForReview(true)}
+                              >
                                 Write A Review
                               </Button>
                             </div>
 
-                            <div className='mt-6'>
+                            <div className="mt-6">
                               {reviewDetails?.data?.review_list?.length ===
                               0 ? (
                                 <NoItem notFoundtext={`No results.`} />
@@ -1005,11 +1026,13 @@ export default function CourseLecture({ id }: {id:any}) {
                                       className={cn(
                                         "flex items-start gap-x-6 border-b py-4 text-base"
                                       )}
-                                      key={index}>
+                                      key={index}
+                                    >
                                       <div
                                         className={cn(
                                           "h-[50px] min-h-[50px] w-[50px] min-w-[50px] overflow-hidden rounded-full"
-                                        )}>
+                                        )}
+                                      >
                                         <CustomImage
                                           imageUrl={
                                             review.user.photo ||
@@ -1018,17 +1041,17 @@ export default function CourseLecture({ id }: {id:any}) {
                                         />
                                       </div>
                                       <div>
-                                        <h2 className='text-lg font-bold'>
+                                        <h2 className="text-lg font-bold">
                                           {review.user.first_name}{" "}
                                           {review.user.last_name}
                                         </h2>
-                                        <div className='mb-2 flex items-center gap-x-2'>
-                                          <div className='flex items-center gap-1'>
+                                        <div className="mb-2 flex items-center gap-x-2">
+                                          <div className="flex items-center gap-1">
                                             {[1, 2, 3, 4, 5].map((index) => {
                                               if (index <= review.rating) {
                                                 return (
                                                   <IoIosStar
-                                                    color='#FFA41B'
+                                                    color="#FFA41B"
                                                     size={18}
                                                     key={index}
                                                   />
@@ -1036,7 +1059,7 @@ export default function CourseLecture({ id }: {id:any}) {
                                               }
                                               return (
                                                 <IoIosStarOutline
-                                                  color='#FFA41B'
+                                                  color="#FFA41B"
                                                   size={18}
                                                   key={index}
                                                 />
@@ -1044,13 +1067,13 @@ export default function CourseLecture({ id }: {id:any}) {
                                             })}
                                           </div>
                                           <div>
-                                            <p className='text-xs'>
+                                            <p className="text-xs">
                                               {review.created_at}
                                             </p>
                                           </div>
                                         </div>
-                                        <div className='max-w-2xl'>
-                                          <p className='text-xs text-[#2d2f31]'>
+                                        <div className="max-w-2xl">
+                                          <p className="text-xs text-[#2d2f31]">
                                             {review.content}
                                           </p>
                                         </div>
@@ -1064,20 +1087,21 @@ export default function CourseLecture({ id }: {id:any}) {
                         </div>
                       )}
                     </div>
-                    <div className='mb-5'>
+                    <div className="mb-5">
                       {activeTab === 3 && (
-                        <div className='h-full w-full rounded-[8px] border p-8'>
-                          <div className='flex flex-col items-center justify-center gap-y-4'>
+                        <div className="h-full w-full rounded-[8px] border p-8">
+                          <div className="flex flex-col items-center justify-center gap-y-4">
                             <div>
                               <GrCertificate
                                 size={100}
-                                className='text-primary'
+                                className="text-primary"
                               />
                             </div>
                             <div>
                               <Button
-                                type='button'
-                                onClick={handleGenerateCertificate}>
+                                type="button"
+                                onClick={handleGenerateCertificate}
+                              >
                                 Claim Certificate
                               </Button>
                             </div>
@@ -1085,22 +1109,23 @@ export default function CourseLecture({ id }: {id:any}) {
                         </div>
                       )}
                     </div>
-                    <div className='mb-5'>
+                    <div className="mb-5">
                       {activeTab === 4 && (
-                        <div className='min-h-[300px] px-2 md:px-8'>
+                        <div className="min-h-[300px] px-2 md:px-8">
                           {enrolledCourseDetails?.data?.LiveClass?.length ==
                           0 ? (
-                            <NoItem notFoundtext='Live Class Not Found' />
+                            <NoItem notFoundtext="Live Class Not Found" />
                           ) : (
                             enrolledCourseDetails?.data?.LiveClass?.map(
                               (liveClassItem: any, index: any) => (
                                 <div
-                                  className='mb-4 flex items-center justify-between rounded-md border p-3 last:mb-0'
-                                  key={index}>
-                                  <h3 className='font-medium'>
+                                  className="mb-4 flex items-center justify-between rounded-md border p-3 last:mb-0"
+                                  key={index}
+                                >
+                                  <h3 className="font-medium">
                                     {liveClassItem?.title}
                                   </h3>
-                                  <p className='text-sm'>
+                                  <p className="text-sm">
                                     {moment(
                                       liveClassItem?.start_date_time
                                     ).format("DD-MM-yyyy, h:mm:ss a")}
@@ -1127,7 +1152,8 @@ export default function CourseLecture({ id }: {id:any}) {
                                               liveClassItem?.channel_name,
                                           })
                                         }
-                                        className='h-min rounded-full py-0.5 text-sm'>
+                                        className="h-min rounded-full py-0.5 text-sm"
+                                      >
                                         Join
                                       </Button>
                                     )}
@@ -1152,8 +1178,9 @@ export default function CourseLecture({ id }: {id:any}) {
         close={closeModalForReview}
         isModalOpen={openModalForReview}
         modalSize={"2xl"}
-        modalPlacement={"center"}>
-        <div className='space-y-6'>
+        modalPlacement={"center"}
+      >
+        <div className="space-y-6">
           <CreateReview
             courseId={enrolledCourseDetails?.data?.id}
             closeModal={closeModalForReview}
