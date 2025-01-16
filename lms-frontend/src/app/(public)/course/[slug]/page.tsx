@@ -193,7 +193,7 @@ export default function CourseSinglePage({ params: { slug } }: any) {
               {isLoading ? (
                 <Skeleton className="h-[12rem] w-full" />
               ) : data?.demo_video?.includes(".pdf") ? (
-                <PdfViewer width={300} height={400} pdfUrl={data?.demo_video} />
+                <PdfViewer pdfUrl={data?.demo_video} />
               ) : (
                 <ReactPlayer
                   url={data?.demo_video}
