@@ -683,7 +683,9 @@ export default function CourseLecture({ id }: { id: any }) {
                             </h3>
                             <Disclosure.Panel className=" bg-white ">
                               <div className="space-y-4">
-                                {item?.Lesson?.length > 0 &&
+                                {enrolledCourseDetails?.data.type !==
+                                  "OFFLINE" &&
+                                  item?.Lesson?.length > 0 &&
                                   item?.Lesson?.map(
                                     (lessonItem: any, index: any) => (
                                       <div
@@ -833,7 +835,7 @@ export default function CourseLecture({ id }: { id: any }) {
                               {enrolledCourseDetails?.data?.short_description}
                             </p>
                           </div>
-                          <div className="grid grid-cols-3 gap-4 border-b pb-5 text-sm">
+                          <div className="grid grid-cols-4 gap-4 border-b pb-5 text-sm">
                             <p>By the numbers</p>
                             <div>
                               <p>
@@ -859,6 +861,12 @@ export default function CourseLecture({ id }: { id: any }) {
                                 total mins
                               </p>
                             </div>
+                            <div>
+                              <p>
+                                Course Type:{" "}
+                                {enrolledCourseDetails?.data?.type ?? "Online"}
+                              </p>
+                            </div>
                           </div>
 
                           <div className="grid grid-cols-3 gap-4 border-b pb-5 text-sm">
@@ -867,6 +875,41 @@ export default function CourseLecture({ id }: { id: any }) {
                               <p>{enrolledCourseDetails?.data?.description}</p>
                             </div>
                           </div>
+                          {enrolledCourseDetails?.data.type === "OFFLINE" && (
+                            <div className="grid grid-cols-4 gap-4 border-b pb-5 text-sm">
+                              <div className="flex flex-col gap-2">
+                                <p>Area:</p>
+                                <p>
+                                  {
+                                    enrolledCourseDetails?.data?.Hall?.Area
+                                      .enName
+                                  }
+                                </p>
+                              </div>{" "}
+                              <div className="flex flex-col gap-2">
+                                <p>Hall Name:</p>
+                                <p>
+                                  {enrolledCourseDetails?.data?.Hall?.enName}
+                                </p>
+                              </div>
+                              <div className="flex flex-col gap-2">
+                                <p>Start Date:</p>
+                                <p>
+                                  {new Date(
+                                    enrolledCourseDetails?.data?.startDate
+                                  ).toLocaleDateString()}
+                                </p>
+                              </div>
+                              <div className="flex flex-col gap-2">
+                                <p>End Date:</p>
+                                <p>
+                                  {new Date(
+                                    enrolledCourseDetails?.data?.endDate
+                                  ).toLocaleDateString()}
+                                </p>
+                              </div>
+                            </div>
+                          )}
 
                           <div className="grid grid-cols-3 gap-4 border-b pb-5 text-sm">
                             <p>Instructor</p>

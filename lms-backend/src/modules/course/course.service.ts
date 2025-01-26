@@ -1322,6 +1322,11 @@ export class CourseService {
           category: true,
           sub_category: true,
           Review: true,
+          Hall: {
+            include: {
+              Area: true,
+            },
+          },
           LiveClass: {
             where: {
               OR: [
