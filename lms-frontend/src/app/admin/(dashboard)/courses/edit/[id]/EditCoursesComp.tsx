@@ -37,6 +37,8 @@ import {
 } from "@/hooks/admin/course.hook";
 import { IoIosAdd } from "react-icons/io";
 import { X } from "lucide-react";
+import { getAllAreas, getHallByAreaId } from "@/service/admin/course";
+import { DatePickerType } from "@/components/form/DatePickerType";
 
 const options = [
   { value: 0, label: "In-Active" },
@@ -52,7 +54,10 @@ const isFreeOptions = [
   { value: true, label: "Yes" },
   { value: false, label: "No" },
 ];
-
+const optionsForCourseType = [
+  { value: "ONLINE", label: "Online" },
+  { value: "OFFLINE", label: "Offline" },
+];
 const isDiscountStatusOptions = [
   { value: true, label: "Yes" },
   { value: false, label: "No" },
@@ -98,12 +103,12 @@ const tabSections = [
   },
 ];
 
-export default function EditCourseComp({id}:{id:string}) {
+export default function EditCourseComp({ id }: { id: string }) {
   const [activeTab, setActiveTab] = useState<any>(1);
   const [courseId, setCourseId] = useState<any>("");
 
   const { data: courseDetail, isLoading: isDetailsLoading } =
-useGetCourseDetailsForAdmin(id) || {};
+    useGetCourseDetailsForAdmin(id) || {};
 
   const { t } = useTranslation();
   const [openForThumbnailImage, setOpenForThumbnailImage] = useState(false);
@@ -156,16 +161,30 @@ useGetCourseDetailsForAdmin(id) || {};
 
   useEffect(() => {
     setCourseId(courseDetail?.data?.id);
-    form.setValue("id", courseDetail?.data?.id);
-    form.setValue("name", courseDetail?.data?.name);
-    form.setValue("duration", courseDetail?.data?.duration);
-    form.setValue("short_description", courseDetail?.data?.short_description);
-    form.setValue("description", courseDetail?.data?.description);
-    form.setValue("price", courseDetail?.data?.price);
-    form.setValue("meta_title", courseDetail?.data?.meta_title);
-    form.setValue("meta_keyword", courseDetail?.data?.meta_keyword);
-    form.setValue("meta_description", courseDetail?.data?.meta_description);
-    form.setValue("requirments", courseDetail?.data?.requirments);
+    form.setValue("id", courseDetail?.data?.id ?? "");
+    form.setValue("name", courseDetail?.data?.name ?? "");
+    form.setValue("duration", courseDetail?.data?.duration ?? "");
+    form.setValue(
+      "short_description",
+      courseDetail?.data?.short_description ?? ""
+    );
+    form.setValue("description", courseDetail?.data?.description ?? "");
+    form.setValue("price", courseDetail?.data?.price ?? "");
+    form.setValue("meta_title", courseDetail?.data?.meta_title ?? "");
+    form.setValue("meta_keyword", courseDetail?.data?.meta_keyword ?? "");
+    setCourseType(courseDetail?.data?.type ?? "ONLINE");
+    form.setValue("startDate", courseDetail?.data?.startDate);
+    form.setValue("endDate", courseDetail?.data?.endDate);
+    form.setValue(
+      "hallAttendeesNumber",
+      courseDetail?.data?.hallAttendeesNumber ?? ""
+    );
+
+    form.setValue(
+      "meta_description",
+      courseDetail?.data?.meta_description ?? ""
+    );
+    form.setValue("requirments", courseDetail?.data?.requirments ?? "");
     form.setValue(
       "video_upload_source",
       videoSourceOptions.find(
@@ -183,6 +202,20 @@ useGetCourseDetailsForAdmin(id) || {};
       "course_level",
       coursesLevelOptions.find(
         (item) => item.value == courseDetail?.data?.course_level
+      ) || {}
+    );
+
+    form.setValue(
+      "type",
+      optionsForCourseType.find(
+        (item) => item.value == courseDetail?.data?.type
+      ) || {}
+    );
+
+    form.setValue(
+      "hallId",
+      optionsOfHall?.find(
+        (item) => item?.value == courseDetail?.data?.hallId
       ) || {}
     );
     form.setValue(
@@ -260,7 +293,47 @@ useGetCourseDetailsForAdmin(id) || {};
       form.setValue(fieldName, value);
     });
   };
+  const [areaId, setAreaId] = useState<any>("");
 
+  const [optionsOfArea, setOptionsOfArea] = useState<
+    Array<{ value: string; label: string }> | undefined
+  >();
+  const [optionsOfHall, setOptionsOfHall] = useState<
+    Array<{ value: string; label: string }> | undefined
+  >();
+  const [courseType, setCourseType] = useState<"ONLINE" | "OFFLINE">(
+    courseDetail?.data?.type ?? "ONLINE"
+  );
+  useEffect(() => {
+    const loadData = async () => {
+      const data = (await getHallByAreaId(areaId)) ?? {};
+
+      if (data) {
+        setOptionsOfHall(
+          data?.data?.map((item: any) => ({
+            value: item?.id ?? "",
+            label: item.enName ?? "",
+          }))
+        );
+      }
+    };
+    loadData();
+  }, [areaId, courseDetail?.data]);
+
+  useEffect(() => {
+    const loadData = async () => {
+      const data = (await getAllAreas()) ?? {};
+      if (data) {
+        setOptionsOfArea(
+          data?.data.map((item: any) => ({
+            value: item?.id ?? "",
+            label: item?.enName ?? "",
+          }))
+        );
+      }
+    };
+    if (!optionsOfArea) loadData();
+  }, []);
   useEffect(() => {
     if (
       discountTypeValue?.value == DISCOUNT_TYPE.AMOUNT &&
@@ -332,11 +405,24 @@ useGetCourseDetailsForAdmin(id) || {};
     }
     setCourseId(courseDetails?.data?.id);
   }, [courseDetails?.data?.id]);
-
+  console.log(
+    courseType === "OFFLINE" || courseDetail?.data?.type === "OFFLINE",
+    "courseDetail?.data?.type"
+  );
   const handleBasicInfo = (data: any) => {
+    const offlineValues =
+      courseType === "OFFLINE" || courseDetail?.data?.type === "OFFLINE"
+        ? {
+            hallId: data?.hallId?.value,
+            startDate: new Date(data.startDate),
+            endDate: new Date(data.endDate),
+            hallAttendeesNumber: data.hallAttendeesNumber,
+          }
+        : {};
     let value: any = {
       name: data.name,
       short_description: data.short_description,
+      type: data?.type?.value,
       description: data.description,
       private_status: data.private_status?.value,
       course_level: data.course_level?.value,
@@ -354,6 +440,7 @@ useGetCourseDetailsForAdmin(id) || {};
         .filter((list: any) => list?.trim() !== "")
         .join(",,,"),
       requirments: data.requirments,
+      ...offlineValues,
     };
     if (courseId) {
       value = {
@@ -363,7 +450,6 @@ useGetCourseDetailsForAdmin(id) || {};
     }
     handleCourseSettings(value);
   };
-
   const handleMediaInfo = (data: any) => {
     if (!courseId) {
       setActiveTab(1);
@@ -429,9 +515,9 @@ useGetCourseDetailsForAdmin(id) || {};
 
   return (
     <>
-      <div className='mb-5'>
-        <div className='inline-block w-full'>
-          <ul className='mb-3 flex flex-wrap border-b border-gray-200 text-center dark:border-gray-700 '>
+      <div className="mb-5">
+        <div className="inline-block w-full">
+          <ul className="mb-3 flex flex-wrap border-b border-gray-200 text-center dark:border-gray-700 ">
             {tabSections.map((item: any) => (
               <li key={item.id}>
                 <button
@@ -442,7 +528,8 @@ useGetCourseDetailsForAdmin(id) || {};
                   }
                  flex cursor-pointer items-center justify-center gap-x-2 rounded-t-lg p-4  text-sm font-medium first:ml-0  hover:border-b-2 focus:outline-none focus:!ring-0  disabled:cursor-not-allowed disabled:text-gray-400 dark:border-cyan-500 dark:text-cyan-500 disabled:dark:text-gray-500`}
                   onClick={() => setActiveTab(item.id)}
-                  disabled={item.id !== 1 && !courseId}>
+                  disabled={item.id !== 1 && !courseId}
+                >
                   <span>
                     <item.icon size={22} />
                   </span>
@@ -453,18 +540,19 @@ useGetCourseDetailsForAdmin(id) || {};
           </ul>
 
           <div>
-            <div className='mb-5'>
+            <div className="mb-5">
               {activeTab === 1 && (
-                <div className='panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8'>
+                <div className="panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8">
                   {isCategoryListLoading || isDetailsLoading ? (
                     <FormSkelation />
                   ) : (
                     <Form {...form}>
                       <form
                         onSubmit={form.handleSubmit(handleBasicInfo)}
-                        className='space-y-4'>
+                        className="space-y-4"
+                      >
                         <div>
-                          <div className='grid grid-cols-1 gap-2 sm:grid-cols-2'>
+                          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                             <InputType
                               form={form}
                               formName={"name"}
@@ -473,6 +561,73 @@ useGetCourseDetailsForAdmin(id) || {};
                               formDescription={null}
                               isErrorMessageShow={false}
                             />
+                            <SelectType
+                              form={form}
+                              formName={"type"}
+                              formLabel={"Course Type"}
+                              onSelectChange={(e: any) => {
+                                setCourseType(e.value);
+                              }}
+                              isMultipleSelect={false}
+                              selectOptions={optionsForCourseType}
+                              formDescription={null}
+                              isErrorMessageShow={false}
+                              classNamePrefix={"lms-react"}
+                            />
+
+                            {courseType === "OFFLINE" && (
+                              <>
+                                <DatePickerType
+                                  form={form}
+                                  formName={"startDate"}
+                                  formLabel={"Start Date"}
+                                  formPlaceholder={"Enter Start Date"}
+                                  formDescription={null}
+                                  isErrorMessageShow={false}
+                                />
+                                <DatePickerType
+                                  form={form}
+                                  formName={"endDate"}
+                                  formLabel={"End Date"}
+                                  formPlaceholder={"Enter Start Date"}
+                                  formDescription={null}
+                                  isErrorMessageShow={false}
+                                />
+                                <SelectType
+                                  form={form}
+                                  formName={"area_id"}
+                                  onSelectChange={(e: any) => {
+                                    setAreaId(e.value);
+                                  }}
+                                  formLabel={"Course Area"}
+                                  isMultipleSelect={false}
+                                  selectOptions={optionsOfArea}
+                                  formDescription={null}
+                                  isErrorMessageShow={false}
+                                  classNamePrefix={"lms-react"}
+                                />
+                                <SelectType
+                                  form={form}
+                                  formName={"hall_id"}
+                                  formLabel={"Course Hall"}
+                                  isMultipleSelect={false}
+                                  selectOptions={optionsOfHall}
+                                  formDescription={null}
+                                  isErrorMessageShow={false}
+                                  classNamePrefix={"lms-react"}
+                                />
+
+                                <InputType
+                                  form={form}
+                                  formName={"hallAttendeesNumber"}
+                                  type={"number"}
+                                  formLabel={"Course max Attendees"}
+                                  formPlaceholder={"Enter Course max Attendees"}
+                                  formDescription={null}
+                                  isErrorMessageShow={false}
+                                />
+                              </>
+                            )}
 
                             <InputType
                               form={form}
@@ -618,24 +773,26 @@ useGetCourseDetailsForAdmin(id) || {};
                               formDescription={null}
                               isErrorMessageShow={false}
                             />
-                            <div className='w-full'>
-                              <div className='flex items-center justify-between'>
-                                <label className=' text-sm'>
+                            <div className="w-full">
+                              <div className="flex items-center justify-between">
+                                <label className=" text-sm">
                                   {t(`What You Will Learn`)}
                                 </label>
 
                                 <button
-                                  type='button'
-                                  className='bg-primary/10 text-primary flex h-6 w-6 items-center justify-center rounded-full'
-                                  onClick={() => addItem()}>
+                                  type="button"
+                                  className="bg-primary/10 text-primary flex h-6 w-6 items-center justify-center rounded-full"
+                                  onClick={() => addItem()}
+                                >
                                   <IoIosAdd size={20} />
                                 </button>
                               </div>
                               {lists.map((item: any) => {
                                 return (
                                   <div
-                                    className='mb-2 flex w-full items-center gap-4'
-                                    key={item.id}>
+                                    className="mb-2 flex w-full items-center gap-4"
+                                    key={item.id}
+                                  >
                                     <InputType
                                       form={form}
                                       formName={`what_you_will_learn[${item.id}].list`}
@@ -643,13 +800,14 @@ useGetCourseDetailsForAdmin(id) || {};
                                       formPlaceholder={"Add Lists Item"}
                                       formDescription={null}
                                       isErrorMessageShow={false}
-                                      className='!w-full'
+                                      className="!w-full"
                                     />
                                     {lists.length > 1 && (
                                       <button
-                                        type='button'
-                                        onClick={() => removeItem(item)}>
-                                        <X className='h-4 w-4 text-red-600' />
+                                        type="button"
+                                        onClick={() => removeItem(item)}
+                                      >
+                                        <X className="h-4 w-4 text-red-600" />
                                       </button>
                                     )}
                                   </div>
@@ -670,18 +828,19 @@ useGetCourseDetailsForAdmin(id) || {};
                 </div>
               )}
             </div>
-            <div className='mb-5'>
+            <div className="mb-5">
               {activeTab === 2 && (
-                <div className='panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8'>
+                <div className="panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8">
                   {isCategoryListLoading ? (
                     <FormSkelation />
                   ) : (
                     <Form {...form}>
                       <form
                         onSubmit={form.handleSubmit(handleMediaInfo)}
-                        className='space-y-4'>
+                        className="space-y-4"
+                      >
                         <div>
-                          <div className='grid grid-cols-1 gap-2 sm:grid-cols-2'>
+                          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                             <ImagePicker
                               open={openForThumbnailImage}
                               name={"Thumbnail Image"}
@@ -736,11 +895,12 @@ useGetCourseDetailsForAdmin(id) || {};
                           </div>
                         </div>
 
-                        <div className='flex gap-x-4'>
+                        <div className="flex gap-x-4">
                           <Button
-                            type='button'
-                            color='gray'
-                            onClick={() => setActiveTab(1)}>
+                            type="button"
+                            color="gray"
+                            onClick={() => setActiveTab(1)}
+                          >
                             Previous
                           </Button>
                           <LoaderButton
@@ -755,18 +915,19 @@ useGetCourseDetailsForAdmin(id) || {};
                 </div>
               )}
             </div>
-            <div className='mb-5'>
+            <div className="mb-5">
               {activeTab === 3 && (
-                <div className='panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8'>
+                <div className="panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8">
                   {isCategoryListLoading ? (
                     <FormSkelation />
                   ) : (
                     <Form {...form}>
                       <form
                         onSubmit={form.handleSubmit(handleSeoInfo)}
-                        className='space-y-4'>
+                        className="space-y-4"
+                      >
                         <div>
-                          <div className='grid grid-cols-1 gap-2 sm:grid-cols-2'>
+                          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                             <InputType
                               form={form}
                               formName={"meta_title"}
@@ -795,11 +956,12 @@ useGetCourseDetailsForAdmin(id) || {};
                             />
                           </div>
                         </div>
-                        <div className='flex gap-x-2'>
+                        <div className="flex gap-x-2">
                           <Button
-                            type='button'
-                            color='gray'
-                            onClick={() => setActiveTab(2)}>
+                            type="button"
+                            color="gray"
+                            onClick={() => setActiveTab(2)}
+                          >
                             Previous
                           </Button>
                           <LoaderButton
@@ -814,7 +976,7 @@ useGetCourseDetailsForAdmin(id) || {};
                 </div>
               )}
             </div>
-            <div className='mb-5'>
+            <div className="mb-5">
               {activeTab === 4 && (
                 <SectionCompForAdmin
                   courseId={courseId}

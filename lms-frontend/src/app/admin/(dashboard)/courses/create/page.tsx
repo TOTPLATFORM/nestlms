@@ -25,12 +25,17 @@ import SectionCompForAdmin from "@/section/admin/course/SectionCompForAdmin";
 import { X } from "lucide-react";
 import { IoIosAdd } from "react-icons/io";
 import { FieldValues, UseFormReturn } from "react-hook-form";
+import { getAllAreas, getHallByAreaId } from "@/service/admin/course";
+import { DatePickerType } from "@/components/form/DatePickerType";
 
 const optionsForPrivateStatus = [
   { value: true, label: "Yes" },
   { value: false, label: "No" },
 ];
-
+const optionsForCourseType = [
+  { value: "ONLINE", label: "Online" },
+  { value: "OFFLINE", label: "Offline" },
+];
 const isFreeOptions = [
   { value: true, label: "Yes" },
   { value: false, label: "No" },
@@ -91,6 +96,45 @@ export default function CreateCourse() {
       list: "",
     },
   ]);
+  const [areaId, setAreaId] = useState<any>("");
+
+  const [optionsOfArea, setOptionsOfArea] = useState<
+    Array<{ value: string; label: string }> | undefined
+  >();
+  const [optionsOfHall, setOptionsOfHall] = useState<
+    Array<{ value: string; label: string }> | undefined
+  >();
+  const [courseType, setCourseType] = useState<"ONLINE" | "OFFLINE">("ONLINE");
+  useEffect(() => {
+    const loadData = async () => {
+      const data = (await getHallByAreaId(areaId)) ?? {};
+
+      if (data) {
+        setOptionsOfHall(
+          data?.data?.map((item: any) => ({
+            value: item?.id ?? "",
+            label: item.enName ?? "",
+          }))
+        );
+      }
+    };
+    loadData();
+  }, [areaId]);
+
+  useEffect(() => {
+    const loadData = async () => {
+      const data = (await getAllAreas()) ?? {};
+      if (data) {
+        setOptionsOfArea(
+          data?.data.map((item: any) => ({
+            value: item?.id ?? "",
+            label: item?.enName ?? "",
+          }))
+        );
+      }
+    };
+    if (!optionsOfArea) loadData();
+  }, []);
 
   const { t } = useTranslation();
   const [openForThumbnailImage, setOpenForThumbnailImage] = useState(false);
@@ -133,24 +177,30 @@ export default function CreateCourse() {
     setUploadVideoUrl,
     isSuccess,
   } = useAddEditCourseFormHandlerForAdmin() as {
-      data: CourseDetails;
-      form: UseFormReturn<FieldValues>;
-      handleCourseSettings: (data: any) => Promise<void>;
-      isLoading: boolean;
-      thumbnailImageId?: string;
-      setThumbnailImageId: React.Dispatch<React.SetStateAction<string | undefined>>;
-      setUploadImageUrlForThumbnailImage: React.Dispatch<React.SetStateAction<string | undefined>>;
-      uploadImageUrlForThumbnailImage?: string;
-      uploadImageUrlForCoverImage?: string;
-      setUploadImageUrlForCoverImage: React.Dispatch<React.SetStateAction<string | undefined>>;
-      setCoverImageId: React.Dispatch<React.SetStateAction<string | undefined>>;
-      coverImageId?: string;
-      videoId?: string;
-      setVideoId: React.Dispatch<React.SetStateAction<string | undefined>>;
-      uploadVideoUrl?: string;
-      setUploadVideoUrl: React.Dispatch<React.SetStateAction<string | undefined>>;
-      isSuccess: boolean;
-    };
+    data: CourseDetails;
+    form: UseFormReturn<FieldValues>;
+    handleCourseSettings: (data: any) => Promise<void>;
+    isLoading: boolean;
+    thumbnailImageId?: string;
+    setThumbnailImageId: React.Dispatch<
+      React.SetStateAction<string | undefined>
+    >;
+    setUploadImageUrlForThumbnailImage: React.Dispatch<
+      React.SetStateAction<string | undefined>
+    >;
+    uploadImageUrlForThumbnailImage?: string;
+    uploadImageUrlForCoverImage?: string;
+    setUploadImageUrlForCoverImage: React.Dispatch<
+      React.SetStateAction<string | undefined>
+    >;
+    setCoverImageId: React.Dispatch<React.SetStateAction<string | undefined>>;
+    coverImageId?: string;
+    videoId?: string;
+    setVideoId: React.Dispatch<React.SetStateAction<string | undefined>>;
+    uploadVideoUrl?: string;
+    setUploadVideoUrl: React.Dispatch<React.SetStateAction<string | undefined>>;
+    isSuccess: boolean;
+  };
 
   const selectedCategory = form.watch("category_id") || {};
   const discountStatusValue = form.watch("discount_status") || {};
@@ -229,9 +279,19 @@ export default function CreateCourse() {
   }, [courseDetails?.data?.id]);
 
   const handleBasicInfo = (data: any) => {
+    const offlineValues =
+      courseType === "OFFLINE"
+        ? {
+            hallId: data?.hallId?.value,
+            startDate: new Date(data.startDate),
+            endDate: new Date(data.endDate),
+            hallAttendeesNumber: data.hallAttendeesNumber,
+          }
+        : {};
     let value: any = {
       name: data.name,
       short_description: data.short_description,
+      type: data?.type?.value,
       description: data.description,
       private_status: data.private_status?.value,
       course_level: data.course_level?.value,
@@ -249,6 +309,7 @@ export default function CreateCourse() {
         .filter((list: any) => list?.trim() !== "")
         .join(",,,"),
       requirments: data.requirments,
+      ...offlineValues,
     };
     if (courseId) {
       value = {
@@ -322,6 +383,7 @@ export default function CreateCourse() {
       form.setValue(`${fieldName}.list`, "");
     }
   };
+
   return (
     <>
       <div className="mb-5">
@@ -370,16 +432,73 @@ export default function CreateCourse() {
                               formDescription={null}
                               isErrorMessageShow={false}
                             />
-
-                            <InputType
+                            <SelectType
                               form={form}
-                              formName={"duration"}
-                              type={"number"}
-                              formLabel={"Course Duration"}
-                              formPlaceholder={"Enter Course Duration"}
+                              formName={"type"}
+                              formLabel={"Course Type"}
+                              onSelectChange={(e: any) => {
+                                setCourseType(e.value);
+                              }}
+                              isMultipleSelect={false}
+                              selectOptions={optionsForCourseType}
                               formDescription={null}
                               isErrorMessageShow={false}
+                              classNamePrefix={"lms-react"}
                             />
+
+                            {courseType === "OFFLINE" && (
+                              <>
+                                <DatePickerType
+                                  form={form}
+                                  formName={"startDate"}
+                                  formLabel={"Start Date"}
+                                  formPlaceholder={"Enter Start Date"}
+                                  formDescription={null}
+                                  isErrorMessageShow={false}
+                                />
+                                <DatePickerType
+                                  form={form}
+                                  formName={"endDate"}
+                                  formLabel={"End Date"}
+                                  formPlaceholder={"Enter Start Date"}
+                                  formDescription={null}
+                                  isErrorMessageShow={false}
+                                />
+                                <SelectType
+                                  form={form}
+                                  formName={"area_id"}
+                                  onSelectChange={(e: any) => {
+                                    setAreaId(e.value);
+                                  }}
+                                  formLabel={"Course Area"}
+                                  isMultipleSelect={false}
+                                  selectOptions={optionsOfArea}
+                                  formDescription={null}
+                                  isErrorMessageShow={false}
+                                  classNamePrefix={"lms-react"}
+                                />
+                                <SelectType
+                                  form={form}
+                                  formName={"hallId"}
+                                  formLabel={"Course Hall"}
+                                  isMultipleSelect={false}
+                                  selectOptions={optionsOfHall}
+                                  formDescription={null}
+                                  isErrorMessageShow={false}
+                                  classNamePrefix={"lms-react"}
+                                />
+
+                                <InputType
+                                  form={form}
+                                  formName={"hallAttendeesNumber"}
+                                  type={"number"}
+                                  formLabel={"Course max Attendees"}
+                                  formPlaceholder={"Enter Course max Attendees"}
+                                  formDescription={null}
+                                  isErrorMessageShow={false}
+                                />
+                              </>
+                            )}
 
                             <InputType
                               form={form}
@@ -390,7 +509,15 @@ export default function CreateCourse() {
                               formDescription={null}
                               isErrorMessageShow={false}
                             />
-
+                            <InputType
+                              form={form}
+                              formName={"duration"}
+                              type={"number"}
+                              formLabel={"Course Duration"}
+                              formPlaceholder={"Enter Course Duration"}
+                              formDescription={null}
+                              isErrorMessageShow={false}
+                            />
                             <SelectType
                               form={form}
                               formName={"private_status"}

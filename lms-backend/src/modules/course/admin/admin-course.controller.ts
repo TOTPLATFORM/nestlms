@@ -108,4 +108,15 @@ export class AdminCourseController {
   getAllCourseReport(@Query() payload: any) {
     return this.courseService.getAllCourseReport(payload);
   }
+  @IsAdmin()
+  @Get('areas')
+  getAllArea() {
+    return this.courseService.getAreas();
+  }
+
+  @IsAdmin()
+  @Get('get-hall-by-area-id/:area_id')
+  getHallByAreaId(@Param('area_id') area_id: number) {
+    return this.courseService.getHallByAreaId(area_id);
+  }
 }

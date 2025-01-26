@@ -1,7 +1,9 @@
 import {
   IsBoolean,
+  IsDate,
   IsIn,
   IsNumber,
+  IsObject,
   IsOptional,
   IsString,
 } from 'class-validator';
@@ -117,4 +119,24 @@ export class CreateCourseByAdminDto {
   @IsOptional()
   @IsNumber()
   instructorId: number;
+
+  @IsOptional()
+  @IsNumber()
+  hallAttendeesNumber: number;
+
+  @IsOptional()
+  @IsDate()
+  endDate: Date;
+
+  @IsOptional()
+  @IsDate()
+  startDate: Date;
+
+  @IsOptional()
+  @IsString()
+  type: string;
+
+  @IsOptional()
+  @IsNumber()
+  hallId: number;
 }

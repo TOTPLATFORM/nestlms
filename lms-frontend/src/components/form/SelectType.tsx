@@ -23,6 +23,7 @@ export default function SelectType({
   selectOptions,
   classNamePrefix,
   isDisabled = false,
+  onSelectChange,
 }: any) {
   const { t } = useTranslation();
   return (
@@ -35,7 +36,10 @@ export default function SelectType({
 
           <Select
             options={selectOptions}
-            onChange={field.onChange}
+            onChange={(args) => {
+              onSelectChange && onSelectChange(args);
+              field.onChange(args);
+            }}
             defaultValue={field.value}
             isMulti={isMultipleSelect}
             value={field.value}

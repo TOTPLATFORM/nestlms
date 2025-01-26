@@ -55,6 +55,34 @@ export class CourseService {
     }
   }
 
+  async getAreas(): Promise<ResponseModel> {
+    try {
+      const areas = await PrismaClient.area.findMany();
+      if (!areas || areas.length === 0) {
+        return errorResponse('No areas found');
+      }
+
+      return successResponse('Areas found Successfully', areas);
+    } catch (error) {
+      processException(error);
+    }
+  }
+  async getHallByAreaId(areaId: number): Promise<ResponseModel> {
+    try {
+      const halls = await PrismaClient.hall.findMany({
+        where: {
+          areaId,
+        },
+      });
+      if (!halls || halls.length === 0) {
+        return errorResponse('No areas found');
+      }
+
+      return successResponse('Areas found Successfully', halls);
+    } catch (error) {
+      processException(error);
+    }
+  }
   async getInstructorCourses(
     payload: paginateInterface,
     user: User,
@@ -654,6 +682,8 @@ export class CourseService {
   }
 
   async createCourseByAdmin(payload: CreateCourseByAdminDto) {
+    console.log('service payload ----->', JSON.stringify(payload));
+
     try {
       const edit = payload.id ? true : false;
       let exist;
