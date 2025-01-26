@@ -555,6 +555,7 @@ export class CourseService {
           ...type,
         },
         include: {
+          Hall: true,
           User: {
             select: {
               id: true,

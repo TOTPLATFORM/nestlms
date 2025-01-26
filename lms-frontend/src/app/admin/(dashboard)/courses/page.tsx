@@ -61,6 +61,51 @@ const statusOption = [
 
 export default function Courses() {
   const { t } = useTranslation();
+
+  const {
+    data: courseLists,
+    isLoading,
+    setLimit,
+    setPage,
+    setSearch,
+    limit,
+  } = useGetCourseListsForAdmin("");
+  const offlineCourse: ColumnDef<any>[] = [
+    {
+      accessorKey: "hallAttendeesNumber",
+      header: t("Max Attendees"),
+    },
+    {
+      accessorKey: "startDate",
+      cell: ({ row }) => {
+        const startDate = row.original?.startDate;
+
+        return (
+          <div>
+            {startDate ? new Date(startDate).toLocaleDateString() : "-"}
+          </div>
+        );
+      },
+      header: t("Start Date"),
+    },
+    {
+      accessorKey: "endDate",
+      cell: ({ row }) => {
+        const endDate = row.original?.endDate;
+
+        return (
+          <div>{endDate ? new Date(endDate).toLocaleDateString() : "-"}</div>
+        );
+      },
+      header: t("End Date"),
+    },
+    {
+      accessorKey: "Hall.enName",
+
+      header: t("Hall Name"),
+    },
+  ];
+
   const columns: ColumnDef<any>[] = [
     {
       accessorKey: "thumbnail_link",
@@ -110,6 +155,10 @@ export default function Courses() {
     {
       accessorKey: "price",
       header: t(" Price"),
+    },
+    {
+      accessorKey: "type",
+      header: t("Type"),
     },
     {
       accessorKey: "payable_price",
@@ -210,16 +259,8 @@ export default function Courses() {
         );
       },
     },
+    ...offlineCourse,
   ];
-
-  const {
-    data: courseLists,
-    isLoading,
-    setLimit,
-    setPage,
-    setSearch,
-    limit,
-  } = useGetCourseListsForAdmin("");
 
   const {
     handleCourseSettings,
