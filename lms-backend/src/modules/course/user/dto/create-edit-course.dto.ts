@@ -1,5 +1,6 @@
 import {
   IsBoolean,
+  IsDate,
   IsIn,
   IsNotEmpty,
   IsNumber,
@@ -114,4 +115,28 @@ export class CreateEditCourseDto {
   @IsOptional()
   @IsNumber()
   sub_category_id: number;
+
+  @IsOptional()
+  @IsNumber()
+  instructorId: number;
+
+  @IsOptional()
+  @IsNumber()
+  hallAttendeesNumber: number;
+
+  @IsOptional()
+  @IsDate()
+  endDate: Date;
+
+  @IsOptional()
+  @IsDate()
+  startDate: Date;
+
+  @IsOptional()
+  @IsString()
+  type: string;
+
+  @IsOptional()
+  @IsNumber()
+  hallId: number;
 }

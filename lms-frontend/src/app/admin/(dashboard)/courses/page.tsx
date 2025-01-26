@@ -228,6 +228,8 @@ export default function Courses() {
         );
       },
     },
+
+    ...offlineCourse,
     {
       id: "actions",
       header: () => <div className="text-right">{t(`Actions`)}</div>,
@@ -259,7 +261,6 @@ export default function Courses() {
         );
       },
     },
-    ...offlineCourse,
   ];
 
   const {

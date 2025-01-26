@@ -93,6 +93,9 @@ export class CourseService {
         where: {
           instructorId: user.id,
         },
+        include: {
+          Hall: true,
+        },
         ...paginate,
         orderBy: {
           created_at: 'desc',
@@ -1476,6 +1479,7 @@ export class CourseService {
         ...whereConditions,
         include: {
           category: true,
+          Hall: true,
           User: {
             select: {
               id: true,

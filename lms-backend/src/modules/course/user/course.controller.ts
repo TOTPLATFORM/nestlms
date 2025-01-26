@@ -153,4 +153,16 @@ export class CourseController {
   ) {
     return this.courseService.getEnrolledCourseDetails(user, course_id);
   }
+
+  @IsInstructor()
+  @Get('areas')
+  getAllArea() {
+    return this.courseService.getAreas();
+  }
+
+  @IsInstructor()
+  @Get('get-hall-by-area-id/:area_id')
+  getHallByAreaId(@Param('area_id') area_id: number) {
+    return this.courseService.getHallByAreaId(area_id);
+  }
 }

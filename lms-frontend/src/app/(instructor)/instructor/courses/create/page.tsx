@@ -24,6 +24,11 @@ import { errorToast } from "@/lib/helper";
 import { IoIosAdd } from "react-icons/io";
 import { HelpCircle, X } from "lucide-react";
 import QuizComp from "@/section/user/course/QuizComp";
+import { DatePickerType } from "@/components/form/DatePickerType";
+import {
+  getAllAreasForUser,
+  getHallByAreaIdForUser,
+} from "@/service/user/course";
 
 const optionsForPrivateStatus = [
   { value: true, label: "Yes" },
@@ -50,7 +55,10 @@ const coursesLevelOptions = [
   { value: COURSE_LEVEL.INTERMEDIATE, label: "Intermediate" },
   { value: COURSE_LEVEL.ADVANCED, label: "Advanced" },
 ];
-
+const optionsForCourseType = [
+  { value: "ONLINE", label: "Online" },
+  { value: "OFFLINE", label: "Offline" },
+];
 const videoSourceOptions = [
   { value: UPLOAD_SOURCE.LOCAL, label: "Local" },
   { value: UPLOAD_SOURCE.VIMEO, label: "Vimeo" },
@@ -95,7 +103,45 @@ export default function CreateCourse() {
       list: "",
     },
   ]);
+  const [areaId, setAreaId] = useState<any>("");
 
+  const [optionsOfArea, setOptionsOfArea] = useState<
+    Array<{ value: string; label: string }> | undefined
+  >();
+  const [optionsOfHall, setOptionsOfHall] = useState<
+    Array<{ value: string; label: string }> | undefined
+  >();
+  const [courseType, setCourseType] = useState<"ONLINE" | "OFFLINE">("ONLINE");
+  useEffect(() => {
+    const loadData = async () => {
+      const data = (await getHallByAreaIdForUser(areaId)) ?? {};
+
+      if (data) {
+        setOptionsOfHall(
+          data?.data?.map((item: any) => ({
+            value: item?.id ?? "",
+            label: item.enName ?? "",
+          }))
+        );
+      }
+    };
+    loadData();
+  }, [areaId]);
+
+  useEffect(() => {
+    const loadData = async () => {
+      const data = (await getAllAreasForUser()) ?? {};
+      if (data) {
+        setOptionsOfArea(
+          data?.data.map((item: any) => ({
+            value: item?.id ?? "",
+            label: item?.enName ?? "",
+          }))
+        );
+      }
+    };
+    if (!optionsOfArea) loadData();
+  }, []);
   const { t } = useTranslation();
   const [openForThumbnailImage, setOpenForThumbnailImage] = useState(false);
   const [openForVideo, setOpenForVideo] = useState(false);
@@ -213,9 +259,19 @@ export default function CreateCourse() {
   }, [courseDetails?.data?.id]);
 
   const handleBasicInfo = (data: any) => {
+    const offlineValues =
+      courseType === "OFFLINE"
+        ? {
+            hallId: data?.hallId?.value,
+            startDate: new Date(data.startDate),
+            endDate: new Date(data.endDate),
+            hallAttendeesNumber: data.hallAttendeesNumber,
+          }
+        : {};
     let value: any = {
       name: data.name,
       short_description: data.short_description,
+      type: data?.type?.value,
       description: data.description,
       private_status: data.private_status?.value,
       course_level: data.course_level?.value,
@@ -232,6 +288,7 @@ export default function CreateCourse() {
         .filter((list: any) => list?.trim() !== "")
         .join(",,,"),
       requirments: data.requirments,
+      ...offlineValues,
     };
     if (courseId) {
       value = {
@@ -239,7 +296,6 @@ export default function CreateCourse() {
         id: courseId,
       };
     }
-
     handleCourseSettings(value);
   };
 
@@ -309,9 +365,9 @@ export default function CreateCourse() {
 
   return (
     <>
-      <div className='mb-5'>
-        <div className='inline-block w-full'>
-          <ul className='mb-3 flex flex-wrap border-b border-gray-200 text-center dark:border-gray-700 '>
+      <div className="mb-5">
+        <div className="inline-block w-full">
+          <ul className="mb-3 flex flex-wrap border-b border-gray-200 text-center dark:border-gray-700 ">
             {tabSections.map((item: any) => (
               <li key={item.id}>
                 <button
@@ -322,7 +378,8 @@ export default function CreateCourse() {
                   }
                  flex cursor-pointer items-center justify-center gap-x-2 rounded-t-lg p-4  text-sm font-medium first:ml-0  hover:border-b-2 focus:outline-none focus:!ring-0  disabled:cursor-not-allowed disabled:text-gray-400 dark:border-cyan-500 dark:text-cyan-500 disabled:dark:text-gray-500`}
                   onClick={() => setActiveTab(item.id)}
-                  disabled={item.id !== 1 && !courseId}>
+                  disabled={item.id !== 1 && !courseId}
+                >
                   <span>
                     <item.icon size={22} />
                   </span>
@@ -333,18 +390,19 @@ export default function CreateCourse() {
           </ul>
 
           <div>
-            <div className='mb-5'>
+            <div className="mb-5">
               {activeTab === 1 && (
-                <div className='panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8'>
+                <div className="panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8">
                   {isCategoryListLoading ? (
                     <FormSkelation />
                   ) : (
                     <Form {...form}>
                       <form
                         onSubmit={form.handleSubmit(handleBasicInfo)}
-                        className='space-y-4'>
+                        className="space-y-4"
+                      >
                         <div>
-                          <div className='grid grid-cols-1 gap-2 sm:grid-cols-2'>
+                          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                             <InputType
                               form={form}
                               formName={"name"}
@@ -353,16 +411,73 @@ export default function CreateCourse() {
                               formDescription={null}
                               isErrorMessageShow={false}
                             />
-
-                            <InputType
+                            <SelectType
                               form={form}
-                              formName={"duration"}
-                              type={"number"}
-                              formLabel={"Course Duration"}
-                              formPlaceholder={"Enter Course Duration"}
+                              formName={"type"}
+                              formLabel={"Course Type"}
+                              onSelectChange={(e: any) => {
+                                setCourseType(e.value);
+                              }}
+                              isMultipleSelect={false}
+                              selectOptions={optionsForCourseType}
                               formDescription={null}
                               isErrorMessageShow={false}
+                              classNamePrefix={"lms-react"}
                             />
+
+                            {courseType === "OFFLINE" && (
+                              <>
+                                <DatePickerType
+                                  form={form}
+                                  formName={"startDate"}
+                                  formLabel={"Start Date"}
+                                  formPlaceholder={"Enter Start Date"}
+                                  formDescription={null}
+                                  isErrorMessageShow={false}
+                                />
+                                <DatePickerType
+                                  form={form}
+                                  formName={"endDate"}
+                                  formLabel={"End Date"}
+                                  formPlaceholder={"Enter Start Date"}
+                                  formDescription={null}
+                                  isErrorMessageShow={false}
+                                />
+                                <SelectType
+                                  form={form}
+                                  formName={"area_id"}
+                                  onSelectChange={(e: any) => {
+                                    setAreaId(e.value);
+                                  }}
+                                  formLabel={"Course Area"}
+                                  isMultipleSelect={false}
+                                  selectOptions={optionsOfArea}
+                                  formDescription={null}
+                                  isErrorMessageShow={false}
+                                  classNamePrefix={"lms-react"}
+                                />
+                                <SelectType
+                                  form={form}
+                                  formName={"hallId"}
+                                  formLabel={"Course Hall"}
+                                  isMultipleSelect={false}
+                                  selectOptions={optionsOfHall}
+                                  formDescription={null}
+                                  isErrorMessageShow={false}
+                                  classNamePrefix={"lms-react"}
+                                />
+
+                                <InputType
+                                  form={form}
+                                  formName={"hallAttendeesNumber"}
+                                  type={"number"}
+                                  formLabel={"Course max Attendees"}
+                                  formPlaceholder={"Enter Course max Attendees"}
+                                  formDescription={null}
+                                  isErrorMessageShow={false}
+                                />
+                              </>
+                            )}
 
                             <InputType
                               form={form}
@@ -373,7 +488,15 @@ export default function CreateCourse() {
                               formDescription={null}
                               isErrorMessageShow={false}
                             />
-
+                            <InputType
+                              form={form}
+                              formName={"duration"}
+                              type={"number"}
+                              formLabel={"Course Duration"}
+                              formPlaceholder={"Enter Course Duration"}
+                              formDescription={null}
+                              isErrorMessageShow={false}
+                            />
                             <SelectType
                               form={form}
                               formName={"private_status"}
@@ -464,7 +587,6 @@ export default function CreateCourse() {
                                 subCategoryOptions.length === 0 ? true : false
                               }
                             />
-
                             <TextAreaType
                               form={form}
                               formName={"short_description"}
@@ -481,7 +603,6 @@ export default function CreateCourse() {
                               formDescription={null}
                               isErrorMessageShow={false}
                             />
-
                             <TextAreaType
                               form={form}
                               formName={"requirments"}
@@ -490,25 +611,26 @@ export default function CreateCourse() {
                               formDescription={null}
                               isErrorMessageShow={false}
                             />
-                            <div className='w-full'>
-                              <div className='flex items-center justify-between'>
-                                <label className=' text-sm'>
+                            <div className="w-full">
+                              <div className="flex items-center justify-between">
+                                <label className=" text-sm">
                                   {t(`What You Will Learn`)}
                                 </label>
 
                                 <button
-                                  type='button'
-                                  className='bg-primary/10 text-primary flex h-6 w-6 items-center justify-center rounded-full'
+                                  type="button"
+                                  className="bg-primary/10 text-primary flex h-6 w-6 items-center justify-center rounded-full"
                                   onClick={() => addItem()}
-                                  aria-label='Add new item to learn'>
+                                >
                                   <IoIosAdd size={20} />
                                 </button>
                               </div>
                               {lists.map((item: any) => {
                                 return (
                                   <div
-                                    className='mb-2 flex w-full items-center gap-4'
-                                    key={item.id}>
+                                    className="mb-2 flex w-full items-center gap-4"
+                                    key={item.id}
+                                  >
                                     <InputType
                                       form={form}
                                       formName={`what_you_will_learn[${item.id}].list`}
@@ -516,14 +638,14 @@ export default function CreateCourse() {
                                       formPlaceholder={"Add Lists Item"}
                                       formDescription={null}
                                       isErrorMessageShow={false}
-                                      className='!w-full'
+                                      className="!w-full"
                                     />
                                     {lists.length > 1 && (
                                       <button
-                                        type='button'
+                                        type="button"
                                         onClick={() => removeItem(item)}
-                                        aria-label='Remove item'>
-                                        <X className='h-4 w-4 text-red-600' />
+                                      >
+                                        <X className="h-4 w-4 text-red-600" />
                                       </button>
                                     )}
                                   </div>
@@ -544,18 +666,19 @@ export default function CreateCourse() {
                 </div>
               )}
             </div>
-            <div className='mb-5'>
+            <div className="mb-5">
               {activeTab === 2 && (
-                <div className='panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8'>
+                <div className="panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8">
                   {isCategoryListLoading ? (
                     <FormSkelation />
                   ) : (
                     <Form {...form}>
                       <form
                         onSubmit={form.handleSubmit(handleMediaInfo)}
-                        className='space-y-4'>
+                        className="space-y-4"
+                      >
                         <div>
-                          <div className='grid grid-cols-1 gap-2 sm:grid-cols-2'>
+                          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                             <ImagePicker
                               open={openForThumbnailImage}
                               name={"Thumbnail Image"}
@@ -610,11 +733,12 @@ export default function CreateCourse() {
                           </div>
                         </div>
 
-                        <div className='flex gap-x-4'>
+                        <div className="flex gap-x-4">
                           <Button
-                            type='button'
-                            color='gray'
-                            onClick={() => setActiveTab(1)}>
+                            type="button"
+                            color="gray"
+                            onClick={() => setActiveTab(1)}
+                          >
                             Previous
                           </Button>
                           <LoaderButton
@@ -629,18 +753,19 @@ export default function CreateCourse() {
                 </div>
               )}
             </div>
-            <div className='mb-5'>
+            <div className="mb-5">
               {activeTab === 3 && (
-                <div className='panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8'>
+                <div className="panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8">
                   {isCategoryListLoading ? (
                     <FormSkelation />
                   ) : (
                     <Form {...form}>
                       <form
                         onSubmit={form.handleSubmit(handleSeoInfo)}
-                        className='space-y-4'>
+                        className="space-y-4"
+                      >
                         <div>
-                          <div className='grid grid-cols-1 gap-2 sm:grid-cols-2'>
+                          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                             <InputType
                               form={form}
                               formName={"meta_title"}
@@ -669,11 +794,12 @@ export default function CreateCourse() {
                             />
                           </div>
                         </div>
-                        <div className='flex gap-x-2'>
+                        <div className="flex gap-x-2">
                           <Button
-                            type='button'
-                            color='gray'
-                            onClick={() => setActiveTab(2)}>
+                            type="button"
+                            color="gray"
+                            onClick={() => setActiveTab(2)}
+                          >
                             Previous
                           </Button>
                           <LoaderButton
@@ -688,12 +814,12 @@ export default function CreateCourse() {
                 </div>
               )}
             </div>
-            <div className='mb-5'>
+            <div className="mb-5">
               {activeTab === 4 && (
                 <SectionComp courseId={courseId} setActiveTab={setActiveTab} />
               )}
             </div>
-            <div className='mb-5'>
+            <div className="mb-5">
               {activeTab === 5 && (
                 <QuizComp courseId={courseId} setActiveTab={setActiveTab} />
               )}

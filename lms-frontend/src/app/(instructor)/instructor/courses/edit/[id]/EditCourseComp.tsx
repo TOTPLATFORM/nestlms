@@ -31,6 +31,11 @@ import { errorToast } from "@/lib/helper";
 import QuizComp from "@/section/user/course/QuizComp";
 import { IoIosAdd } from "react-icons/io";
 import { HelpCircle, X } from "lucide-react";
+import {
+  getAllAreasForUser,
+  getHallByAreaIdForUser,
+} from "@/service/user/course";
+import { DatePickerType } from "@/components/form/DatePickerType";
 
 const options = [
   { value: 0, label: "In-Active" },
@@ -51,7 +56,10 @@ const isDiscountStatusOptions = [
   { value: true, label: "Yes" },
   { value: false, label: "No" },
 ];
-
+const optionsForCourseType = [
+  { value: "ONLINE", label: "Online" },
+  { value: "OFFLINE", label: "Offline" },
+];
 const discountTypeOptions = [
   { value: DISCOUNT_TYPE.AMOUNT, label: "Amount" },
   { value: DISCOUNT_TYPE.PERCENTAGE, label: "Persentage" },
@@ -149,17 +157,30 @@ export default function EditCourseComp({ id }: { id: string }) {
 
   useEffect(() => {
     setCourseId(courseDetail?.data?.id);
-    form.setValue("id", courseDetail?.data?.id);
-    form.setValue("name", courseDetail?.data?.name);
-    form.setValue("duration", courseDetail?.data?.duration);
-    form.setValue("short_description", courseDetail?.data?.short_description);
-    form.setValue("description", courseDetail?.data?.description);
-    form.setValue("requirments", courseDetail?.data?.requirments);
+    form.setValue("id", courseDetail?.data?.id ?? "");
+    form.setValue("name", courseDetail?.data?.name ?? "");
+    form.setValue("duration", courseDetail?.data?.duration ?? "");
+    form.setValue(
+      "short_description",
+      courseDetail?.data?.short_description ?? ""
+    );
+    form.setValue("description", courseDetail?.data?.description ?? "");
+    form.setValue("price", courseDetail?.data?.price ?? "");
+    form.setValue("meta_title", courseDetail?.data?.meta_title ?? "");
+    form.setValue("meta_keyword", courseDetail?.data?.meta_keyword ?? "");
+    setCourseType(courseDetail?.data?.type ?? "ONLINE");
+    form.setValue("startDate", courseDetail?.data?.startDate);
+    form.setValue("endDate", courseDetail?.data?.endDate);
+    form.setValue(
+      "hallAttendeesNumber",
+      courseDetail?.data?.hallAttendeesNumber ?? ""
+    );
 
-    form.setValue("price", courseDetail?.data?.price);
-    form.setValue("meta_title", courseDetail?.data?.meta_title);
-    form.setValue("meta_keyword", courseDetail?.data?.meta_keyword);
-    form.setValue("meta_description", courseDetail?.data?.meta_description);
+    form.setValue(
+      "meta_description",
+      courseDetail?.data?.meta_description ?? ""
+    );
+    form.setValue("requirments", courseDetail?.data?.requirments ?? "");
     form.setValue(
       "video_upload_source",
       videoSourceOptions.find(
@@ -177,6 +198,20 @@ export default function EditCourseComp({ id }: { id: string }) {
       "course_level",
       coursesLevelOptions.find(
         (item) => item.value == courseDetail?.data?.course_level
+      ) || {}
+    );
+
+    form.setValue(
+      "type",
+      optionsForCourseType.find(
+        (item) => item.value == courseDetail?.data?.type
+      ) || {}
+    );
+
+    form.setValue(
+      "hallId",
+      optionsOfHall?.find(
+        (item) => item?.value == courseDetail?.data?.hallId
       ) || {}
     );
     form.setValue(
@@ -204,6 +239,14 @@ export default function EditCourseComp({ id }: { id: string }) {
     form.setValue("category_id", {
       value: courseDetail?.data?.category?.id,
       label: courseDetail?.data?.category?.name,
+    });
+
+    form.setValue("instructorId", {
+      value: courseDetail?.data?.User?.id,
+      label:
+        courseDetail?.data?.User?.first_name +
+        " " +
+        courseDetail?.data?.User?.last_name,
     });
 
     if (courseDetail?.data?.sub_category_id) {
@@ -247,6 +290,48 @@ export default function EditCourseComp({ id }: { id: string }) {
     });
   };
 
+  const [areaId, setAreaId] = useState<any>("");
+
+  const [optionsOfArea, setOptionsOfArea] = useState<
+    Array<{ value: string; label: string }> | undefined
+  >();
+
+  const [optionsOfHall, setOptionsOfHall] = useState<
+    Array<{ value: string; label: string }> | undefined
+  >();
+
+  const [courseType, setCourseType] = useState<"ONLINE" | "OFFLINE">("ONLINE");
+
+  useEffect(() => {
+    const loadData = async () => {
+      const data = (await getHallByAreaIdForUser(areaId)) ?? {};
+
+      if (data) {
+        setOptionsOfHall(
+          data?.data?.map((item: any) => ({
+            value: item?.id ?? "",
+            label: item.enName ?? "",
+          }))
+        );
+      }
+    };
+    loadData();
+  }, [areaId]);
+
+  useEffect(() => {
+    const loadData = async () => {
+      const data = (await getAllAreasForUser()) ?? {};
+      if (data) {
+        setOptionsOfArea(
+          data?.data.map((item: any) => ({
+            value: item?.id ?? "",
+            label: item?.enName ?? "",
+          }))
+        );
+      }
+    };
+    if (!optionsOfArea) loadData();
+  }, []);
   useEffect(() => {
     if (
       discountTypeValue?.value == DISCOUNT_TYPE.AMOUNT &&
@@ -309,9 +394,19 @@ export default function EditCourseComp({ id }: { id: string }) {
   }, [courseDetails?.data?.id]);
 
   const handleBasicInfo = (data: any) => {
+    const offlineValues =
+      courseType === "OFFLINE"
+        ? {
+            hallId: data?.hallId?.value,
+            startDate: new Date(data.startDate),
+            endDate: new Date(data.endDate),
+            hallAttendeesNumber: data.hallAttendeesNumber,
+          }
+        : {};
     let value: any = {
       name: data.name,
       short_description: data.short_description,
+      type: data?.type?.value,
       description: data.description,
       private_status: data.private_status?.value,
       course_level: data.course_level?.value,
@@ -328,6 +423,7 @@ export default function EditCourseComp({ id }: { id: string }) {
         .filter((list: any) => list?.trim() !== "")
         .join(",,,"),
       requirments: data.requirments,
+      ...offlineValues,
     };
     if (courseId) {
       value = {
@@ -402,9 +498,9 @@ export default function EditCourseComp({ id }: { id: string }) {
 
   return (
     <>
-      <div className='mb-5'>
-        <div className='inline-block w-full'>
-          <ul className='mb-3 flex flex-wrap border-b border-gray-200 text-center dark:border-gray-700 '>
+      <div className="mb-5">
+        <div className="inline-block w-full">
+          <ul className="mb-3 flex flex-wrap border-b border-gray-200 text-center dark:border-gray-700 ">
             {tabSections.map((item: any) => (
               <li key={item.id}>
                 <button
@@ -415,7 +511,8 @@ export default function EditCourseComp({ id }: { id: string }) {
                   }
                  flex cursor-pointer items-center justify-center gap-x-2 rounded-t-lg p-4  text-sm font-medium first:ml-0  hover:border-b-2 focus:outline-none focus:!ring-0  disabled:cursor-not-allowed disabled:text-gray-400 dark:border-cyan-500 dark:text-cyan-500 disabled:dark:text-gray-500`}
                   onClick={() => setActiveTab(item.id)}
-                  disabled={item.id !== 1 && !courseId}>
+                  disabled={item.id !== 1 && !courseId}
+                >
                   <span>
                     <item.icon size={22} />
                   </span>
@@ -426,18 +523,19 @@ export default function EditCourseComp({ id }: { id: string }) {
           </ul>
 
           <div>
-            <div className='mb-5'>
+            <div className="mb-5">
               {activeTab === 1 && (
-                <div className='panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8'>
-                  {isCategoryListLoading || isDetailsLoading ? (
+                <div className="panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8">
+                  {isCategoryListLoading ? (
                     <FormSkelation />
                   ) : (
                     <Form {...form}>
                       <form
                         onSubmit={form.handleSubmit(handleBasicInfo)}
-                        className='space-y-4'>
+                        className="space-y-4"
+                      >
                         <div>
-                          <div className='grid grid-cols-1 gap-2 sm:grid-cols-2'>
+                          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                             <InputType
                               form={form}
                               formName={"name"}
@@ -446,16 +544,73 @@ export default function EditCourseComp({ id }: { id: string }) {
                               formDescription={null}
                               isErrorMessageShow={false}
                             />
-
-                            <InputType
+                            <SelectType
                               form={form}
-                              formName={"duration"}
-                              type={"number"}
-                              formLabel={"Course Duration"}
-                              formPlaceholder={"Enter Course Duration"}
+                              formName={"type"}
+                              formLabel={"Course Type"}
+                              onSelectChange={(e: any) => {
+                                setCourseType(e.value);
+                              }}
+                              isMultipleSelect={false}
+                              selectOptions={optionsForCourseType}
                               formDescription={null}
                               isErrorMessageShow={false}
+                              classNamePrefix={"lms-react"}
                             />
+
+                            {courseType === "OFFLINE" && (
+                              <>
+                                <DatePickerType
+                                  form={form}
+                                  formName={"startDate"}
+                                  formLabel={"Start Date"}
+                                  formPlaceholder={"Enter Start Date"}
+                                  formDescription={null}
+                                  isErrorMessageShow={false}
+                                />
+                                <DatePickerType
+                                  form={form}
+                                  formName={"endDate"}
+                                  formLabel={"End Date"}
+                                  formPlaceholder={"Enter Start Date"}
+                                  formDescription={null}
+                                  isErrorMessageShow={false}
+                                />
+                                <SelectType
+                                  form={form}
+                                  formName={"area_id"}
+                                  onSelectChange={(e: any) => {
+                                    setAreaId(e.value);
+                                  }}
+                                  formLabel={"Course Area"}
+                                  isMultipleSelect={false}
+                                  selectOptions={optionsOfArea}
+                                  formDescription={null}
+                                  isErrorMessageShow={false}
+                                  classNamePrefix={"lms-react"}
+                                />
+                                <SelectType
+                                  form={form}
+                                  formName={"hallId"}
+                                  formLabel={"Course Hall"}
+                                  isMultipleSelect={false}
+                                  selectOptions={optionsOfHall}
+                                  formDescription={null}
+                                  isErrorMessageShow={false}
+                                  classNamePrefix={"lms-react"}
+                                />
+
+                                <InputType
+                                  form={form}
+                                  formName={"hallAttendeesNumber"}
+                                  type={"number"}
+                                  formLabel={"Course max Attendees"}
+                                  formPlaceholder={"Enter Course max Attendees"}
+                                  formDescription={null}
+                                  isErrorMessageShow={false}
+                                />
+                              </>
+                            )}
 
                             <InputType
                               form={form}
@@ -466,7 +621,15 @@ export default function EditCourseComp({ id }: { id: string }) {
                               formDescription={null}
                               isErrorMessageShow={false}
                             />
-
+                            <InputType
+                              form={form}
+                              formName={"duration"}
+                              type={"number"}
+                              formLabel={"Course Duration"}
+                              formPlaceholder={"Enter Course Duration"}
+                              formDescription={null}
+                              isErrorMessageShow={false}
+                            />
                             <SelectType
                               form={form}
                               formName={"private_status"}
@@ -573,7 +736,6 @@ export default function EditCourseComp({ id }: { id: string }) {
                               formDescription={null}
                               isErrorMessageShow={false}
                             />
-
                             <TextAreaType
                               form={form}
                               formName={"requirments"}
@@ -582,24 +744,26 @@ export default function EditCourseComp({ id }: { id: string }) {
                               formDescription={null}
                               isErrorMessageShow={false}
                             />
-                            <div className='w-full'>
-                              <div className='flex items-center justify-between'>
-                                <label className=' text-sm'>
+                            <div className="w-full">
+                              <div className="flex items-center justify-between">
+                                <label className=" text-sm">
                                   {t(`What You Will Learn`)}
                                 </label>
 
                                 <button
-                                  type='button'
-                                  className='bg-primary/10 text-primary flex h-6 w-6 items-center justify-center rounded-full'
-                                  onClick={() => addItem()}>
+                                  type="button"
+                                  className="bg-primary/10 text-primary flex h-6 w-6 items-center justify-center rounded-full"
+                                  onClick={() => addItem()}
+                                >
                                   <IoIosAdd size={20} />
                                 </button>
                               </div>
                               {lists.map((item: any) => {
                                 return (
                                   <div
-                                    className='mb-2 flex w-full items-center gap-4'
-                                    key={item.id}>
+                                    className="mb-2 flex w-full items-center gap-4"
+                                    key={item.id}
+                                  >
                                     <InputType
                                       form={form}
                                       formName={`what_you_will_learn[${item.id}].list`}
@@ -607,13 +771,14 @@ export default function EditCourseComp({ id }: { id: string }) {
                                       formPlaceholder={"Add Lists Item"}
                                       formDescription={null}
                                       isErrorMessageShow={false}
-                                      className='!w-full'
+                                      className="!w-full"
                                     />
                                     {lists.length > 1 && (
                                       <button
-                                        type='button'
-                                        onClick={() => removeItem(item)}>
-                                        <X className='h-4 w-4 text-red-600' />
+                                        type="button"
+                                        onClick={() => removeItem(item)}
+                                      >
+                                        <X className="h-4 w-4 text-red-600" />
                                       </button>
                                     )}
                                   </div>
@@ -634,18 +799,19 @@ export default function EditCourseComp({ id }: { id: string }) {
                 </div>
               )}
             </div>
-            <div className='mb-5'>
+            <div className="mb-5">
               {activeTab === 2 && (
-                <div className='panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8'>
+                <div className="panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8">
                   {isCategoryListLoading ? (
                     <FormSkelation />
                   ) : (
                     <Form {...form}>
                       <form
                         onSubmit={form.handleSubmit(handleMediaInfo)}
-                        className='space-y-4'>
+                        className="space-y-4"
+                      >
                         <div>
-                          <div className='grid grid-cols-1 gap-2 sm:grid-cols-2'>
+                          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                             <ImagePicker
                               open={openForThumbnailImage}
                               name={"Thumbnail Image"}
@@ -700,11 +866,12 @@ export default function EditCourseComp({ id }: { id: string }) {
                           </div>
                         </div>
 
-                        <div className='flex gap-x-4'>
+                        <div className="flex gap-x-4">
                           <Button
-                            type='button'
-                            color='gray'
-                            onClick={() => setActiveTab(1)}>
+                            type="button"
+                            color="gray"
+                            onClick={() => setActiveTab(1)}
+                          >
                             Previous
                           </Button>
                           <LoaderButton
@@ -719,18 +886,19 @@ export default function EditCourseComp({ id }: { id: string }) {
                 </div>
               )}
             </div>
-            <div className='mb-5'>
+            <div className="mb-5">
               {activeTab === 3 && (
-                <div className='panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8'>
+                <div className="panel flex h-full flex-1 flex-col space-y-8 rounded-md border-2 p-4  md:p-8">
                   {isCategoryListLoading ? (
                     <FormSkelation />
                   ) : (
                     <Form {...form}>
                       <form
                         onSubmit={form.handleSubmit(handleSeoInfo)}
-                        className='space-y-4'>
+                        className="space-y-4"
+                      >
                         <div>
-                          <div className='grid grid-cols-1 gap-2 sm:grid-cols-2'>
+                          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                             <InputType
                               form={form}
                               formName={"meta_title"}
@@ -759,11 +927,12 @@ export default function EditCourseComp({ id }: { id: string }) {
                             />
                           </div>
                         </div>
-                        <div className='flex gap-x-2'>
+                        <div className="flex gap-x-2">
                           <Button
-                            type='button'
-                            color='gray'
-                            onClick={() => setActiveTab(2)}>
+                            type="button"
+                            color="gray"
+                            onClick={() => setActiveTab(2)}
+                          >
                             Previous
                           </Button>
                           <LoaderButton
@@ -778,12 +947,12 @@ export default function EditCourseComp({ id }: { id: string }) {
                 </div>
               )}
             </div>
-            <div className='mb-5'>
+            <div className="mb-5">
               {activeTab === 4 && (
                 <SectionComp courseId={courseId} setActiveTab={setActiveTab} />
               )}
             </div>
-            <div className='mb-5'>
+            <div className="mb-5">
               {activeTab === 5 && (
                 <QuizComp courseId={courseId} setActiveTab={setActiveTab} />
               )}
