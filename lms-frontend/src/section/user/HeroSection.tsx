@@ -10,15 +10,16 @@ import { motion } from "framer-motion";
 import NegativeXAxisAnimation from "@/components/animation/NegativeXAxisAnimation";
 import PositiveXAxisAnimation from "@/components/animation/PositiveXAxisAnimation";
 import CustomImage from "@/components/CustomImage";
-
+import { useTranslation } from "@/hooks/useTranslation";
 export default function HeroSection({ landing_data }: any) {
+  const { t } = useTranslation();
   return (
     <section
       className="relative overflow-hidden  bg-[#F5F7F8] pb-36"
       style={{ backdropFilter: "blur(14px)" }}
     >
       <div className="from-primary/50 absolute -left-[20%] aspect-square w-[600px] rounded-full bg-gradient-to-r to-[#FEFBF6] blur-[20px]"></div>
-      <div className="from-primary/50 absolute -right-[100px] -top-[20%] aspect-square w-[500px] rounded-full bg-gradient-to-l to-[#FEFBF6] blur-[20px]"></div>
+      <div className="from-primary/50 absolute -right-[100px] -top-[20%] aspect-square w-[500px] rounded-full bg-gradient-to-l to-[#FEFBF6] blur-[20px] -z-50"></div>
 
       <div className="container overflow-visible">
         <div className="flex flex-col-reverse items-center gap-12 lg:flex-row lg:gap-3">
@@ -27,22 +28,18 @@ export default function HeroSection({ landing_data }: any) {
               className="pb-[30px] pt-2.5 text-[40px] font-medium -tracking-[0.64px] text-[#212529] min-[1200px]:text-[64px]"
               style={{ lineHeight: "1.1" }}
             >
-              {landing_data?.landing_main_banner_first_title
-                ? landing_data?.landing_main_banner_first_title
-                : "Perfect Place For Your Education Next Level"}
+              {t("home.herosection.title")}
             </h2>
             <p className="pb-[40px] text-lg text-[#4A5355]">
-              {landing_data.landing_main_banner_first_description?.description
-                ? landing_data.landing_main_banner_first_description.description
-                : "Architect client-centered total linkage for intuitive benefits.restore convergence before real-time partnerships."}
+              {t("home.herosection.description")}
             </p>
             <div className="flex items-center gap-8">
               <Link
                 href={"/courses"}
                 className="bg-primary shadow-primary/50 flex h-[54px] items-center  justify-center gap-3 rounded-full px-8 py-[15px] text-white shadow-lg"
               >
-                <p>View Course </p>
-                <MdOutlineArrowRightAlt size={18} />
+                <p>{t("home.herosection.cta")} </p>
+                <MdOutlineArrowRightAlt size={18} className="arrow-icon" />
               </Link>
             </div>
           </NegativeXAxisAnimation>
@@ -54,7 +51,7 @@ export default function HeroSection({ landing_data }: any) {
                   imageUrl={
                     landing_data?.landing_main_banner_image_url
                       ? landing_data?.landing_main_banner_image_url
-                      : "/images/banner-image.png"
+                      : "/images/female-hanging.png"
                   }
                 />
               </div>

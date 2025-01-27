@@ -26,7 +26,7 @@ import {
 } from "@/hooks/admin/category.hook";
 import { itemDeleteHandler } from "@/lib/helper";
 import { Switch } from "@/components/ui/switch";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import {
   useAddEditCourseFormHandler,
   useDeleteCourseItem,
@@ -61,6 +61,51 @@ const statusOption = [
 
 export default function Courses() {
   const { t } = useTranslation();
+
+  const {
+    data: courseLists,
+    isLoading,
+    setLimit,
+    setPage,
+    setSearch,
+    limit,
+  } = useGetCourseListsForAdmin("");
+  const offlineCourse: ColumnDef<any>[] = [
+    {
+      accessorKey: "hallAttendeesNumber",
+      header: t("Max Attendees"),
+    },
+    {
+      accessorKey: "startDate",
+      cell: ({ row }) => {
+        const startDate = row.original?.startDate;
+
+        return (
+          <div>
+            {startDate ? new Date(startDate).toLocaleDateString() : "-"}
+          </div>
+        );
+      },
+      header: t("Start Date"),
+    },
+    {
+      accessorKey: "endDate",
+      cell: ({ row }) => {
+        const endDate = row.original?.endDate;
+
+        return (
+          <div>{endDate ? new Date(endDate).toLocaleDateString() : "-"}</div>
+        );
+      },
+      header: t("End Date"),
+    },
+    {
+      accessorKey: "Hall.enName",
+
+      header: t("Hall Name"),
+    },
+  ];
+
   const columns: ColumnDef<any>[] = [
     {
       accessorKey: "thumbnail_link",
@@ -70,7 +115,9 @@ export default function Courses() {
 
         return (
           <div className="h-[50px] w-[50px] overflow-hidden rounded-[8px]">
-            <CustomImage imageUrl={thumbnail_link || "/images/course_banner.avif"} />
+            <CustomImage
+              imageUrl={thumbnail_link || "/images/course_banner.avif"}
+            />
           </div>
         );
       },
@@ -108,6 +155,10 @@ export default function Courses() {
     {
       accessorKey: "price",
       header: t(" Price"),
+    },
+    {
+      accessorKey: "type",
+      header: t("Type"),
     },
     {
       accessorKey: "payable_price",
@@ -177,6 +228,8 @@ export default function Courses() {
         );
       },
     },
+
+    ...offlineCourse,
     {
       id: "actions",
       header: () => <div className="text-right">{t(`Actions`)}</div>,
@@ -209,15 +262,6 @@ export default function Courses() {
       },
     },
   ];
-
-  const {
-    data: courseLists,
-    isLoading,
-    setLimit,
-    setPage,
-    setSearch,
-    limit,
-  } = useGetCourseListsForAdmin("");
 
   const {
     handleCourseSettings,

@@ -1,8 +1,7 @@
 "use client";
+import { HiUserCircle } from "react-icons/hi";
+import type { UseFormReturn, FieldValues } from "react-hook-form";
 
-import { HiAdjustments, HiClipboardList, HiUserCircle } from "react-icons/hi";
-
-import BackButton from "@/components/back-button/BackButton";
 import LoaderButton from "@/components/button/LoaderButton";
 import { InputType } from "@/components/form/InputType";
 import SelectType from "@/components/form/SelectType";
@@ -13,28 +12,23 @@ import FormSkelation from "@/components/skelaton/FormSkelation";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { COURSE_LEVEL, DISCOUNT_TYPE, UPLOAD_SOURCE } from "@/constant/core";
-import { useAddCategoriesFormHandler } from "@/hooks/admin/category.hook";
-import { LuLayoutDashboard } from "react-icons/lu";
 
 import {
-  useAddCourseFormHandler,
   useAddEditCourseFormHandler,
   useGetActiveCategoryListsForUser,
 } from "@/hooks/user/course.hook";
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import CustomModal from "@/components/modal/CustomModal";
+import { useTranslation } from "@/hooks/useTranslation";
 import SectionComp from "@/section/user/course/SectionComp";
-import { toast } from "react-toastify";
 import { errorToast } from "@/lib/helper";
 import { IoIosAdd } from "react-icons/io";
 import { HelpCircle, X } from "lucide-react";
 import QuizComp from "@/section/user/course/QuizComp";
-
-const options = [
-  { value: 0, label: "In-Active" },
-  { value: 1, label: "Active" },
-];
+import { DatePickerType } from "@/components/form/DatePickerType";
+import {
+  getAllAreasForUser,
+  getHallByAreaIdForUser,
+} from "@/service/user/course";
 
 const optionsForPrivateStatus = [
   { value: true, label: "Yes" },
@@ -61,7 +55,10 @@ const coursesLevelOptions = [
   { value: COURSE_LEVEL.INTERMEDIATE, label: "Intermediate" },
   { value: COURSE_LEVEL.ADVANCED, label: "Advanced" },
 ];
-
+const optionsForCourseType = [
+  { value: "ONLINE", label: "Online" },
+  { value: "OFFLINE", label: "Offline" },
+];
 const videoSourceOptions = [
   { value: UPLOAD_SOURCE.LOCAL, label: "Local" },
   { value: UPLOAD_SOURCE.VIMEO, label: "Vimeo" },
@@ -106,10 +103,63 @@ export default function CreateCourse() {
       list: "",
     },
   ]);
+  const [areaId, setAreaId] = useState<any>("");
 
+  const [optionsOfArea, setOptionsOfArea] = useState<
+    Array<{ value: string; label: string }> | undefined
+  >();
+  const [optionsOfHall, setOptionsOfHall] = useState<
+    Array<{ value: string; label: string }> | undefined
+  >();
+  const [courseType, setCourseType] = useState<"ONLINE" | "OFFLINE">("ONLINE");
+  useEffect(() => {
+    const loadData = async () => {
+      const data = (await getHallByAreaIdForUser(areaId)) ?? {};
+
+      if (data) {
+        setOptionsOfHall(
+          data?.data?.map((item: any) => ({
+            value: item?.id ?? "",
+            label: item.enName ?? "",
+          }))
+        );
+      }
+    };
+    loadData();
+  }, [areaId]);
+
+  useEffect(() => {
+    const loadData = async () => {
+      const data = (await getAllAreasForUser()) ?? {};
+      if (data) {
+        setOptionsOfArea(
+          data?.data.map((item: any) => ({
+            value: item?.id ?? "",
+            label: item?.enName ?? "",
+          }))
+        );
+      }
+    };
+    if (!optionsOfArea) loadData();
+  }, []);
   const { t } = useTranslation();
   const [openForThumbnailImage, setOpenForThumbnailImage] = useState(false);
   const [openForVideo, setOpenForVideo] = useState(false);
+
+  interface CategoryList {
+    data?: {
+      length: number;
+      map: Function;
+      [key: string]: any;
+    };
+  }
+
+  interface CourseDetails {
+    data?: {
+      id: string | number;
+      [key: string]: any;
+    };
+  }
 
   const { data: categoryLists, isLoading: isCategoryListLoading } =
     useGetActiveCategoryListsForUser();
@@ -190,11 +240,16 @@ export default function CreateCourse() {
   }, [selectedCategory?.value]);
 
   useEffect(() => {
-    if (!isSuccess || !courseDetails?.data?.id) {
+    if (
+      !isSuccess ||
+      !courseDetails ||
+      !courseDetails.data ||
+      !courseDetails.data.id
+    ) {
       return;
     }
     setActiveTab((prev: any) => prev + 1);
-  }, [isSuccess]);
+  }, [isSuccess, courseDetails]);
 
   useEffect(() => {
     if (!courseDetails?.data?.id) {
@@ -204,9 +259,19 @@ export default function CreateCourse() {
   }, [courseDetails?.data?.id]);
 
   const handleBasicInfo = (data: any) => {
+    const offlineValues =
+      courseType === "OFFLINE"
+        ? {
+            hallId: data?.hallId?.value,
+            startDate: new Date(data.startDate),
+            endDate: new Date(data.endDate),
+            hallAttendeesNumber: data.hallAttendeesNumber,
+          }
+        : {};
     let value: any = {
       name: data.name,
       short_description: data.short_description,
+      type: data?.type?.value,
       description: data.description,
       private_status: data.private_status?.value,
       course_level: data.course_level?.value,
@@ -223,6 +288,7 @@ export default function CreateCourse() {
         .filter((list: any) => list?.trim() !== "")
         .join(",,,"),
       requirments: data.requirments,
+      ...offlineValues,
     };
     if (courseId) {
       value = {
@@ -230,7 +296,6 @@ export default function CreateCourse() {
         id: courseId,
       };
     }
-
     handleCourseSettings(value);
   };
 
@@ -346,16 +411,73 @@ export default function CreateCourse() {
                               formDescription={null}
                               isErrorMessageShow={false}
                             />
-
-                            <InputType
+                            <SelectType
                               form={form}
-                              formName={"duration"}
-                              type={"number"}
-                              formLabel={"Course Duration"}
-                              formPlaceholder={"Enter Course Duration"}
+                              formName={"type"}
+                              formLabel={"Course Type"}
+                              onSelectChange={(e: any) => {
+                                setCourseType(e.value);
+                              }}
+                              isMultipleSelect={false}
+                              selectOptions={optionsForCourseType}
                               formDescription={null}
                               isErrorMessageShow={false}
+                              classNamePrefix={"lms-react"}
                             />
+
+                            {courseType === "OFFLINE" && (
+                              <>
+                                <DatePickerType
+                                  form={form}
+                                  formName={"startDate"}
+                                  formLabel={"Start Date"}
+                                  formPlaceholder={"Enter Start Date"}
+                                  formDescription={null}
+                                  isErrorMessageShow={false}
+                                />
+                                <DatePickerType
+                                  form={form}
+                                  formName={"endDate"}
+                                  formLabel={"End Date"}
+                                  formPlaceholder={"Enter Start Date"}
+                                  formDescription={null}
+                                  isErrorMessageShow={false}
+                                />
+                                <SelectType
+                                  form={form}
+                                  formName={"area_id"}
+                                  onSelectChange={(e: any) => {
+                                    setAreaId(e.value);
+                                  }}
+                                  formLabel={"Course Area"}
+                                  isMultipleSelect={false}
+                                  selectOptions={optionsOfArea}
+                                  formDescription={null}
+                                  isErrorMessageShow={false}
+                                  classNamePrefix={"lms-react"}
+                                />
+                                <SelectType
+                                  form={form}
+                                  formName={"hallId"}
+                                  formLabel={"Course Hall"}
+                                  isMultipleSelect={false}
+                                  selectOptions={optionsOfHall}
+                                  formDescription={null}
+                                  isErrorMessageShow={false}
+                                  classNamePrefix={"lms-react"}
+                                />
+
+                                <InputType
+                                  form={form}
+                                  formName={"hallAttendeesNumber"}
+                                  type={"number"}
+                                  formLabel={"Course max Attendees"}
+                                  formPlaceholder={"Enter Course max Attendees"}
+                                  formDescription={null}
+                                  isErrorMessageShow={false}
+                                />
+                              </>
+                            )}
 
                             <InputType
                               form={form}
@@ -366,7 +488,15 @@ export default function CreateCourse() {
                               formDescription={null}
                               isErrorMessageShow={false}
                             />
-
+                            <InputType
+                              form={form}
+                              formName={"duration"}
+                              type={"number"}
+                              formLabel={"Course Duration"}
+                              formPlaceholder={"Enter Course Duration"}
+                              formDescription={null}
+                              isErrorMessageShow={false}
+                            />
                             <SelectType
                               form={form}
                               formName={"private_status"}
@@ -457,7 +587,6 @@ export default function CreateCourse() {
                                 subCategoryOptions.length === 0 ? true : false
                               }
                             />
-
                             <TextAreaType
                               form={form}
                               formName={"short_description"}
@@ -474,7 +603,6 @@ export default function CreateCourse() {
                               formDescription={null}
                               isErrorMessageShow={false}
                             />
-
                             <TextAreaType
                               form={form}
                               formName={"requirments"}

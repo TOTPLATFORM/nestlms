@@ -101,16 +101,14 @@ export const useGetInstructorListsForAdmin = () => {
 export const useDeleteCourseItemForAdmin = () => {
   const queryClient = useQueryClient();
 
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return courseDeleteForAdminApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["courseListsForAdmin"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["courseListsForAdmin"] });
+    },
+  });
 
   const handleDelete = async (item: any) => {
     try {
@@ -144,18 +142,23 @@ export const useAddEditCourseFormHandlerForAdmin = () => {
   const [uploadVideoUrl, setUploadVideoUrl] = useState();
 
   const form = useForm<any>();
-  const { mutateAsync, isLoading, data, isSuccess } = useMutation(
-    (data: any) => {
+  const {
+    mutateAsync,
+    isPending: isLoading,
+    data,
+    isSuccess,
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return addEditCourseForAdminApi(data);
     },
-    {
-      onSuccess: () => {
-        if (isUpdate) {
-          queryClient.invalidateQueries(["courseListsForAdmin"]);
-        }
-      },
-    }
-  );
+    onSuccess: () => {
+      if (isUpdate) {
+        queryClient.invalidateQueries({
+          queryKey: ["courseListsForAdmin"],
+        });
+      }
+    },
+  });
 
   const handleCourseSettings = async (data: any) => {
     try {
@@ -217,16 +220,18 @@ export const useAddSectionForAdminFormHandler = () => {
       title: "",
     },
   });
-  const { mutateAsync, isLoading, isSuccess } = useMutation(
-    (data: any) => {
+  const {
+    mutateAsync,
+    isPending: isLoading,
+    isSuccess,
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return addSectionForAdminApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries([`sectionListsForAdmin`]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [`sectionListsForAdmin`] });
+    },
+  });
 
   const handleAddSection = async (data: any) => {
     try {
@@ -256,16 +261,18 @@ export const useEditSectionForAdminFormHandler = () => {
       title: "",
     },
   });
-  const { mutateAsync, isLoading, isSuccess } = useMutation(
-    (data: any) => {
+  const {
+    mutateAsync,
+    isPending: isLoading,
+    isSuccess,
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return updateSectionForAdminApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries([`sectionListsForAdmin`]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [`sectionListsForAdmin`] });
+    },
+  });
 
   const handleUpdateSection = async (data: any) => {
     try {
@@ -287,16 +294,14 @@ export const useEditSectionForAdminFormHandler = () => {
 export const useDeleteSectionForAdminItem = () => {
   const queryClient = useQueryClient();
 
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return sectionDeleteForAdminApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["sectionListsForAdmin"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [`sectionListsForAdmin`] });
+    },
+  });
 
   const handleDelete = async (item: any) => {
     try {
@@ -321,16 +326,19 @@ export const useAddLessonForAdminFormHandler = () => {
   const [uploadVideoUrl, setUploadVideoUrl] = useState<any>();
 
   const form = useForm<any>();
-  const { mutateAsync, isLoading, data, isSuccess } = useMutation(
-    (data: any) => {
+  const {
+    mutateAsync,
+    isPending: isLoading,
+    data,
+    isSuccess,
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return addLessonForAdminApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["lessonListsForAdmin"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["lessonListsForAdmin"] });
+    },
+  });
 
   const handleLesonSettings = async (data: any) => {
     try {
@@ -376,16 +384,19 @@ export const useUpdateLessonForAdminFormHandler = () => {
   const [uploadVideoUrl, setUploadVideoUrl] = useState<any>();
 
   const form = useForm<any>();
-  const { mutateAsync, isLoading, data, isSuccess } = useMutation(
-    (data: any) => {
+  const {
+    mutateAsync,
+    isPending: isLoading,
+    data,
+    isSuccess,
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return updateLessonForAdminApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["lessonListsForAdmin"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["lessonListsForAdmin"] });
+    },
+  });
 
   const handleLesonSettings = async (data: any) => {
     try {
@@ -413,16 +424,14 @@ export const useUpdateLessonForAdminFormHandler = () => {
 export const useDeleteLessonForAdminItem = () => {
   const queryClient = useQueryClient();
 
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return lessonDeleteForAdminApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["lessonListsForAdmin"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["lessonListsForAdmin"] });
+    },
+  });
 
   const handleDeleteLesson = async (item: any) => {
     try {
@@ -442,16 +451,18 @@ export const useDeleteLessonForAdminItem = () => {
 export const useChangePendingCourseStatusForAdminItem = () => {
   const queryClient = useQueryClient();
 
-  const { mutateAsync, isLoading, isSuccess } = useMutation(
-    (data: any) => {
+  const {
+    mutateAsync,
+    isPending: isLoading,
+    isSuccess,
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return changePendingCourseStatusForAdminApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["courseListsForAdmin"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [`courseListsForAdmin`] });
+    },
+  });
 
   const handleUpdate = async (item: any) => {
     try {

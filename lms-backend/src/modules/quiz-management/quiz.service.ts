@@ -732,6 +732,7 @@ export class QuizService {
           quizId: payload.quiz_id,
         },
       });
+
       if (!existsQuizQuestion) {
         return errorResponse('Invalid Request!');
       }
@@ -810,12 +811,13 @@ export class QuizService {
         });
       }
 
-      const totalQuestionMark = await PrismaClient.quizQuestion.aggregate({
+      const totalQuestionMark = await PrismaClient.quiz.findFirst({
         where: {
-          quizId: existsQuizQuestion.quizId,
+          id: existsQuizQuestion.quizId,
+          status: coreConstant.STATUS_ACTIVE,
         },
-        _sum: {
-          mark: true,
+        include: {
+          QuizQuestion: true,
         },
       });
 
@@ -832,7 +834,7 @@ export class QuizService {
       });
 
       const isDone =
-        totalQuestionMark._sum.mark === totalRightAnswerMark._sum.mark
+        totalQuestionMark.pass_mark <= totalRightAnswerMark._sum.mark
           ? true
           : false;
       await PrismaClient.userQuiz.update({
@@ -844,6 +846,7 @@ export class QuizService {
           is_completed: isDone ? 1 : 0,
         },
       });
+
       return successResponse('Question is saved!');
     } catch (error) {
       processException(error);

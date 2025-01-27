@@ -17,7 +17,7 @@ import { BsThreeDots } from "react-icons/bs";
 import Link from "next/link";
 
 import { dateFormater, itemDeleteHandler } from "@/lib/helper";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 
 import { LIVE_CLASS_STATUS } from "@/constant/core";
 import CustomImage from "@/components/CustomImage";

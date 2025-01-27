@@ -19,13 +19,18 @@ import {
 import { statusValueHandler } from "@/lib/helper";
 
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 
+type PageProps = {
+  params: Promise<any>;
+  searchParams: Promise<any>;
+};
 const options = [
   { value: 0, label: "In-Active" },
   { value: 1, label: "Active" },
 ];
-export default function EditBlog({ params }: { params: { id: any } }) {
+export default async function EditBlog(props: PageProps) {
+  const params = await props.params;
   const { t } = useTranslation();
 
   const [categoryOptions, setCategoryOptions] = useState<any>([]);

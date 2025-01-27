@@ -64,6 +64,7 @@ export const PAYMENT_METHODS = {
   PAYPAL: 2,
   BRAINTREE: 3,
   PAYSTACK: 4,
+  Cash:5,
 };
 
 export const KYC_VERIFY_STATUS = {

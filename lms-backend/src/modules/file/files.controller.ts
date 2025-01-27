@@ -40,11 +40,24 @@ export class FilesController {
     return this.filesService.getMyUploadedFiles(user);
   }
 
+  @Get('test-paths')
+  @Public()
+  testFileServing() {
+    return {
+      message: 'File serving is configured',
+      sampleImageUrls: {
+        category: `/${coreConstant.FILE_DESTINATION}/images/categories/web-dev.png`,
+        blog: `/${coreConstant.FILE_DESTINATION}/images/blogs/online-learning.jpg`,
+        flag: `/${coreConstant.FILE_DESTINATION}/images/flags/flag-en.svg`,
+      },
+    };
+  }
+
   @Get(':filename')
   @Public()
   serveFile(@Param('filename') filename: string, @Res() res: Response) {
     return res.sendFile(filename, {
-      root: path.resolve(`./{${coreConstant.FILE_DESTINATION}}`),
+      root: path.resolve(`./${coreConstant.FILE_DESTINATION}`),
     });
   }
 }

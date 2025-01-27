@@ -69,15 +69,13 @@ export const useAddCourseToWishlistOrRemove = () => {
   const { isLoggedIn } = useSelector((state: IRootState) => state.userSlice);
   const router = useRouter();
 
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending:isLoading } = useMutation(
+   {mutationFn: async (data: any) => {
       return addOrRemoveFromWishList(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["courseListsForPublic"]);
-      },
-    }
+    onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["courseListsForPublic"] });
+      },}
   );
   const handleWislistAddOrRemove = async (data: any) => {
     try {

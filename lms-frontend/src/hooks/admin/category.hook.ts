@@ -43,16 +43,14 @@ export const useGetCategoryLists = () => {
 export const useDeleteCategoryItem = () => {
   const queryClient = useQueryClient();
 
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return categoryDeleteApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["categoryLists"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["categoryLists"] });
+    },
+  });
 
   const handleDelete = async (item: any) => {
     try {
@@ -78,8 +76,10 @@ export const useAddCategoriesFormHandler = () => {
       status: {},
     },
   });
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return addCategoriesApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
+      return addCategoriesApi(data);
+    },
   });
 
   const handleAddCategories = async (data: any) => {
@@ -146,16 +146,14 @@ export const useUpdateCategoriesFormHandler = () => {
       status: {},
     },
   });
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return updateCategoriesApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["categoryLists"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["categoryLists"] });
+    },
+  });
 
   const handleUpdateCategories = async (data: any) => {
     try {
@@ -224,8 +222,10 @@ export const useAddSubCategoriesFormHandler = () => {
       category_id: {},
     },
   });
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return addSubCategoriesApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
+      return addSubCategoriesApi(data);
+    },
   });
 
   const handleAddSubCategories = async (data: any) => {
@@ -256,16 +256,14 @@ export const useAddSubCategoriesFormHandler = () => {
 export const useDeleteSubCategoryItem = () => {
   const queryClient = useQueryClient();
 
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return subCategoryDeleteApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["subCategoryLists"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["subCategoryLists"] });
+    },
+  });
 
   const handleDelete = async (item: any) => {
     try {
@@ -295,16 +293,14 @@ export const useUpdateSubCategoriesFormHandler = () => {
       category_id: {},
     },
   });
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return updateSubCategoriesApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["subCategoryLists"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["subCategoryLists"] });
+    },
+  });
 
   const handleUpdateSubCategories = async (data: any) => {
     try {

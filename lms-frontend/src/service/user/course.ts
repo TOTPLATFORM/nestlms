@@ -252,6 +252,14 @@ export const submitLessonCheckedApi = async (value: any) => {
   const { data } = await request.post("/course/check-lession", value);
   return data;
 };
+export const getAllAreasForUser = async () => {
+  const { data } = await request.get("/course/areas");
+  return data;
+};
+export const getHallByAreaIdForUser = async (id: any) => {
+  const { data } = await request.get(`/course/get-hall-by-area-id/${id}`);
+  return data;
+};
 
 export const generateCertificateByCourseIdApi = async (id: any) => {
   const { data } = await request.get(`/certificate/generate-certificate-${id}`);

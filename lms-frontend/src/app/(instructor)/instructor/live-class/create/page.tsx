@@ -15,7 +15,7 @@ import {
 } from "@/hooks/user/user.settings.hook";
 import { errorToast } from "@/lib/helper";
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function CreateLiveClass() {
   const { t } = useTranslation();

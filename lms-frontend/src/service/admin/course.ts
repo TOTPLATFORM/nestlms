@@ -118,7 +118,14 @@ export const getTransactionListsForReportsApi = async (
   );
   return data;
 };
-
+export const getAllAreas = async () => {
+  const { data } = await request.get("/admin/areas");
+  return data;
+};
+export const getHallByAreaId = async (id: any) => {
+  const { data } = await request.get(`/admin/get-hall-by-area-id/${id}`);
+  return data;
+};
 export const getAllInstructorWalletListsForAdminApi = async (
   page: any,
   limit: any,

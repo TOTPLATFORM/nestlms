@@ -4,10 +4,10 @@ import {
   OnModuleDestroy,
   OnModuleInit,
 } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 import { prismaExclude } from 'prisma-exclude';
 
-export const exclude = prismaExclude(new PrismaClient()); 
+export const exclude = prismaExclude(new PrismaClient());
 
 @Injectable()
 export class PrismaService
@@ -28,23 +28,33 @@ export class PrismaService
   }
   async onModuleInit() {
     await this.$connect();
-    this.$on<any>('error', (e: any) => {
-      console.log('Prisma-Error: ' + JSON.stringify(e), 'error');
-    });
-    this.$on<any>('warn', (e: any) => {
-      console.log('Prisma-Warn: ' + e.message, 'warn');
-    });
+
+    // Type-safe event handlers
+    const errorHandler = (event: Prisma.LogEvent) => {
+      console.log('Prisma-Error: ' + JSON.stringify(event), 'error');
+    };
+
+    const warnHandler = (event: Prisma.LogEvent) => {
+      console.log('Prisma-Warn: ' + JSON.stringify(event), 'warn');
+    };
+
+    const queryHandler = (event: Prisma.QueryEvent) => {
+      console.log('\nQuery: ' + event.query);
+      console.log('Params: ' + JSON.stringify(event.params));
+      console.log('Duration: ' + event.duration + 'ms\n');
+    };
+
+    // Register event handlers
+    (this as any).$on('error', errorHandler);
+    (this as any).$on('warn', warnHandler);
+
     if (process.env.QUERY_DEBUG === 'true') {
-      this.$on<any>('query', (e: any) => {
-        console.log('\nQuery: ' + e.query /* , 'debug', undefined, 'stdout' */);
-        console.log('Params: ' + e.params /* , 'debug', undefined, 'stdout' */);
-        console.log('Duration: ' + e.duration + 'ms\n');
-      });
+      (this as any).$on('query', queryHandler);
     }
   }
 
   async enableShutdownHooks(app: INestApplication) {
-    this.$on('beforeExit', async () => {
+    process.on('beforeExit', async () => {
       await app.close();
     });
   }

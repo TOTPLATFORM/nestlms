@@ -13,7 +13,7 @@ import RazorPaySettings from "@/section/settings/payments/RazorPaySettings";
 import SmtpSettings from "@/section/settings/smtp-settings/SmtpSettings";
 import SmtpTestEmail from "@/section/settings/smtp-settings/SmtpTestEmail";
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 const brainTree = [
   { value: BRAINTREE_MODE.LIVE, label: "Live" },
   { value: BRAINTREE_MODE.SANDBOX, label: "Sandbox" },

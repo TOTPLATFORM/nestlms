@@ -48,9 +48,9 @@ export class FilesService {
       const myFiles = await this.prisma.myUploads.findMany({
         where: {
           user_id: user.id,
-          mimetype: {
-            contains: 'video',
-          },
+          // mimetype: {
+          //   contains: 'video',
+          // },
         },
         orderBy: {
           created_at: 'desc',

@@ -26,7 +26,7 @@ import {
 } from "@/hooks/admin/category.hook";
 import { itemDeleteHandler } from "@/lib/helper";
 import { Switch } from "@/components/ui/switch";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import {
   useAddEditCourseFormHandler,
   useDeleteCourseItem,
@@ -56,6 +56,41 @@ const statusOption = [
 
 export default function Courses() {
   const { t } = useTranslation();
+  const offlineCourse: ColumnDef<any>[] = [
+    {
+      accessorKey: "hallAttendeesNumber",
+      header: t("Max Attendees"),
+    },
+    {
+      accessorKey: "startDate",
+      cell: ({ row }) => {
+        const startDate = row.original?.startDate;
+
+        return (
+          <div>
+            {startDate ? new Date(startDate).toLocaleDateString() : "-"}
+          </div>
+        );
+      },
+      header: t("Start Date"),
+    },
+    {
+      accessorKey: "endDate",
+      cell: ({ row }) => {
+        const endDate = row.original?.endDate;
+
+        return (
+          <div>{endDate ? new Date(endDate).toLocaleDateString() : "-"}</div>
+        );
+      },
+      header: t("End Date"),
+    },
+    {
+      accessorKey: "Hall.enName",
+
+      header: t("Hall Name"),
+    },
+  ];
   const columns: ColumnDef<any>[] = [
     {
       accessorKey: "thumbnail_link",
@@ -92,6 +127,10 @@ export default function Courses() {
           </Button>
         );
       },
+    },
+    {
+      accessorKey: "type",
+      header: t("Type"),
     },
     {
       accessorKey: "price",
@@ -165,6 +204,8 @@ export default function Courses() {
         );
       },
     },
+
+    ...offlineCourse,
     {
       id: "actions",
       header: () => <div className="text-right">{t(`Actions`)}</div>,

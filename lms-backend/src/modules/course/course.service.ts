@@ -35,6 +35,7 @@ import { NotificationService } from '../notification-management/notification.ser
 @Injectable()
 export class CourseService {
   constructor(private readonly notificationService: NotificationService) {}
+
   private async checkCourseExistAndBelongsToUser(
     courseId: number,
     userId: number,
@@ -54,6 +55,34 @@ export class CourseService {
     }
   }
 
+  async getAreas(): Promise<ResponseModel> {
+    try {
+      const areas = await PrismaClient.area.findMany();
+      if (!areas || areas.length === 0) {
+        return errorResponse('No areas found');
+      }
+
+      return successResponse('Areas found Successfully', areas);
+    } catch (error) {
+      processException(error);
+    }
+  }
+  async getHallByAreaId(areaId: number): Promise<ResponseModel> {
+    try {
+      const halls = await PrismaClient.hall.findMany({
+        where: {
+          areaId,
+        },
+      });
+      if (!halls || halls.length === 0) {
+        return errorResponse('No areas found');
+      }
+
+      return successResponse('Areas found Successfully', halls);
+    } catch (error) {
+      processException(error);
+    }
+  }
   async getInstructorCourses(
     payload: paginateInterface,
     user: User,
@@ -64,12 +93,15 @@ export class CourseService {
         where: {
           instructorId: user.id,
         },
+        include: {
+          Hall: true,
+        },
         ...paginate,
         orderBy: {
           created_at: 'desc',
         },
       });
-      let updatedCourses = [];
+      let updatedCourses: any[] = [];
       await courses.map((course) => {
         updatedCourses.push({
           ...course,
@@ -92,6 +124,7 @@ export class CourseService {
       processException(error);
     }
   }
+
   async getInstructorStudents(
     payload: paginateInterface,
     user: User,
@@ -296,6 +329,7 @@ export class CourseService {
       ) {
         return errorResponse('Please select video upload source');
       }
+
       if (
         createEditCourseDto.video_upload_source === UPLOAD_SOURCE.LOCAL &&
         createEditCourseDto.demo_video
@@ -323,33 +357,49 @@ export class CourseService {
         return errorResponse('Cover image id is not valid');
       }
 
-      if (createEditCourseDto.discount_status === true && createEditCourseDto.discount_value <= 0) {
+      if (
+        createEditCourseDto.discount_status === true &&
+        createEditCourseDto.discount_value <= 0
+      ) {
         return errorResponse('Discount value must be greater than 0');
       }
 
-      if(createEditCourseDto.discount_status === true && createEditCourseDto.discount_type === DISCOUNT_TYPE.PERCENTAGE)
-      {
-        if(createEditCourseDto.discount_value > 100)
-        {
+      if (
+        createEditCourseDto.discount_status === true &&
+        createEditCourseDto.discount_type === DISCOUNT_TYPE.PERCENTAGE
+      ) {
+        if (createEditCourseDto.discount_value > 100) {
           return errorResponse('Discount value must be less than 100');
         }
       }
 
       let payable_price = createEditCourseDto.price;
 
-      if(createEditCourseDto.discount_status === true && createEditCourseDto.discount_type === DISCOUNT_TYPE.PERCENTAGE)
-      {
-        if(createEditCourseDto.discount_value > 100)
-        {
+      if (
+        createEditCourseDto.discount_status === true &&
+        createEditCourseDto.discount_type === DISCOUNT_TYPE.PERCENTAGE
+      ) {
+        if (createEditCourseDto.discount_value > 100) {
           return errorResponse('Discount value must be less than 100');
         }
       }
 
-      if (createEditCourseDto.discount_status === true && createEditCourseDto.discount_value) {
-        payable_price = createEditCourseDto.price - getTotalDiscountAmount(createEditCourseDto.price,createEditCourseDto.discount_value, createEditCourseDto.discount_type);
+      if (
+        createEditCourseDto.discount_status === true &&
+        createEditCourseDto.discount_value
+      ) {
+        payable_price =
+          createEditCourseDto.price -
+          getTotalDiscountAmount(
+            createEditCourseDto.price,
+            createEditCourseDto.discount_value,
+            createEditCourseDto.discount_type,
+          );
       }
-      if (payable_price <= 0 ) {
-        return errorResponse('Decrease Discount Value, because discount price can not be less than 0!');
+      if (payable_price <= 0) {
+        return errorResponse(
+          'Decrease Discount Value, because discount price can not be less than 0!',
+        );
       }
 
       let prepareData = {
@@ -442,6 +492,59 @@ export class CourseService {
     }
   }
 
+  async getAllCourseReport(payload: any) {
+    try {
+      const paginate = await paginatioOptions(payload);
+
+      const courseList = await PrismaClient.course.findMany({
+        include: {
+          CourseEnrollment: true,
+          Review: true,
+          User: {
+            select: {
+              id: true,
+              first_name: true,
+              last_name: true,
+              email: true,
+              phone: true,
+            },
+          },
+        },
+        ...paginate,
+      });
+
+      courseList.map((course) => {
+        let totalCompleted = 0;
+        course.CourseEnrollment.map((courseEnroll) => {
+          if (
+            course.id === courseEnroll.course_id &&
+            courseEnroll.is_completed
+          ) {
+            totalCompleted++;
+          }
+        });
+        course.thumbnail_link = addPhotoPrefix(course.thumbnail_link);
+        course.cover_image_link = addPhotoPrefix(course.cover_image_link);
+        course['total_enrolled'] = course.CourseEnrollment.length;
+        course['completed_course'] = totalCompleted;
+        course['total_review'] = course.Review.length;
+
+        delete course.CourseEnrollment;
+        delete course.Review;
+      });
+
+      const paginationMeta = await paginationMetaData('course', payload);
+      const data = {
+        list: courseList,
+        meta: paginationMeta,
+      };
+
+      return successResponse('Course report', data);
+    } catch (error) {
+      processException(error);
+    }
+  }
+
   async getCourseListForAdmin(payload: any) {
     try {
       const type =
@@ -455,6 +558,7 @@ export class CourseService {
           ...type,
         },
         include: {
+          Hall: true,
           User: {
             select: {
               id: true,
@@ -582,6 +686,8 @@ export class CourseService {
   }
 
   async createCourseByAdmin(payload: CreateCourseByAdminDto) {
+    console.log('service payload ----->', JSON.stringify(payload));
+
     try {
       const edit = payload.id ? true : false;
       let exist;
@@ -674,27 +780,34 @@ export class CourseService {
       if (!cover_image_link && payload.cover_image_link) {
         return errorResponse('Cover image id is not valid');
       }
-      
 
       if (payload.discount_status === true && payload.discount_value <= 0) {
         return errorResponse('Discount value must be greater than 0');
       }
 
-      if(payload.discount_status === true && payload.discount_type === DISCOUNT_TYPE.PERCENTAGE)
-      {
-        if(payload.discount_value > 100)
-        {
+      if (
+        payload.discount_status === true &&
+        payload.discount_type === DISCOUNT_TYPE.PERCENTAGE
+      ) {
+        if (payload.discount_value > 100) {
           return errorResponse('Discount value must be less than 100');
         }
       }
       let payable_price = payload.price;
       if (payload.discount_status === true && payload.discount_value) {
-        payable_price = payload.price - getTotalDiscountAmount(payload.price,payload.discount_value, payload.discount_type);
+        payable_price =
+          payload.price -
+          getTotalDiscountAmount(
+            payload.price,
+            payload.discount_value,
+            payload.discount_type,
+          );
       }
-      if (payable_price <= 0 ) {
-        return errorResponse('Decrease Discount Value, because discount price can not be less than 0!');
+      if (payable_price <= 0) {
+        return errorResponse(
+          'Decrease Discount Value, because discount price can not be less than 0!',
+        );
       }
-
 
       let prepareData = {
         ...payload,
@@ -1209,6 +1322,11 @@ export class CourseService {
           category: true,
           sub_category: true,
           Review: true,
+          Hall: {
+            include: {
+              Area: true,
+            },
+          },
           LiveClass: {
             where: {
               OR: [
@@ -1347,6 +1465,67 @@ export class CourseService {
     }
   }
 
+  async getCourseListBySearch(payload: any) {
+    try {
+      const paginate = await paginatioOptions(payload);
+      const whereConditions = {
+        where: {
+          status: coreConstant.STATUS_ACTIVE,
+          private_status: false,
+          ...(payload.search && {
+            name: {
+              contains: payload.search,
+            },
+          }),
+        },
+      };
+
+      const courseList = await PrismaClient.course.findMany({
+        ...whereConditions,
+        include: {
+          category: true,
+          Hall: true,
+          User: {
+            select: {
+              id: true,
+              first_name: true,
+              last_name: true,
+              photo: true,
+            },
+          },
+        },
+        orderBy: {
+          created_at: 'desc',
+        },
+        ...paginate,
+      });
+
+      const formattedCourses = courseList.map((course) => ({
+        ...course,
+        thumbnail_link: addPhotoPrefix(course.thumbnail_link),
+        cover_image_link: addPhotoPrefix(course.cover_image_link),
+        demo_video: addPhotoPrefix(course.demo_video),
+        User: {
+          ...course.User,
+          photo: course.User.photo ? addPhotoPrefix(course.User.photo) : null,
+        },
+      }));
+
+      const data = {
+        list: formattedCourses,
+        meta: await paginationMetaData(
+          'course',
+          payload,
+          whereConditions.where,
+        ),
+      };
+
+      return successResponse('Course search results', data);
+    } catch (error) {
+      processException(error);
+    }
+  }
+
   async getCourseReviewDataPublic(course_id: number) {
     try {
       const courseDetails = await PrismaClient.course.findFirst({
@@ -1413,82 +1592,6 @@ export class CourseService {
         },
       };
       return successResponse('Course review details!', data);
-    } catch (error) {
-      processException(error);
-    }
-  }
-
-  async getAllCourseReport(payload: any) {
-    try {
-      const paginate = await paginatioOptions(payload);
-
-      const courseList = await PrismaClient.course.findMany({
-        include: {
-          CourseEnrollment: true,
-          Review: true,
-          User: {
-            select: {
-              id: true,
-              first_name: true,
-              last_name: true,
-              email: true,
-              phone: true,
-            },
-          },
-        },
-        ...paginate,
-      });
-
-      courseList.map((course) => {
-        let totalCompleted = 0;
-        course.CourseEnrollment.map((courseEnroll) => {
-          if (
-            course.id === courseEnroll.course_id &&
-            courseEnroll.is_completed
-          ) {
-            totalCompleted++;
-          }
-        });
-        course.thumbnail_link = addPhotoPrefix(course.thumbnail_link);
-        course.cover_image_link = addPhotoPrefix(course.cover_image_link);
-        course['total_enrolled'] = course.CourseEnrollment.length;
-        course['completed_course'] = totalCompleted;
-        course['total_review'] = course.Review.length;
-
-        delete course.CourseEnrollment;
-        delete course.Review;
-      });
-
-      const paginationMeta = await paginationMetaData('course', payload);
-      const data = {
-        list: courseList,
-        meta: paginationMeta,
-      };
-
-      return successResponse('Course report', data);
-    } catch (error) {
-      processException(error);
-    }
-  }
-
-  async getCourseListBySearch(payload) {
-    try {
-      const courseList = await PrismaClient.course.findMany({
-        where: {
-          status: coreConstant.STATUS_ACTIVE,
-          OR: {
-            name: {
-              contains: payload.search ?? '',
-            },
-          },
-        },
-      });
-
-      courseList.map((course) => {
-        course.thumbnail_link = addPhotoPrefix(course.thumbnail_link);
-      });
-
-      return successResponse('Course list by search!', courseList);
     } catch (error) {
       processException(error);
     }

@@ -13,14 +13,20 @@ import {
 } from "@/hooks/admin/category.hook";
 import { statusValueHandler } from "@/lib/helper";
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
+
+type PageProps = {
+  params: Promise<any>;
+  searchParams: Promise<any>;
+};
 
 const options = [
   { value: 0, label: "In-Active" },
   { value: 1, label: "Active" },
 ];
 
-export default function SubCatEdit({ params }: { params: { id: any } }) {
+export default async function SubCatEdit(props: PageProps) {
+  const { params } = await props.params;
   const { t } = useTranslation();
 
   const [categoryOptions, setCategoryOptions] = useState<any>([]);
@@ -38,7 +44,7 @@ export default function SubCatEdit({ params }: { params: { id: any } }) {
     return (
       <div className="mb-2.5 mt-2 flex items-center gap-x-2">
         <p>{t(`Sub Category Icon`)}</p>
-        <a
+        <a rel="noopener"
           href="https://fontawesome.com/icons"
           target="_blank"
           className="text-sky-800 underline"

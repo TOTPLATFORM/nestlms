@@ -9,7 +9,7 @@ import { Form } from "@/components/ui/form";
 import { useAddCategoriesFormHandlerForBlogs } from "@/hooks/admin/blogs.hook";
 import { useAddCategoriesFormHandler } from "@/hooks/admin/category.hook";
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const options = [
   { value: 0, label: "In-Active" },

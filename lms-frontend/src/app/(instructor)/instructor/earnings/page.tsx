@@ -4,7 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useInstructorEarningsDashboardInfo } from "@/hooks/admin/instructors.hook";
 import { DataTable } from "@/section/admin/custom-table/DataTable";
 import { Book, DollarSign, Star } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -135,7 +135,7 @@ export default function instructorEarnings() {
           <h2 className="mb-4 text-2xl font-bold">Earnings Overview</h2>
           <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             <div className="custom-shadow flex items-start rounded-sm bg-white p-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full border border-blue-100 bg-primary/10">
+              <div className="bg-primary/10 flex h-12 w-12 items-center justify-center rounded-full border border-blue-100">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6 text-blue-400"
@@ -147,12 +147,12 @@ export default function instructorEarnings() {
                   <DollarSign />
                 </svg>
               </div>
-              <div className="ml-4">
+              <div className="ms-4">
                 <h2 className="font-semibold">
                   {data?.wallet_details?.balance
                     ? data?.wallet_details?.balance
                     : 0}{" "}
-                  USD
+                  SAR
                 </h2>
                 <p className="mt-2 text-sm text-gray-500">Total Balance</p>
               </div>
@@ -170,12 +170,12 @@ export default function instructorEarnings() {
                   <DollarSign />
                 </svg>
               </div>
-              <div className="ml-4">
+              <div className="ms-4">
                 <h2 className="font-semibold">
                   {data?.wallet_details?.total_withdrawn_amount
                     ? data?.wallet_details?.total_withdrawn_amount
                     : 0}{" "}
-                  USD
+                  SAR
                 </h2>
                 <p className="mt-2 text-sm text-gray-500">
                   Total Withdrawn Amount
@@ -195,12 +195,12 @@ export default function instructorEarnings() {
                   <DollarSign />
                 </svg>
               </div>
-              <div className="ml-4">
+              <div className="ms-4">
                 <h2 className="font-semibold">
                   {data?.wallet_details?.total_pending_withdraw
                     ? data?.wallet_details?.total_pending_withdraw
                     : 0}{" "}
-                  USD
+                  SAR
                 </h2>
                 <p className="mt-2 text-sm text-gray-500">
                   Total Pending Withdraw
@@ -220,12 +220,12 @@ export default function instructorEarnings() {
                   <DollarSign />
                 </svg>
               </div>
-              <div className="ml-4">
+              <div className="ms-4">
                 <h2 className="font-semibold">
                   {data?.wallet_details?.admin_earning
                     ? data?.wallet_details?.admin_earning
                     : 0}{" "}
-                  USD
+                  SAR
                 </h2>
                 <p className="mt-2 text-sm text-gray-500">Admin Earning</p>
               </div>

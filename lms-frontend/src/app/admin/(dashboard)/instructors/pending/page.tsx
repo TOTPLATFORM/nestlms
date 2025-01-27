@@ -20,7 +20,7 @@ import { BsThreeDots } from "react-icons/bs";
 import Link from "next/link";
 import { dateFormater, itemDeleteHandler } from "@/lib/helper";
 import { Switch } from "@/components/ui/switch";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useUpdateFaqFormHandler } from "@/hooks/admin/faq.hook";
 import TextAccordion from "@/components/text-accordion/TextAccordion";
 import {
@@ -46,7 +46,7 @@ export default function Coupon() {
         return (
           <div className="h-[50px] w-[50px] overflow-hidden rounded-[8px]">
             <CustomImage
-              imageUrl={user_photo ? user_photo : "/images/profile-pic.jpeg"}
+              imageUrl={user_photo ? user_photo : "/images/avatar.svg"}
             />
           </div>
         );

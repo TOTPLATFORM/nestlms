@@ -41,6 +41,7 @@ import { toast } from "react-toastify";
 import NegativeXAxisAnimation from "@/components/animation/NegativeXAxisAnimation";
 import PositiveXAxisAnimation from "@/components/animation/PositiveXAxisAnimation";
 import { useAddCourseToWishlistOrRemove } from "@/hooks/user/public/course.category.hook";
+import { PdfViewer } from "@/components/PdfViewr";
 
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
@@ -184,13 +185,15 @@ export default function CourseSinglePage({ params: { slug } }: any) {
         </div>
       </section>
       <PositiveXAxisAnimation
-        classes={`top-0 z-10 mt-12 h-full w-full lg:absolute lg:right-[7%]  lg:w-[24rem] 2xl:right-[16%]`}
+        classes={`top-0 z-10 mt-12 h-full w-full lg:absolute lg:end-[7%]  lg:w-[24rem] 2xl:end-[16%]`}
       >
         <div className="sticky top-0 rounded-[8px] bg-white shadow-md ">
           <div>
             <div className="relative overflow-hidden rounded-t-[8px]">
               {isLoading ? (
                 <Skeleton className="h-[12rem] w-full" />
+              ) : data?.demo_video?.includes(".pdf") ? (
+                <PdfViewer pdfUrl={data?.demo_video} />
               ) : (
                 <ReactPlayer
                   url={data?.demo_video}
@@ -358,8 +361,8 @@ export default function CourseSinglePage({ params: { slug } }: any) {
                         {data?.course_level === COURSE_LEVEL.BEGINNER
                           ? "Beginner"
                           : data?.duration === COURSE_LEVEL.INTERMEDIATE
-                          ? "Intermediate"
-                          : "Advanced"}
+                            ? "Intermediate"
+                            : "Advanced"}
                       </p>
                     )}
                   </div>

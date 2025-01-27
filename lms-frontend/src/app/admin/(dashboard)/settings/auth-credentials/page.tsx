@@ -4,7 +4,7 @@ import GithubSettings from "@/section/settings/auth/GithubSettings";
 import GoogleSettings from "@/section/settings/auth/GoogleSettings";
 
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function AuthCredentials() {
   const { t } = useTranslation();

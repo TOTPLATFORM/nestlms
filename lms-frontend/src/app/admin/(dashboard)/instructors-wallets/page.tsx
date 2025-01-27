@@ -5,7 +5,7 @@ import React from "react";
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import { INSTRUCTOR_COURSE_STATUS, PAYMENT_METHODS } from "@/constant/core";
 import {
   useGetAllInstructorWalletListsForAdmin,

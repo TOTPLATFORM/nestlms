@@ -33,16 +33,16 @@ export const usePendingInstructorApplications = () => {
 };
 export const useAssignAnInstructor = () => {
   const queryClient = useQueryClient();
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return assignAnInstructor(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["getPendingInstructorApplications"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["getPendingInstructorApplications"],
+      });
+    },
+  });
 
   const handleStatusChange = async (user_id: number) => {
     try {
@@ -95,15 +95,14 @@ export const useGetAllInstructorListsForAdmin = () => {
 
 export const useUpdateInstructorStatusForAdmin = () => {
   const queryClient = useQueryClient();
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending:isLoading } = useMutation(
+   {mutationFn: async (data: any) => {
       return updateAllUserStatusForAdminApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["instructorListsForAdmin"]);
-      },
-    }
+     onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["instructorListsForAdmin"],});
+      },}
   );
 
   const handleStatusChange = async (user_id: number, statusType: any) => {
@@ -147,15 +146,15 @@ export const useInstructorEarningsDashboardInfo = () => {
 export const useSendWithdrawRequestForInstructor = () => {
   const queryClient = useQueryClient();
   const form = useForm();
-  const { mutateAsync, isLoading, isSuccess } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending:isLoading, isSuccess } = useMutation(
+    {mutationFn: async (data: any) => {
       return sendWithdrawRequestForInstructorApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["instructorEarningsDashboardInfo"]);
-      },
-    }
+    onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["instructorEarningsDashboardInfo"],
+        });
+      },}
   );
 
   const handleSendWithdrawReq = async (data: any) => {
@@ -186,10 +185,10 @@ export const useSendWithdrawRequestForInstructor = () => {
 };
 
 export const useCheckAdminAmountForWithdrawRequest = () => {
-  const { mutateAsync, isLoading, isSuccess, data } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending:isLoading, isSuccess, data } = useMutation(
+    {mutationFn: async (data: any) => {
       return checkAdminAmountForWithdrawRequestApi(data);
-    }
+    }}
   );
 
   const handleCheckAdminAmountWithdrawReq = async (data: any) => {

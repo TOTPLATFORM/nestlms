@@ -19,7 +19,7 @@ import { IRootState } from "@/store";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useSelector } from "react-redux";
 
 export default function CommentSection({ blogID }: any) {
@@ -65,7 +65,7 @@ export default function CommentSection({ blogID }: any) {
                         imageUrl={
                           comment.User.photo
                             ? comment.User.photo
-                            : "/images/profile-pic.jpeg"
+                            : "/images/avatar.svg"
                         }
                       />
                     </div>

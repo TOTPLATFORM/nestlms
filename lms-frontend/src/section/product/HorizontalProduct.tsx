@@ -56,7 +56,7 @@ export default function HorizontalProduct({ course }: any) {
                 </div>
               </Link>
             </div>
-            <div className="w-full pl-0 md:w-2/3 md:pl-6">
+            <div className="w-full pl-0 md:w-2/3 md:pl-6 rtl:pr-0 rtl:md:pr-6">
               <div className="mb-4 flex items-center gap-x-6 text-xs">
                 <Link href={"/"}>
                   <div className="bg-primary rounded px-1.5 py-0.5">
@@ -96,9 +96,7 @@ export default function HorizontalProduct({ course }: any) {
                 <div className="flex items-center gap-x-4 ">
                   <div className="h-[44px] w-[44px] overflow-hidden rounded-full">
                     <CustomImage
-                      imageUrl={
-                        course?.User?.photo || "/images/profile-pic.jpeg"
-                      }
+                      imageUrl={course?.User?.photo || "/images/avatar.svg"}
                     />
                   </div>
 

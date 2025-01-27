@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { dateFormater } from "@/lib/helper";
 import { Switch } from "@/components/ui/switch";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 
 import {
   useGetAllStudentListsForAdmin,
@@ -29,7 +29,7 @@ export default function StudentLists() {
         return (
           <div className="h-[50px] w-[50px] overflow-hidden rounded-[8px]">
             <CustomImage
-              imageUrl={user_photo ? user_photo : "/images/profile-pic.jpeg"}
+              imageUrl={user_photo ? user_photo : "/images/avatar.svg"}
             />
           </div>
         );

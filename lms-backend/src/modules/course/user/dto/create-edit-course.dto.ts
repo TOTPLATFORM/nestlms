@@ -1,5 +1,6 @@
 import {
   IsBoolean,
+  IsDate,
   IsIn,
   IsNotEmpty,
   IsNumber,
@@ -82,9 +83,17 @@ export class CreateEditCourseDto {
 
   @IsOptional()
   @IsNumber()
-  @IsIn([UPLOAD_SOURCE.LOCAL, UPLOAD_SOURCE.VIMEO, UPLOAD_SOURCE.YOUTUBE], {
-    message: `Upload source type must be ${UPLOAD_SOURCE.LOCAL} or ${UPLOAD_SOURCE.VIMEO} or ${UPLOAD_SOURCE.YOUTUBE}`,
-  })
+  @IsIn(
+    [
+      UPLOAD_SOURCE.LOCAL,
+      UPLOAD_SOURCE.VIMEO,
+      UPLOAD_SOURCE.YOUTUBE,
+      UPLOAD_SOURCE.PDF,
+    ],
+    {
+      message: `Upload source type must be ${UPLOAD_SOURCE.LOCAL} or ${UPLOAD_SOURCE.VIMEO} or ${UPLOAD_SOURCE.YOUTUBE} or ${UPLOAD_SOURCE.PDF}`,
+    },
+  )
   video_upload_source: number;
 
   @IsOptional()
@@ -106,4 +115,28 @@ export class CreateEditCourseDto {
   @IsOptional()
   @IsNumber()
   sub_category_id: number;
+
+  @IsOptional()
+  @IsNumber()
+  instructorId: number;
+
+  @IsOptional()
+  @IsNumber()
+  hallAttendeesNumber: number;
+
+  @IsOptional()
+  @IsDate()
+  endDate: Date;
+
+  @IsOptional()
+  @IsDate()
+  startDate: Date;
+
+  @IsOptional()
+  @IsString()
+  type: string;
+
+  @IsOptional()
+  @IsNumber()
+  hallId: number;
 }

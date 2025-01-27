@@ -22,7 +22,7 @@ import BackButton from "@/components/back-button/BackButton";
 import { useUpdateCategoriesFormHandler } from "@/hooks/admin/category.hook";
 import { itemDeleteHandler } from "@/lib/helper";
 import { Switch } from "@/components/ui/switch";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import {
   useDeleteKycItem,
   useGetVerifykycLists,
@@ -238,7 +238,7 @@ export default function Kyc() {
               <div className="h-[200px] w-[200px] overflow-hidden rounded-[8px] border">
                 <CustomImage
                   imageUrl={
-                    selectedRequest?.User?.photo || "/images/profile-pic.jpeg"
+                    selectedRequest?.User?.photo || "/images/avatar.svg"
                   }
                 />
               </div>

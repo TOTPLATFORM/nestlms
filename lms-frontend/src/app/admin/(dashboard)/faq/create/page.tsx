@@ -8,7 +8,7 @@ import FormSkelation from "@/components/skelaton/FormSkelation";
 import { Form } from "@/components/ui/form";
 import { useAddFaqFormHandler } from "@/hooks/admin/faq.hook";
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const options = [
   { value: 0, label: "In-Active" },

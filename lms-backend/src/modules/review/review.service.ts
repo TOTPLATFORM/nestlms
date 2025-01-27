@@ -89,7 +89,7 @@ export class ReviewService {
       const paginate = await paginatioOptions(payload);
       const whereCondition = {
         course_id: myCourse.id,
-        ...(payload.search
+        ...(payload.search || payload.rating
           ? {
               OR: [
                 ...(payload.search
@@ -105,7 +105,7 @@ export class ReviewService {
                   ? [
                       {
                         rating: {
-                          in: Number(payload.rating),
+                          equals: Number(payload.rating),
                         },
                       },
                     ]

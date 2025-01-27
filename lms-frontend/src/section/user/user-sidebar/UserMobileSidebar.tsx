@@ -7,7 +7,7 @@ import AnimateHeight from "react-animate-height";
 import { GoDash } from "react-icons/go";
 import Link from "next/link";
 import { IoDocumentTextOutline } from "react-icons/io5";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useSelector } from "react-redux";
 import { IRootState } from "@/store";
 import moment from "moment";
@@ -96,9 +96,7 @@ export default function UserMobileSidebar({
                     <div className="relative">
                       <div className="border-primary aspect-square w-[100px] overflow-hidden rounded-full border-4">
                         <CustomImage
-                          imageUrl={`${
-                            user?.photo || "/images/profile-pic.jpeg"
-                          }`}
+                          imageUrl={`${user?.photo || "/images/avatar.svg"}`}
                         />
                       </div>
                       <span className="bg-primary absolute bottom-0  right-2 me-2 rounded-full px-2.5 py-0.5 text-xs font-medium text-white dark:bg-gray-900 dark:text-purple-300">

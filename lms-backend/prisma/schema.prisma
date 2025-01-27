@@ -174,6 +174,12 @@ model Course {
   UserLession         UserLession[]
   LiveClass           LiveClass[]
   WishList            WishList[]
+  hallId              Int?
+  Hall                Hall?   @relation(fields: [hallId], references: [id])
+  hallAttendeesNumber Int?         
+  endDate             DateTime?
+  startDate           DateTime?
+  type                String?
 }
 
 model CourseEnrollment {
@@ -384,7 +390,23 @@ model Notification {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
-
+model Area{
+  id      Int         @id @default(autoincrement())
+  arName  String   
+  enName  String   
+  Hall    Hall[]
+}
+model Hall {
+  id     Int    @id @default(autoincrement())
+  areaId Int 
+  Area   Area   @relation(fields: [areaId] , references: [id])
+  Course Course[]
+  arName  String   
+  enName  String 
+  phone   String 
+  address String
+  location  String   
+}
 model Quiz {
   id       Int    @id @default(autoincrement())
   Course   Course @relation(fields: [courseId], references: [id])
@@ -648,4 +670,65 @@ model SocialMedia {
   link       String   @db.VarChar(255)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+}
+
+model Language {
+  id           Int      @id @default(autoincrement())
+  code         String   @unique @db.VarChar(10) // e.g., 'en', 'ar'
+  name         String   @db.VarChar(50) // e.g., 'English', 'Arabic'
+  direction    String   @default("ltr") @db.VarChar(3) // 'ltr' or 'rtl'
+  is_default   Boolean  @default(false)
+  status       Int      @default(1) @db.SmallInt()
+  flag_icon    String?  @db.VarChar(255) // Country flag icon
+  locale_code  String   @db.VarChar(20) // For date/number formatting
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+  
+  translations    Translation[]
+  systemMessages  SystemMessage[]
+}
+
+model Translation {
+  id           Int      @id @default(autoincrement())
+  language_id  Int
+  table_name   String   @db.VarChar(100) // e.g., 'courses', 'users', 'categories'
+  table_id     Int      
+  field_name   String   @db.VarChar(100) // e.g., 'name', 'description'
+  translation  String   @db.Text
+  is_approved  Boolean  @default(false) // For translation workflow
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+  
+  language     Language @relation(fields: [language_id], references: [id])
+  
+  @@unique([language_id, table_name, table_id, field_name], name: "unique_translation")
+  @@index([language_id], name: "idx_language_id")
+  @@index([table_name, table_id], name: "idx_table_reference")
+}
+
+model SystemMessage {
+  id           Int      @id @default(autoincrement())
+  language_id  Int
+  key          String   @db.VarChar(255) // Message key e.g., 'user.profile.updated'
+  value        String   @db.Text // Translated message
+  category     String   @db.VarChar(50) // e.g., 'error', 'success', 'notification'
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+  
+  language     Language @relation(fields: [language_id], references: [id])
+  
+  @@unique([language_id, key], name: "unique_message")
+  @@index([category], name: "idx_category")
+}
+
+model EmailTemplate {
+  id           Int      @id @default(autoincrement())
+  name         String   @db.VarChar(100) // Template name
+  subject      Json     // Translated subjects {en: "Welcome", ar: "مرحباً"}
+  content      Json     // Translated content
+  variables    Json     // Template variables as JSON array
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  @@index([name], name: "idx_template_name")
 }

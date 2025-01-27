@@ -45,8 +45,10 @@ export const useAddKycFormHandler = () => {
       status: {},
     },
   });
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
-    return addKycApi(data);
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
+      return addKycApi(data);
+    },
   });
 
   const handleAddKyc = async (data: any) => {
@@ -78,16 +80,14 @@ export const useAddKycFormHandler = () => {
 export const useDeleteKycItem = () => {
   const queryClient = useQueryClient();
 
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return kycDeleteApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["kycLists"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["kycLists"] });
+    },
+  });
 
   const handleDelete = async (item: any) => {
     try {
@@ -145,16 +145,14 @@ export const useUpdateKycFormHandler = () => {
       status: {},
     },
   });
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return updateKycApi(data.value, data.id);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["kycLists"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["kycLists"] });
+    },
+  });
 
   const handleUpdateKyc = async (data: any) => {
     try {
@@ -208,16 +206,18 @@ export const useVerifyKycForUserFormHandlerForAdmin = () => {
 
   const router = useRouter();
 
-  const { mutateAsync, isLoading, isSuccess } = useMutation(
-    (data: any) => {
+  const {
+    mutateAsync,
+    isPending: isLoading,
+    isSuccess,
+  } = useMutation({
+    mutationFn: async (data: any) => {
       return verifyKycUserForAdminApi(data);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["verifyKycLists"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["verifyKycLists"] });
+    },
+  });
 
   const handleVerifyKyc = async (data: any) => {
     try {

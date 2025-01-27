@@ -14,8 +14,8 @@ export default function Page() {
       <div className="flex flex-col">
         <h2 className="mb-4 text-2xl font-bold">Admin Dashboard</h2>
         <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-          <div className="flex items-start rounded-sm bg-white p-4 custom-shadow">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full border border-blue-100 bg-primary/10">
+          <div className="custom-shadow flex items-start rounded-sm bg-white p-4">
+            <div className="bg-primary/10 flex h-12 w-12 items-center justify-center rounded-full border border-blue-100">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6 text-blue-400"
@@ -27,13 +27,13 @@ export default function Page() {
                 <Book />
               </svg>
             </div>
-            <div className="ml-4">
+            <div className="ms-4">
               <h2 className="font-semibold">{data?.totalCourses} Courses</h2>
               <p className="mt-2 text-sm text-gray-500">Total courses</p>
             </div>
           </div>
 
-          <div className="flex items-start rounded-sm bg-white p-4 custom-shadow">
+          <div className="custom-shadow flex items-start rounded-sm bg-white p-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-full border border-cyan-100 bg-cyan-50">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -46,14 +46,14 @@ export default function Page() {
                 <UserCheck />
               </svg>
             </div>
-            <div className="ml-4">
+            <div className="ms-4">
               <h2 className="font-semibold">
                 {data?.totalEnrollments} Enrollments
               </h2>
               <p className="mt-2 text-sm text-gray-500">Total enrollments</p>
             </div>
           </div>
-          <div className="flex items-start rounded-sm bg-white p-4 custom-shadow">
+          <div className="custom-shadow flex items-start rounded-sm bg-white p-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-full border border-orange-100 bg-orange-50">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -66,12 +66,12 @@ export default function Page() {
                 <User />
               </svg>
             </div>
-            <div className="ml-4">
+            <div className="ms-4">
               <h2 className="font-semibold">{data?.totalUsers} Users </h2>
               <p className="mt-2 text-sm text-gray-500">Total users</p>
             </div>
           </div>
-          <div className="flex items-start rounded-sm bg-white p-4 custom-shadow">
+          <div className="custom-shadow flex items-start rounded-sm bg-white p-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-full border border-yellow-100 bg-yellow-50">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -84,14 +84,14 @@ export default function Page() {
                 <Star />
               </svg>
             </div>
-            <div className="ml-4">
+            <div className="ms-4">
               <h2 className="font-semibold">
                 {data?.totalInstructors} Instructors{" "}
               </h2>
               <p className="mt-2 text-sm text-gray-500">Total instructors</p>
             </div>
           </div>
-          <div className="flex items-start rounded-sm bg-white p-4 custom-shadow">
+          <div className="custom-shadow flex items-start rounded-sm bg-white p-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-full border border-yellow-100 bg-yellow-50">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -104,12 +104,12 @@ export default function Page() {
                 <Star />
               </svg>
             </div>
-            <div className="ml-4">
+            <div className="ms-4">
               <h2 className="font-semibold">{data?.totalStudents} Students </h2>
               <p className="mt-2 text-sm text-gray-500">Total students</p>
             </div>
           </div>
-          <div className="flex items-start rounded-sm bg-white p-4 custom-shadow">
+          <div className="custom-shadow flex items-start rounded-sm bg-white p-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-full border border-green-100 bg-green-50">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -122,12 +122,12 @@ export default function Page() {
                 <CircleDollarSign />
               </svg>
             </div>
-            <div className="ml-4">
-              <h2 className="font-semibold">{data?.admin_earning} USD</h2>
+            <div className="ms-4">
+              <h2 className="font-semibold">{data?.admin_earning} SAR</h2>
               <p className="mt-2 text-sm text-gray-500">All time earnings</p>
             </div>
           </div>
-          <div className="flex items-start rounded-sm bg-white p-4 custom-shadow">
+          <div className="custom-shadow flex items-start rounded-sm bg-white p-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-full border border-green-100 bg-green-50">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -140,14 +140,14 @@ export default function Page() {
                 <CircleDollarSign />
               </svg>
             </div>
-            <div className="ml-4">
-              <h2 className="font-semibold">{data?.balance} USD</h2>
+            <div className="ms-4">
+              <h2 className="font-semibold">{data?.balance} SAR</h2>
               <p className="mt-2 text-sm text-gray-500">
                 Current balance holding
               </p>
             </div>
           </div>
-          <div className="flex items-start rounded-sm bg-white p-4 custom-shadow">
+          <div className="custom-shadow flex items-start rounded-sm bg-white p-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-full border border-green-100 bg-green-50">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -160,16 +160,16 @@ export default function Page() {
                 <CircleDollarSign />
               </svg>
             </div>
-            <div className="ml-4">
+            <div className="ms-4">
               <h2 className="font-semibold">
-                {data?.total_pending_withdraw} USD
+                {data?.total_pending_withdraw} SAR
               </h2>
               <p className="mt-2 text-sm text-gray-500">
                 Total pending withdraw
               </p>
             </div>
           </div>
-          <div className="flex items-start rounded-sm bg-white p-4 custom-shadow">
+          <div className="custom-shadow flex items-start rounded-sm bg-white p-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-full border border-green-100 bg-green-50">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -182,16 +182,16 @@ export default function Page() {
                 <CircleDollarSign />
               </svg>
             </div>
-            <div className="ml-4">
+            <div className="ms-4">
               <h2 className="font-semibold">
-                {data?.total_withdrawn_amount} USD
+                {data?.total_withdrawn_amount} SAR
               </h2>
               <p className="mt-2 text-sm text-gray-500">
                 Total withdrawn amount
               </p>
             </div>
           </div>
-          <div className="flex items-start rounded-sm bg-white p-4 custom-shadow">
+          <div className="custom-shadow flex items-start rounded-sm bg-white p-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-full border border-green-100 bg-green-50">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -204,8 +204,8 @@ export default function Page() {
                 <CircleDollarSign />
               </svg>
             </div>
-            <div className="ml-4">
-              <h2 className="font-semibold">{data?.totalTransactions} USD</h2>
+            <div className="ms-4">
+              <h2 className="font-semibold">{data?.totalTransactions} SAR</h2>
               <p className="mt-2 text-sm text-gray-500">Total transactions</p>
             </div>
           </div>
@@ -213,7 +213,7 @@ export default function Page() {
       </div>
 
       <div className="mt-12 flex w-full flex-col items-start gap-8 lg:flex-row">
-        <div className="w-full rounded-md p-4  custom-shadow lg:w-1/2 2xl:w-1/3">
+        <div className="custom-shadow w-full rounded-md  p-4 lg:w-1/2 2xl:w-1/3">
           <h2 className="mb-5 text-xl font-semibold">
             User Verification and Activity
           </h2>
@@ -274,7 +274,7 @@ export default function Page() {
             />
           )}
         </div>
-        <div className="w-full rounded-md p-4  custom-shadow lg:w-1/2 2xl:w-2/3">
+        <div className="custom-shadow w-full rounded-md  p-4 lg:w-1/2 2xl:w-2/3">
           <h1 className="mb-7 text-xl font-bold">
             New Users Joined (Last 12 Months)
           </h1>
@@ -331,7 +331,7 @@ export default function Page() {
         </div>
       </div>
       <div className="mt-12 flex w-full items-start gap-8 ">
-        <div className="w-full rounded-md p-4  custom-shadow md:p-8">
+        <div className="custom-shadow w-full rounded-md  p-4 md:p-8">
           <div className="items-start justify-between sm:flex">
             <div>
               <h4 className="text-xl font-semibold text-gray-800">

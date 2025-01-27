@@ -1,8 +1,10 @@
+"use client";
 import { Dialog, Transition } from "@headlessui/react";
 import { useState, Fragment } from "react";
-import { useTranslation } from "react-i18next";
-import { useFile, useVideoFile } from "@/hooks/file.hook";
+import { useTranslation } from "@/hooks/useTranslation";
+import { useVideoFile } from "@/hooks/file.hook";
 import LoaderButton from "../button/LoaderButton";
+import { PdfViewer } from "../PdfViewr";
 
 const VideoPicker = ({
   name,
@@ -39,7 +41,7 @@ const VideoPicker = ({
         <input
           id="site_logo"
           type="file"
-          accept="video/*"
+          accept="video/* , application/pdf"
           onChange={handleVideoInputChange}
           className="hidden"
           disabled={true}
@@ -51,15 +53,18 @@ const VideoPicker = ({
           </div>
         </div>
       </div>
-      {uploadVideoUrl && (
-        <div className="mt-3 max-h-[150px] max-w-[250px]">
-          <video
-            controls
-            src={uploadVideoUrl?.toString()}
-            className="h-[150px] w-[250px] cursor-pointer rounded-lg object-contain object-center"
-          ></video>
-        </div>
-      )}
+      {uploadVideoUrl &&
+        (uploadVideoUrl.includes(".pdf") ? (
+          <PdfViewer pdfUrl={uploadVideoUrl} />
+        ) : (
+          <div className="mt-3 max-h-[150px] max-w-[250px] mx-auto">
+            <video
+              controls
+              src={uploadVideoUrl?.toString()}
+              className="h-[150px] w-[250px] cursor-pointer rounded-lg object-contain object-center"
+            ></video>
+          </div>
+        ))}
       <Transition appear show={open} as={Fragment}>
         <Dialog as="div" open={open} onClose={() => setopen(false)}>
           <Transition.Child
@@ -102,7 +107,7 @@ const VideoPicker = ({
                       <input
                         id="site_fav_icon"
                         type="file"
-                        accept="video/*"
+                        accept="video/* , application/pdf"
                         onChange={handleVideoInputChange}
                         className="rtl:file-ml-5 form-input file:bg-primary/90 file:hover:bg-primary mt-2 p-0 file:border-0 file:px-4 file:py-2 file:font-semibold file:text-white ltr:file:mr-5"
                       />
@@ -110,17 +115,28 @@ const VideoPicker = ({
                     {selectedVideo && (
                       <div className="mt-8 flex flex-col items-start justify-center">
                         <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-                          <video
-                            src={
-                              typeof selectedVideo === "object"
-                                ? URL.createObjectURL(selectedVideo)
-                                : //@ts-ignore
-                                  selectedVideo.toString()
-                            }
-                            className="h-[150px] w-full cursor-pointer rounded-lg object-cover"
-                            onClick={() => setopen(true)}
-                            controls
-                          ></video>
+                          {selectedVideo?.name?.split(".")[1] !== "pdf" ? (
+                            <video
+                              src={
+                                typeof selectedVideo === "object"
+                                  ? URL.createObjectURL(selectedVideo)
+                                  : //@ts-ignore
+                                    selectedVideo.toString()
+                              }
+                              className="h-[150px] w-full cursor-pointer rounded-lg object-cover"
+                              onClick={() => setopen(true)}
+                              controls
+                            ></video>
+                          ) : (
+                            <PdfViewer
+                              pdfUrl={
+                                typeof selectedVideo === "object"
+                                  ? URL.createObjectURL(selectedVideo)
+                                  : //@ts-ignore
+                                    selectedVideo.toString()
+                              }
+                            />
+                          )}
                         </div>
                         <button
                           type="button"
@@ -169,12 +185,16 @@ const VideoPicker = ({
                                   }
                                 }}
                               ></div>
-                              <video
-                                controls
-                                src={video?.file_path}
-                                className="h-[150px] w-full rounded-lg object-cover"
-                                onClick={(e) => e.stopPropagation()}
-                              ></video>
+                              {video?.file_path.includes(".pdf") ? (
+                                <PdfViewer pdfUrl={video?.file_path} />
+                              ) : (
+                                <video
+                                  controls
+                                  src={video?.file_path}
+                                  className="h-[150px] w-full rounded-lg object-cover"
+                                  onClick={(e) => e.stopPropagation()}
+                                ></video>
+                              )}
                             </div>
                           ))}
                         </div>

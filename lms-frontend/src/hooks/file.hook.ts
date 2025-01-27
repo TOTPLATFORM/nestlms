@@ -9,18 +9,16 @@ export const useFile = (setopen: any) => {
   const queryClient = useQueryClient();
 
   const [imageGallery, setImageGallery] = useState<File[]>([]);
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return uploadFile(data);
     },
-    {
-      onSuccess: () => {
-        setSelectedImage(null);
-        queryClient.invalidateQueries(["myimages"]);
-      },
-      onError: (err) => {},
-    }
-  );
+    onSuccess: () => {
+      setSelectedImage(null);
+      queryClient.invalidateQueries({ queryKey: ["myimages"] });
+    },
+    onError: (err) => {},
+  });
   const {
     data,
     isLoading: imagesLoading,
@@ -73,18 +71,16 @@ export const useVideoFile = (setopen: any) => {
   const queryClient = useQueryClient();
 
   const [videoGallery, setVideoGallery] = useState<File[]>([]);
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: async (data: any) => {
       return uploadFile(data);
     },
-    {
-      onSuccess: () => {
-        setSelectedVideo(null);
-        queryClient.invalidateQueries(["myvideos"]);
-      },
-      onError: (err) => {},
-    }
-  );
+    onSuccess: () => {
+      setSelectedVideo(null);
+      queryClient.invalidateQueries({ queryKey: ["myvideos"] });
+    },
+    onError: (err) => {},
+  });
   const {
     data,
     isLoading: videosLoading,

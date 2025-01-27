@@ -5,7 +5,7 @@ import {
   useCheckKycForUserFormHandler,
   useGetKycVerificationListsForUser,
 } from "@/hooks/user/user.settings.hook";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import {
   Accordion,
   AccordionContent,

@@ -20,6 +20,7 @@ export const coreConstant = {
   IS_REJECTED: 3,
   VERIFICATION_TYPE_EMAIL: 1,
   FILE_DESTINATION: 'storage',
+  IMAGES_DESTINATION: 'images',
   WITHDRAW_FILE_DESTINATION: 'storage/withdraw-request',
   INACTIVE: 0,
   ACTIVE: 1,
@@ -61,6 +62,7 @@ export const UPLOAD_SOURCE = {
   LOCAL: 1,
   YOUTUBE: 2,
   VIMEO: 3,
+  PDF:4,
 };
 
 export const packageTypeConstant = {

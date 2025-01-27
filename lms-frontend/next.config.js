@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "standalone",
   images: {
     remotePatterns: [
       {
@@ -10,18 +11,17 @@ const nextConfig = {
       },
       {
         protocol: "http",
-        hostname: "localhost",
+        hostname: "*",
         port: "3005",
-        pathname: "/storage/**",
+        pathname: "**",
       },
     ],
   },
   eslint: {
-    dirs: ["src"],
+    ignoreDuringBuilds: true,
   },
 
   reactStrictMode: true,
-  swcMinify: true,
 
   // Uncoment to add domain whitelist
   // images: {
@@ -31,6 +31,8 @@ const nextConfig = {
   // },
 
   webpack(config) {
+    config.resolve.alias.canvas = false;
+
     // Grab the existing rule that handles SVG imports
     const fileLoaderRule = config.module.rules.find((rule) =>
       rule.test?.test?.(".svg")

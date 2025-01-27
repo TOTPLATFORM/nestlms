@@ -21,6 +21,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useLogout } from "@/hooks/auth.hook";
 import NotificationDropdown from "@/components/dropdown/notification";
+import LanguageSelector from "@/components/language-selector/LanguageSelector";
 
 export default function NavbarUi({ setSidebarOpen, sidebarOpen }: any) {
   const { isLoading, logout } = useLogout();
@@ -40,7 +41,7 @@ export default function NavbarUi({ setSidebarOpen, sidebarOpen }: any) {
             <span className="sr-only">Your Company</span>
             <img
               className="h-[30px] w-auto md:h-[52px]"
-              src={settings?.site_logo || "/images/logo.png"}
+              src={settings?.site_logo || "/images/logo.webp"}
               alt=""
             />
           </Link>
@@ -70,29 +71,31 @@ export default function NavbarUi({ setSidebarOpen, sidebarOpen }: any) {
         <div className="col-span-9 hidden w-full items-center justify-end lg:flex xl:col-span-10 2xl:col-span-11">
           <Link
             href="/admin/courses/create"
-            className=" mr-2 rounded-md  border px-3  py-2 text-base font-normal text-gray-600"
+            className=" me-2 rounded-md  border px-3  py-2 text-base font-normal text-gray-600"
           >
-            <i className="fa-regular fa-plus mr-2"></i>
+            <i className="fa-regular fa-plus me-2"></i>
             Create Course
           </Link>
           <Link
             href="/admin/user/create"
-            className=" mr-2 rounded-md  border px-3  py-2 text-base font-normal text-gray-600"
+            className=" me-2 rounded-md  border px-3  py-2 text-base font-normal text-gray-600"
           >
-            <i className="fa-regular fa-plus mr-2"></i>
+            <i className="fa-regular fa-plus me-2"></i>
             Create User
           </Link>
           <Link
             href="/admin/coupon/create"
-            className=" mr-2 rounded-md  border px-3  py-2 text-base font-normal text-gray-600"
+            className=" me-2 rounded-md  border px-3  py-2 text-base font-normal text-gray-600"
           >
-            <i className="fa-regular fa-plus mr-2"></i>
+            <i className="fa-regular fa-plus me-2"></i>
             Add Coupon
           </Link>
         </div>
-
         <div className="col-span-6 flex flex-1 items-center justify-end gap-x-4 lg:col-span-3 xl:col-span-2  2xl:col-span-1">
-          {isLoggedIn && <NotificationDropdown />}
+          <div className="flex">
+            <LanguageSelector />
+            {isLoggedIn && <NotificationDropdown />}
+          </div>
 
           {isLoggedIn && (
             <div className="group relative ml-3 py-5">
@@ -104,7 +107,7 @@ export default function NavbarUi({ setSidebarOpen, sidebarOpen }: any) {
                   >
                     <Avatar className="h-8 w-8">
                       <AvatarImage
-                        src={user?.user.photo || "/images/profile-pic.jpeg"}
+                        src={user?.user.photo || "/images/avatar.svg"}
                       />
                       <AvatarFallback>
                         {user?.user?.first_name.slice(0, 1)}

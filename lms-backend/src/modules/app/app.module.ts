@@ -1,10 +1,11 @@
-import { Module, NestModule, RequestMethod } from '@nestjs/common';
-import { MiddlewareConsumer } from '@nestjs/common';
+import { Module, NestModule, RequestMethod, MiddlewareConsumer } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { LanguageInterceptor } from '../../shared/interceptors/language.interceptor';
 
 import { PrismaModule } from '../prisma/prisma.module';
 import { AuthModule } from '../auth/auth.module';
-import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, Reflector } from '@nestjs/core';
+import { LanguageMiddleware } from '../../shared/middlewares/language.middleware';
 import { JwtAuthGuard } from 'src/shared/guards/jwt-auth.guard';
 import { MailConfig } from 'src/shared/configs/mail.config';
 import { UsersModule } from '../users/users.module';
@@ -35,6 +36,8 @@ import { BlogModule } from '../blog/blog.module';
 import { ClassModule } from '../liveclass/class.module';
 import { WishListModule } from '../wishlist-management/wishlist.module';
 import { SocialMediaModule } from '../social-media-management/social-media.module';
+import { LanguageModule } from '../language/language.module';
+import { TranslationModule } from '../../shared/services/translation.module';
 
 @Module({
   imports: [
@@ -66,21 +69,37 @@ import { SocialMediaModule } from '../social-media-management/social-media.modul
     BlogModule,
     ClassModule,
     WishListModule,
-    SocialMediaModule
+    SocialMediaModule,
+    LanguageModule,
+    TranslationModule
   ],
   providers: [
     {
       provide: APP_GUARD,
-      useClass: JwtAuthGuard,
+      useFactory: (reflector: Reflector) => {
+        const guard = new JwtAuthGuard(reflector);
+        return guard;
+      },
+      inject: [Reflector],
     },
     {
       provide: APP_INTERCEPTOR,
       useClass: BigIntTransformInterceptor,
     },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LanguageInterceptor,
+    },
   ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
+    // Apply language middleware globally
+    consumer
+      .apply(LanguageMiddleware)
+      .forRoutes('*');
+
+    // Apply API secret middleware
     consumer
       .apply(ApiSecretCheckMiddleware)
       .exclude({

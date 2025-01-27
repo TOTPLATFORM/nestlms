@@ -20,15 +20,13 @@ export const useAddCourseToCart = () => {
   const router = useRouter();
   const { refetch } = useMyCartDetails();
 
-  const { mutateAsync, isLoading } = useMutation(
-    (data: any) => {
+  const { mutateAsync,isPending: isLoading } = useMutation(
+   {mutationFn:async (data: any) => {
       return addToCart(data);
     },
-    {
-      onSuccess: () => {
+    onSuccess: () => {
         refetch();
-      },
-    }
+      },}
   );
   const handleAddToCart = async (course_id: number) => {
     try {
@@ -51,15 +49,13 @@ export const useRemoveFromCart = () => {
   const queryClient = useQueryClient();
   const { refetch } = useMyCartDetails();
 
-  const { mutateAsync, isLoading } = useMutation(
-    (courseId: number) => {
+  const { mutateAsync, isPending: isLoading } = useMutation(
+    {mutationFn: async (courseId: number) => {
       return removeFromCart(courseId);
     },
-    {
-      onSuccess: () => {
+    onSuccess: () => {
         refetch();
-      },
-    }
+      },}
   );
 
   const handleRemoveFromCart = async (courseId: number) => {
@@ -101,9 +97,9 @@ export const useValidateCoupon = (
 ) => {
   const form = useForm<any>();
 
-  const { mutateAsync, isLoading } = useMutation((data: any) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({mutationFn:async (data: any) => {
     return validateCoupon(data);
-  });
+  }});
   const handleValidateCoupon = async (data: any) => {
     try {
       const response = await mutateAsync(data);

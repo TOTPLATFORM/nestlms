@@ -35,7 +35,7 @@ import EditLessonComp from "./EditLessonComp";
 import { useRouter } from "next-nprogress-bar";
 import { toast } from "react-toastify";
 import LessonSkelaton from "@/components/skelaton/LessonSkelaton";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import CreateQuizComp from "./quiz/CreateQuizComp";
 import EditQuizComp from "./quiz/EditQuizComp";
 import CreateQuestionComp from "./quiz/CreateQuestionComp";

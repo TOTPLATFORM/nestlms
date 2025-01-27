@@ -8,10 +8,8 @@ import {
   List,
   Minus,
   Plus,
-  X,
 } from "lucide-react";
 import VerticalProduct from "@/section/product/VerticalProduct";
-import Link from "next/link";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import HorizontalProduct from "@/section/product/HorizontalProduct";
@@ -141,9 +139,9 @@ export default function CourseCategorySection() {
   const isFreeParams = searchParams.get("is_free");
   const discountStatusParams = searchParams.get("discount_status");
   const sortByParams = searchParams.get("sort_by");
-  const courseLevelParams = searchParams.getAll("course_level");
+  const courseLevelParams = searchParams.get("course_level");
   const categorIdParams = searchParams.get("category_id") || 0;
-  const subCategoryIdParams = searchParams.getAll("sub_category_id");
+  const subCategoryIdParams = searchParams.get("sub_category_id");
   const minPriceParams = searchParams.get("min_price") || "";
   const maxPriceParams = searchParams.get("max_price") || "";
   const minDurationParams = searchParams.get("min_duration") || -1;
@@ -165,11 +163,13 @@ export default function CourseCategorySection() {
 
   useEffect(() => {
     if (!searchParams) return;
-    const params = new URLSearchParams(searchParams);
-    if (courseLevelParams.length > 1) {
+    const params = new URLSearchParams(
+      searchParams as unknown as Record<string, string>
+    );
+    if (Array.isArray(courseLevelParams) && courseLevelParams.length > 1) {
       params.set("course_level", courseLevelParams.join(","));
     }
-    if (subCategoryIdParams.length > 1) {
+    if (Array.isArray(subCategoryIdParams) && subCategoryIdParams.length > 1) {
       params.set("course_level", subCategoryIdParams.join(","));
     }
     setPage(1);
@@ -196,7 +196,9 @@ export default function CourseCategorySection() {
   };
 
   const handleQueryParams = (type: string, value: any) => {
-    const params: any = new URLSearchParams(searchParams);
+    const params: any = new URLSearchParams(
+      searchParams as unknown as Record<string, string>
+    );
     if (type == "delete_all") {
       let newParams: any = new URLSearchParams();
       setActiveDurationId(0);
@@ -207,13 +209,19 @@ export default function CourseCategorySection() {
       params.delete("sub_category_id");
     }
     if (type == "course_level") {
-      if (courseLevelParams.map(Number).includes(value)) {
+      if (
+        Array.isArray(courseLevelParams) &&
+        courseLevelParams.map(Number).includes(value)
+      ) {
         params.delete(type, value);
       } else {
         params.append(type, value);
       }
     } else if (type == "sub_category_id") {
-      if (subCategoryIdParams.map(Number).includes(value)) {
+      if (
+        Array.isArray(subCategoryIdParams) &&
+        subCategoryIdParams.map(Number).includes(value)
+      ) {
         params.delete(type, value);
       } else {
         params.append(type, value);
@@ -423,14 +431,15 @@ export default function CourseCategorySection() {
                                     )
                                   }
                                   checked={
-                                    minAverageRatingParams == option.value
+                                    minAverageRatingParams ==
+                                    option.value.toString()
                                       ? true
                                       : false
                                   }
                                 />
                                 <label
                                   htmlFor={`rating-${option.value}-${optionIdx}`}
-                                  className="ml-3 flex min-w-0 items-center gap-x-1 text-gray-500"
+                                  className="mx-3 flex min-w-0 items-center gap-x-1 text-gray-500"
                                 >
                                   {[1, 2, 3, 4, 5].map((index) => {
                                     if (index <= option.value) {
@@ -507,7 +516,7 @@ export default function CourseCategorySection() {
                                 />
                                 <label
                                   htmlFor={`duration-${option.id}`}
-                                  className="ml-3 flex min-w-0 items-center gap-x-1 text-gray-500"
+                                  className="mx-3 flex min-w-0 items-center gap-x-1 text-gray-500"
                                 >
                                   <p className="pl-2 text-sm">{option.name}</p>
                                 </label>
@@ -578,7 +587,7 @@ export default function CourseCategorySection() {
                                       />
                                       <label
                                         htmlFor={`category-${option.id}-${optionIdx}`}
-                                        className="ml-3 flex min-w-0 items-center gap-x-1 text-gray-500"
+                                        className="mx-3 flex min-w-0 items-center gap-x-1 text-gray-500"
                                       >
                                         <p className="pl-2 text-sm">
                                           {option.name}
@@ -639,13 +648,17 @@ export default function CourseCategorySection() {
                                           option.id
                                         );
                                       }}
-                                      checked={subCategoryIdParams
-                                        .map(Number)
-                                        .includes(option.id)}
+                                      checked={
+                                        (Array.isArray(subCategoryIdParams) &&
+                                          subCategoryIdParams
+                                            .map(Number)
+                                            .includes(option.id)) ||
+                                        subCategoryIdParams === option.id
+                                      }
                                     />
                                     <label
                                       htmlFor={`sub-category-${option.id}-${optionIdx}`}
-                                      className="ml-3 flex min-w-0 items-center gap-x-1 text-gray-500"
+                                      className="mx-3 flex min-w-0 items-center gap-x-1 text-gray-500"
                                     >
                                       <p className="pl-2 text-sm">
                                         {option.name}
@@ -701,13 +714,18 @@ export default function CourseCategorySection() {
                                       option.value
                                     )
                                   }
-                                  checked={courseLevelParams
-                                    .map(Number)
-                                    .includes(option.value)}
+                                  checked={
+                                    (Array.isArray(courseLevelParams) &&
+                                      courseLevelParams
+                                        .map(Number)
+                                        .includes(option.value)) ||
+                                    courseLevelParams ===
+                                      option.value.toString()
+                                  }
                                 />
                                 <label
                                   htmlFor={`level-${option.value}-${optionIdx}`}
-                                  className="ml-3 flex min-w-0 items-center gap-x-1 text-gray-500"
+                                  className="mx-3 flex min-w-0 items-center gap-x-1 text-gray-500"
                                 >
                                   <p className="pl-2 text-sm">{option.name}</p>
                                 </label>
@@ -884,14 +902,15 @@ export default function CourseCategorySection() {
                                   )
                                 }
                                 checked={
-                                  minAverageRatingParams == option.value
+                                  minAverageRatingParams ==
+                                  option.value.toString()
                                     ? true
                                     : false
                                 }
                               />
                               <label
                                 htmlFor={`rating-${option.value}-${optionIdx}`}
-                                className="ml-3 flex min-w-0 items-center gap-x-1 text-gray-500"
+                                className="mx-3 flex min-w-0 items-center gap-x-1 text-gray-500"
                               >
                                 {[1, 2, 3, 4, 5].map((index) => {
                                   if (index <= option.value) {
@@ -965,7 +984,7 @@ export default function CourseCategorySection() {
                               />
                               <label
                                 htmlFor={`duration-${option.id}`}
-                                className="ml-3 flex min-w-0 items-center gap-x-1 text-gray-500"
+                                className="mx-3 flex min-w-0 items-center gap-x-1 text-gray-500"
                               >
                                 <p className="pl-2 text-sm">{option.name}</p>
                               </label>
@@ -1036,7 +1055,7 @@ export default function CourseCategorySection() {
                                     />
                                     <label
                                       htmlFor={`category-${option.id}-${optionIdx}`}
-                                      className="ml-3 flex min-w-0 items-center gap-x-1 text-gray-500"
+                                      className="mx-3 flex min-w-0 items-center gap-x-1 text-gray-500"
                                     >
                                       <p className="pl-2 text-sm">
                                         {option.name}
@@ -1097,13 +1116,18 @@ export default function CourseCategorySection() {
                                         option.id
                                       );
                                     }}
-                                    checked={subCategoryIdParams
-                                      .map(Number)
-                                      .includes(option.id)}
+                                    checked={
+                                      (Array.isArray(subCategoryIdParams) &&
+                                        subCategoryIdParams
+                                          .map(Number)
+                                          .includes(option.value)) ||
+                                      subCategoryIdParams ===
+                                        option.value.toString()
+                                    }
                                   />
                                   <label
                                     htmlFor={`sub-category-${option.id}-${optionIdx}`}
-                                    className="ml-3 flex min-w-0 items-center gap-x-1 text-gray-500"
+                                    className="mx-3 flex min-w-0 items-center gap-x-1 text-gray-500"
                                   >
                                     <p className="pl-2 text-sm">
                                       {option.name}
@@ -1159,13 +1183,17 @@ export default function CourseCategorySection() {
                                     option.value
                                   )
                                 }
-                                checked={courseLevelParams
-                                  .map(Number)
-                                  .includes(option.value)}
+                                checked={
+                                  (Array.isArray(courseLevelParams) &&
+                                    courseLevelParams
+                                      .map(Number)
+                                      .includes(option.value)) ||
+                                  courseLevelParams === option.value.toString()
+                                }
                               />
                               <label
                                 htmlFor={`level-${option.value}-${optionIdx}`}
-                                className="ml-3 flex min-w-0 items-center gap-x-1 text-gray-500"
+                                className="mx-3 flex min-w-0 items-center gap-x-1 text-gray-500"
                               >
                                 <p className="pl-2 text-sm">{option.name}</p>
                               </label>
@@ -1249,7 +1277,8 @@ export default function CourseCategorySection() {
               <div className="lg:col-span-3">
                 <div className="mb-6 flex flex-col justify-between gap-4 rounded-[8px] bg-white p-4 lg:flex-row lg:items-center">
                   <div className="flex items-center gap-x-4">
-                    {searchParams.size > 0 ? (
+                    {Number(searchParams.size) &&
+                    Number(searchParams.size) > 0 ? (
                       <span
                         className="text-primary cursor-pointer text-sm"
                         onClick={() => handleQueryParams("delete_all", "")}
@@ -1288,7 +1317,7 @@ export default function CourseCategorySection() {
                             : sortOptions.find(
                                 (item) => item.value == sortByParams
                               )?.name}
-                          <ChevronDown className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500" />
+                          <ChevronDown className="mx-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500" />
                         </Menu.Button>
                       </div>
 
@@ -1343,7 +1372,7 @@ export default function CourseCategorySection() {
                     <button
                       type="button"
                       className={cn(
-                        "-m-2 ml-2 p-2 text-gray-400  sm:ml-3",
+                        "-m-2 ml-2 p-2 text-gray-400  sm:mx-3",
                         itemView == "list" && "text-primary"
                       )}
                       onClick={() => handleItemView("list")}

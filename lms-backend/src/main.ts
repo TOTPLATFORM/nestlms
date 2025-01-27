@@ -28,18 +28,21 @@ async function bootstrap() {
   app.use(bodyParser.json({ limit: '10mb' })); // Increase the limit for JSON requests
   app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' })); // Increase the limit for URL-encoded requests
 
+  // Serve static files from storage directory
   app.useStaticAssets(
     path.join(__dirname, `../../${coreConstant.FILE_DESTINATION}`),
     {
       prefix: `/${coreConstant.FILE_DESTINATION}`,
     },
   );
-  app.useStaticAssets(
-    path.join(__dirname, `../../${coreConstant.FILE_DESTINATION}`),
-    {
-      prefix: `/${coreConstant.FILE_DESTINATION}`,
-    },
-  );
+
+    // Serve static files from images directory
+    app.useStaticAssets(
+      path.join(__dirname, `../../${coreConstant.IMAGES_DESTINATION}`),
+      {
+        prefix: `/${coreConstant.IMAGES_DESTINATION}`,
+      },
+    );
 
   // setApp(app);
   app.useGlobalPipes(

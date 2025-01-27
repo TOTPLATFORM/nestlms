@@ -1,8 +1,8 @@
 import React from "react";
-import { Tabs, FlowbiteTabTheme } from "flowbite-react";
+import { Tabs, FlowbiteTabsTheme } from "flowbite-react";
 import { HiAdjustments, HiClipboardList, HiUserCircle } from "react-icons/hi";
 import { MdDashboard } from "react-icons/md";
-const customTheme: FlowbiteTabTheme = {
+const customTheme: FlowbiteTabsTheme = {
   base: "flex flex-col gap-2",
   tablist: {
     base: "flex text-center",
@@ -63,7 +63,7 @@ const customTheme: FlowbiteTabTheme = {
 };
 export default function TabSection() {
   return (
-    <Tabs.Group
+    <Tabs
       aria-label="Tabs with underline"
       style="underline"
       theme={customTheme}
@@ -86,6 +86,6 @@ export default function TabSection() {
       <Tabs.Item disabled title="Disabled">
         Disabled content
       </Tabs.Item>
-    </Tabs.Group>
+    </Tabs>
   );
 }

@@ -8,9 +8,9 @@ import { NotFoundException } from '@nestjs/common';
 
 export const validImageUploadTypesRegex =
   /jpeg|jpg|png|gif|bmp|webp|svg|image\/svg\+xml/;
-export const validVideoUploadTypesRegex = /mp4|mkv|x-matroska/;
+export const validVideoUploadTypesRegex = /mp4|mkv|x-matroska|pdf/;
 export const maxImageUploadSize = 3 * 1024 * 1024; // 3MB
-export const maxVideoUploadSize = 2000 * 1024 * 1024; // 3MB
+export const maxVideoUploadSize = 2000 * 1024 * 1024; // 1gp
 
 const uploadDirectory = `./${coreConstant.FILE_DESTINATION}`;
 if (!fs.existsSync(uploadDirectory)) {
