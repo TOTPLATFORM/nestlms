@@ -138,7 +138,7 @@ export class CertificateService {
       const renderedContent = compiledTemplate(compile_data);
 
       const browser = await puppeteer.launch({
-        headless: 'new', // Pass 'new' to opt-in to the new Headless mode
+        headless: true, // Pass 'new' to opt-in to the new Headless mode
       });
 
       const page = await browser.newPage();
