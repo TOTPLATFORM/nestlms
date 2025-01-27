@@ -16,15 +16,15 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   setApp(app);
   app.setGlobalPrefix(API_PREFIX);
-  app.use(
-    cors({
-      // origin: process.env.FRONTEND_URL,
-      allowedHeaders:"*",
-      origin: '*',
-      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-      credentials: true,
-    }),
-  );
+  // app.use(
+  //   cors({
+  //     // origin: process.env.FRONTEND_URL,
+  //     allowedHeaders:"*",
+  //     origin: '*',
+  //     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  //     credentials: true,
+  //   }),
+  // );
   app.use(cookieParser());
   app.use(bodyParser.json({ limit: '10mb' })); // Increase the limit for JSON requests
   app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' })); // Increase the limit for URL-encoded requests
