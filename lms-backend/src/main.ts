@@ -16,6 +16,12 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   setApp(app);
   app.setGlobalPrefix(API_PREFIX);
+  app.enableCors({
+    origin: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+    allowedHeaders: '*', // 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+  });
   // app.use(
   //   cors({
   //     // origin: process.env.FRONTEND_URL,
