@@ -179,8 +179,21 @@ model Course {
   hallAttendeesNumber Int?         
   endDate             DateTime?
   startDate           DateTime?
+  attendanceDays      CourseTimeTable[]
   type                String?
 }
+
+ model CourseTimeTable {
+  id                  Int                @id @default(autoincrement())
+  sessionStartDate        DateTime           
+  sessionEndDate         DateTime           
+  course           Course          @relation(fields: [course_id], references: [id])
+  course_id        Int 
+  created_at       DateTime        @default(now())
+  updated_at       DateTime        @updatedAt
+  courseAttendees        CourseAttendance[]
+   @@unique([course_id, sessionStartDate,sessionEndDate])
+  }
 
 model CourseEnrollment {
   id               Int             @id @default(autoincrement())
@@ -191,10 +204,22 @@ model CourseEnrollment {
   CartEnrollment   CartEnrollment? @relation(fields: [cartEnrollmentId], references: [id])
   cartEnrollmentId Int?
   is_completed     Boolean         @default(false)
+  CourseAttendance    CourseAttendance[]
   created_at       DateTime        @default(now())
   updated_at       DateTime        @updatedAt
-
   UserLession UserLession[]
+}
+
+model CourseAttendance {
+  id             Int       @id @default(autoincrement())
+  enrolledUser            CourseEnrollment            @relation(fields: [enrolledUser_id], references: [id])
+  enrolledUser_id          Int
+  attendanceDate            CourseTimeTable            @relation(fields: [attendanceDate_id], references: [id])
+  attendanceDate_id          Int
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  
+  @@unique([enrolledUser_id, attendanceDate_id])
 }
 
 model CartItem {
