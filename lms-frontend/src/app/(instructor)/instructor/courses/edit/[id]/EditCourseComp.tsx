@@ -36,6 +36,8 @@ import {
   getHallByAreaIdForUser,
 } from "@/service/user/course";
 import { DatePickerType } from "@/components/form/DatePickerType";
+import { DateRangeDropdown } from "@/components/form/DateRangeDropdown";
+import { format } from "date-fns";
 
 const options = [
   { value: 0, label: "In-Active" },
@@ -170,6 +172,14 @@ export default function EditCourseComp({ id }: { id: string }) {
     form.setValue("meta_keyword", courseDetail?.data?.meta_keyword ?? "");
     setCourseType(courseDetail?.data?.type ?? "ONLINE");
     form.setValue("startDate", courseDetail?.data?.startDate);
+    form.setValue(
+      "attendanceDays",
+      courseDetail?.data?.attendanceDays?.map((item: any) =>
+        typeof item === "string"
+          ? item
+          : format(new Date(item.sessionStartDate), "yyyy-MM-dd")
+      ) || []
+    );
     form.setValue("endDate", courseDetail?.data?.endDate);
     form.setValue(
       "hallAttendeesNumber",
@@ -399,6 +409,18 @@ export default function EditCourseComp({ id }: { id: string }) {
         ? {
             hallId: data?.hallId?.value,
             startDate: new Date(data.startDate),
+            attendanceDays: {
+              deleteMany: {},
+
+              create: [
+                ...data?.attendanceDays.map((item: any) => {
+                  return {
+                    sessionStartDate: new Date(item),
+                    sessionEndDate: new Date(item),
+                  };
+                }),
+              ],
+            },
             endDate: new Date(data.endDate),
             hallAttendeesNumber: data.hallAttendeesNumber,
           }
@@ -576,6 +598,16 @@ export default function EditCourseComp({ id }: { id: string }) {
                                   formDescription={null}
                                   isErrorMessageShow={false}
                                 />
+                                <DateRangeDropdown
+                                  form={form}
+                                  formName="attendanceDays"
+                                  formLabel="Select Date"
+                                  formPlaceholder="Choose a date"
+                                  formDescription="Select a date from the available range"
+                                  startDate={form.watch("startDate")}
+                                  endDate={form.watch("endDate")}
+                                />
+
                                 <SelectType
                                   form={form}
                                   formName={"area_id"}
