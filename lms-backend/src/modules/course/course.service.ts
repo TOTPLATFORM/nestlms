@@ -204,9 +204,11 @@ export class CourseService {
           id: Number(course_id),
           instructorId: user.id,
         },
+
         include: {
           category: true,
           sub_category: true,
+          attendanceDays: true,
         },
       });
       if (!course_details) {
@@ -417,6 +419,7 @@ export class CourseService {
       };
 
       if (edit) {
+        console.log(prepareData, 'prepareData');
         const updateCourse = await PrismaClient.course.update({
           where: {
             id: createEditCourseDto.id,
@@ -426,6 +429,7 @@ export class CourseService {
 
         return successResponse('Course updated successfully', updateCourse);
       } else {
+        console.log(prepareData, 'prepareData');
         const createdCourse = await PrismaClient.course.create({
           data: prepareData,
         });
@@ -433,6 +437,7 @@ export class CourseService {
         return successResponse('Course created successfully', createdCourse);
       }
     } catch (error) {
+      console.log(error);
       console.log(error, 'error');
       processException(error);
     }
@@ -830,9 +835,12 @@ export class CourseService {
           },
           data: prepareData,
         });
+        console.log(prepareData, 'prepareData');
 
         return successResponse('Course updated successfully', updateCourse);
       } else {
+        console.log(prepareData, 'prepareData');
+
         const createdCourse = await PrismaClient.course.create({
           data: prepareData,
         });

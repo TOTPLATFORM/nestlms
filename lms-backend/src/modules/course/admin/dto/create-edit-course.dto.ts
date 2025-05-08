@@ -139,4 +139,7 @@ export class CreateCourseByAdminDto {
   @IsOptional()
   @IsNumber()
   hallId: number;
+
+  @IsOptional()
+  attendanceDays?: any;
 }

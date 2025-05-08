@@ -139,4 +139,7 @@ export class CreateEditCourseDto {
   @IsOptional()
   @IsNumber()
   hallId: number;
+
+  @IsOptional()
+  attendanceDays?: any;
 }
