@@ -29,6 +29,7 @@ import {
   getAllAreasForUser,
   getHallByAreaIdForUser,
 } from "@/service/user/course";
+import { DateRangeDropdown } from "@/components/form/DateRangeDropdown";
 
 const optionsForPrivateStatus = [
   { value: true, label: "Yes" },
@@ -265,6 +266,16 @@ export default function CreateCourse() {
             hallId: data?.hallId?.value,
             startDate: new Date(data.startDate),
             endDate: new Date(data.endDate),
+            attendanceDays: {
+              create: [
+                ...data?.attendanceDays.map((item: any) => {
+                  return {
+                    sessionStartDate: new Date(item),
+                    sessionEndDate: new Date(item),
+                  };
+                }),
+              ],
+            },
             hallAttendeesNumber: data.hallAttendeesNumber,
           }
         : {};
@@ -442,6 +453,15 @@ export default function CreateCourse() {
                                   formPlaceholder={"Enter Start Date"}
                                   formDescription={null}
                                   isErrorMessageShow={false}
+                                />
+                                <DateRangeDropdown
+                                  form={form}
+                                  formName="attendanceDays"
+                                  formLabel="Select Date"
+                                  formPlaceholder="Choose a date"
+                                  formDescription="Select a date from the available range"
+                                  startDate={form.watch("startDate")}
+                                  endDate={form.watch("endDate")}
                                 />
                                 <SelectType
                                   form={form}

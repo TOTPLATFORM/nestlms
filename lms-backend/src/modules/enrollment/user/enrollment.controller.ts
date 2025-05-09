@@ -19,6 +19,28 @@ export class EnrollmentController {
     return this.enrollmentService.createStripePaymentIntent(payload.amount);
   }
 
+  @Get('get-enrolled-users-by-course-id/:course_id')
+  async getEnrolledUsersByCourseId(
+    @Param('course_id') course_id: number,
+  ): Promise<ResponseModel> {
+    return await this.enrollmentService.getEnrolledUsersByCourseId(course_id);
+  }
+  @Post('update-session-attendance')
+  async updateSessionAttendance(
+    @Body()
+    payload: {
+      course_id: number;
+      session_id: number;
+      present_user_ids: number[];
+    },
+  ): Promise<ResponseModel> {
+    return await this.enrollmentService.updateSessionAttendance(
+      payload.course_id,
+      payload.session_id,
+      payload.present_user_ids,
+    );
+  }
+
   @Post('confirm-and-verify-stripe-payment')
   verifyPaymentIntent(
     @Body()

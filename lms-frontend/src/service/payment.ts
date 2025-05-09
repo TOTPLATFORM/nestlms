@@ -8,8 +8,7 @@ export const createStripePaymentIntent = async (amount: number) => {
 };
 
 export const doCashPaymentIntent = async (amount: number) => {
-  const { data } = await request.post("/enroll", {
-  });
+  const { data } = await request.post("/enroll", {});
   return data;
 };
 

@@ -68,6 +68,7 @@ export const addEditCourseApi = async (value: any) => {
     "/course/create-edit-instructor-course",
     value
   );
+  //
   return data;
 };
 

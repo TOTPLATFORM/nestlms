@@ -1,8 +1,6 @@
 "use client";
 
-import { HiAdjustments, HiClipboardList, HiUserCircle } from "react-icons/hi";
-
-import BackButton from "@/components/back-button/BackButton";
+import { HiClipboardList, HiUserCircle } from "react-icons/hi";
 import LoaderButton from "@/components/button/LoaderButton";
 import { InputType } from "@/components/form/InputType";
 import SelectType from "@/components/form/SelectType";
@@ -13,18 +11,14 @@ import FormSkelation from "@/components/skelaton/FormSkelation";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { COURSE_LEVEL, DISCOUNT_TYPE, UPLOAD_SOURCE } from "@/constant/core";
-import { useAddCategoriesFormHandler } from "@/hooks/admin/category.hook";
-import { LuLayoutDashboard } from "react-icons/lu";
 
 import {
-  useAddCourseFormHandler,
   useAddEditCourseFormHandler,
   useGetActiveCategoryListsForUser,
   useGetCourseDetails,
 } from "@/hooks/user/course.hook";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "@/hooks/useTranslation";
-import CustomModal from "@/components/modal/CustomModal";
 import SectionComp from "@/section/user/course/SectionComp";
 import { toast } from "react-toastify";
 import { errorToast } from "@/lib/helper";
@@ -37,8 +31,12 @@ import {
 } from "@/service/user/course";
 import { DatePickerType } from "@/components/form/DatePickerType";
 import { DateRangeDropdown } from "@/components/form/DateRangeDropdown";
-import { format } from "date-fns";
-
+import { format, formatDate } from "date-fns";
+import AttendanceTracker from "@/section/user/course/AttendanceTrack";
+import {
+  getEnrolledUsersByCourseId,
+  updateSessionAttendance,
+} from "@/service/user/enrollment";
 const options = [
   { value: 0, label: "In-Active" },
   { value: 1, label: "Active" },
@@ -105,6 +103,11 @@ const tabSections = [
     name: "Quiz",
     icon: HelpCircle,
   },
+  {
+    id: 6,
+    name: "Attendance",
+    icon: HiClipboardList,
+  },
 ];
 
 export default function EditCourseComp({ id }: { id: string }) {
@@ -156,6 +159,20 @@ export default function EditCourseComp({ id }: { id: string }) {
   const videoUploadSource = form.watch("video_upload_source") || {};
   const price = form.watch("price");
   const discountValue = form.watch("discount_value");
+  const [enrolledUser, setEnrolledUser] = useState<any>([]);
+
+  useEffect(() => {
+    const loadData = async () => {
+      const data = await getEnrolledUsersByCourseId(courseId);
+
+      if (data?.data) {
+        setEnrolledUser(data.data);
+      }
+    };
+    console.log(courseId);
+
+    if (courseId) loadData();
+  }, [courseId]);
 
   useEffect(() => {
     setCourseId(courseDetail?.data?.id);
@@ -348,7 +365,7 @@ export default function EditCourseComp({ id }: { id: string }) {
       price &&
       discountValue
     ) {
-      if (parseFloat(price) < parseFloat(discountValue)) {
+      if (Number.parseFloat(price) < Number.parseFloat(discountValue)) {
         form.setValue("discount_value", "");
         errorToast(`Discount Value Cannot be Greater than ${price}`);
       }
@@ -367,7 +384,7 @@ export default function EditCourseComp({ id }: { id: string }) {
     if (categoryLists?.data?.length === 0) {
       return;
     }
-    let newOtions = categoryLists?.data?.map((item: any) => ({
+    const newOtions = categoryLists?.data?.map((item: any) => ({
       label: item.name,
       value: item.id,
       subCategoryOptions: item.SubCategory,
@@ -379,7 +396,7 @@ export default function EditCourseComp({ id }: { id: string }) {
     if (!selectedCategory?.value) {
       return;
     }
-    let newSubOtions = selectedCategory.subCategoryOptions?.map(
+    const newSubOtions = selectedCategory.subCategoryOptions?.map(
       (item: any) => ({
         label: item.name,
         value: item.id,
@@ -435,11 +452,13 @@ export default function EditCourseComp({ id }: { id: string }) {
       is_free: data.is_free?.value,
       discount_status: data.discount_status?.value,
       discount_type: data.discount_type?.value,
-      discount_value: data.discount_value ? parseFloat(data.discount_value) : 0,
+      discount_value: data.discount_value
+        ? Number.parseFloat(data.discount_value)
+        : 0,
       category_id: data.category_id?.value,
       sub_category_id: data.sub_category_id?.value || null,
-      duration: parseFloat(data.duration),
-      price: parseFloat(data.price),
+      duration: Number.parseFloat(data.duration),
+      price: Number.parseFloat(data.price),
       what_you_will_learn: data.what_you_will_learn
         ?.map((item: any) => item?.list)
         .filter((list: any) => list?.trim() !== "")
@@ -461,7 +480,7 @@ export default function EditCourseComp({ id }: { id: string }) {
       setActiveTab(1);
       return;
     }
-    let value: any = {
+    const value: any = {
       thumbnail_link: thumbnailImageId,
       cover_image_link: coverImageId,
       id: courseId,
@@ -480,7 +499,7 @@ export default function EditCourseComp({ id }: { id: string }) {
       setActiveTab(1);
       return;
     }
-    let value = {
+    const value = {
       meta_description: data?.meta_description,
       meta_title: data?.meta_title,
       meta_keyword: data.meta_keyword,
@@ -526,11 +545,7 @@ export default function EditCourseComp({ id }: { id: string }) {
             {tabSections.map((item: any) => (
               <li key={item.id}>
                 <button
-                  className={`${
-                    activeTab === item.id
-                      ? "border-b-2 border-cyan-600 text-cyan-600"
-                      : ""
-                  }
+                  className={`${activeTab === item.id ? "border-b-2 border-cyan-600 text-cyan-600" : ""}
                  flex cursor-pointer items-center justify-center gap-x-2 rounded-t-lg p-4  text-sm font-medium first:ml-0  hover:border-b-2 focus:outline-none focus:!ring-0  disabled:cursor-not-allowed disabled:text-gray-400 dark:border-cyan-500 dark:text-cyan-500 disabled:dark:text-gray-500`}
                   onClick={() => setActiveTab(item.id)}
                   disabled={item.id !== 1 && !courseId}
@@ -987,6 +1002,46 @@ export default function EditCourseComp({ id }: { id: string }) {
             <div className="mb-5">
               {activeTab === 5 && (
                 <QuizComp courseId={courseId} setActiveTab={setActiveTab} />
+              )}
+            </div>
+            <div className="mb-5">
+              {activeTab === 6 && (
+                <AttendanceTracker
+                  courseData={courseDetail?.data}
+                  studentNames={[
+                    ...enrolledUser.map((user: any) => ({
+                      id: user.id,
+                      name: user.user.user_name,
+                      email: user.user.email,
+                    })),
+                  ]}
+                  dates={form.watch("attendanceDays") || []}
+                  onSubmit={async (attendanceData) => {
+                    courseDetail?.data?.attendanceDays.map(
+                      async (session: any) => {
+                        const formattedDate = formatDate(
+                          session?.sessionStartDate,
+                          "yyyy-MM-dd"
+                        );
+                        const usersOnSpecificDate =
+                          attendanceData[formattedDate];
+                        if (formattedDate) {
+                          await updateSessionAttendance({
+                            course_id: courseId,
+                            present_user_ids: usersOnSpecificDate
+                              ? usersOnSpecificDate
+                                  .filter((stud) => stud.isAttend)
+                                  .map((student) => student.id)
+                              : [],
+                            session_id: session.id,
+                          });
+                        }
+                      }
+                    );
+
+                    toast.success("Attendance data saved successfully!");
+                  }}
+                />
               )}
             </div>
           </div>

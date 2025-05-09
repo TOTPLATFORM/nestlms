@@ -208,7 +208,11 @@ export class CourseService {
         include: {
           category: true,
           sub_category: true,
-          attendanceDays: true,
+          attendanceDays: {
+            include: {
+              courseAttendees: true,
+            },
+          },
         },
       });
       if (!course_details) {

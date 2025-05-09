@@ -82,7 +82,7 @@ export default function CheckOut() {
     console.log("myTotalPrice", myTotalPrice);
     doCashPaymentIntent(myTotalPrice).then((res: any) => {
       successToast(res.message);
-    })
+    });
   };
   const sripePaymentHandler = async () => {
     try {

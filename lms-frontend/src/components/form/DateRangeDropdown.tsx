@@ -55,7 +55,6 @@ export function DateRangeDropdown({
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [open, setOpen] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
-  console.log(form.getValues(), "form.values");
 
   // Generate date options between start and end dates
   const dateOptions = React.useMemo(() => {
