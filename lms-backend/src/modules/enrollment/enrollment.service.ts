@@ -254,6 +254,112 @@ export class EnrollmentService {
       processException(error);
     }
   }
+  async getEnrolledUsersByCourseId(courseId: number): Promise<ResponseModel> {
+    try {
+      const enrollments = await PrismaClient.courseEnrollment.findMany({
+        where: {
+          course_id: courseId,
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              user_name: true,
+              email: true,
+            },
+          },
+        },
+        orderBy: {
+          created_at: 'desc',
+        },
+      });
+
+      return successResponse(
+        'Enrolled users fetched successfully',
+        enrollments,
+      );
+    } catch (error) {
+      processException(error);
+    }
+  }
+  async updateSessionAttendance(
+    courseId: number,
+    sessionId: number,
+    presentUserIds: number[],
+  ) {
+    try {
+      // Validate session
+      const session = await PrismaClient.courseTimeTable.findFirst({
+        where: {
+          id: sessionId,
+          course_id: courseId,
+        },
+      });
+
+      if (!session) {
+        return errorResponse(
+          'Invalid session or session does not belong to this course',
+        );
+      }
+
+      // Get all enrollments for this course
+      const enrollments = await PrismaClient.courseEnrollment.findMany({
+        where: {
+          course_id: courseId,
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      // Create a map for quick lookup
+      const enrollmentMap = {};
+      enrollments.forEach((e) => {
+        enrollmentMap[e.id] = e.id;
+      });
+
+      // Filter valid user IDs (those who are actually enrolled)
+      const validPresentUserIds = presentUserIds.filter((userId) =>
+        enrollmentMap.hasOwnProperty(userId),
+      );
+
+      // Start a transaction
+      return await PrismaClient.$transaction(async (prisma) => {
+        // 1. Delete all existing attendance records for this session
+        await prisma.courseAttendance.deleteMany({
+          where: {
+            attendanceDate_id: sessionId,
+            enrolledUser: {
+              course_id: courseId,
+            },
+          },
+        });
+
+        // 2. Create new attendance records for present users
+        if (validPresentUserIds.length > 0) {
+          const attendanceRecords = validPresentUserIds.map((userId) => ({
+            enrolledUser_id: enrollmentMap[userId],
+            attendanceDate_id: sessionId,
+          }));
+
+          await prisma.courseAttendance.createMany({
+            data: attendanceRecords,
+            skipDuplicates: true,
+          });
+        }
+
+        return successResponse('Attendance updated successfully', {
+          sessionId,
+          courseId,
+          updatedCount: validPresentUserIds.length,
+          totalEnrolled: enrollments.length,
+        });
+      });
+    } catch (error) {
+      console.error('Error updating attendance:', error);
+      return errorResponse(`Failed to update attendance: ${error.message}`);
+    }
+  }
   async getCartDetails(
     user: User,
   ): Promise<{ totalPrice: number; productsList: any[] }> {
@@ -642,5 +748,4 @@ export class EnrollmentService {
       processException(error);
     }
   }
-  
 }
