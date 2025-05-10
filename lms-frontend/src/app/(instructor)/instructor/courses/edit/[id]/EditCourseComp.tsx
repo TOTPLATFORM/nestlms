@@ -1005,7 +1005,7 @@ export default function EditCourseComp({ id }: { id: string }) {
               )}
             </div>
             <div className="mb-5">
-              {activeTab === 6 && (
+              {activeTab === 6 && courseType === "OFFLINE" && (
                 <AttendanceTracker
                   courseData={courseDetail?.data}
                   studentNames={[
