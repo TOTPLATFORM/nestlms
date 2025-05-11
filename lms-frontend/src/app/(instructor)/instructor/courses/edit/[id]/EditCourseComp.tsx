@@ -1017,27 +1017,34 @@ export default function EditCourseComp({ id }: { id: string }) {
                   ]}
                   dates={form.watch("attendanceDays") || []}
                   onSubmit={async (attendanceData) => {
-                    courseDetail?.data?.attendanceDays.map(
-                      async (session: any) => {
-                        const formattedDate = formatDate(
-                          session?.sessionStartDate,
-                          "yyyy-MM-dd"
-                        );
-                        const usersOnSpecificDate =
-                          attendanceData[formattedDate];
-                        if (formattedDate) {
-                          await updateSessionAttendance({
-                            course_id: courseId,
-                            present_user_ids: usersOnSpecificDate
-                              ? usersOnSpecificDate
-                                  .filter((stud) => stud.isAttend)
-                                  .map((student) => student.id)
-                              : [],
-                            session_id: session.id,
-                          });
-                        }
+                    for (const session of courseDetail?.data?.attendanceDays ||
+                      []) {
+                      const formattedDate = formatDate(
+                        session?.sessionStartDate,
+                        "yyyy-MM-dd"
+                      );
+
+                      const usersOnSpecificDate = attendanceData[formattedDate];
+
+                      console.log(usersOnSpecificDate, "usersOnSpecificDate");
+                      console.log(formattedDate, "formattedDate");
+                      console.log(session.id, "session.id");
+
+                      if (formattedDate) {
+                        const presentUserIds = usersOnSpecificDate
+                          ? usersOnSpecificDate
+                              .filter((stud) => stud.isAttend)
+                              .map((s) => s.id)
+                          : [];
+
+                        // Await each one in sequence
+                        await updateSessionAttendance({
+                          course_id: courseId,
+                          present_user_ids: presentUserIds,
+                          session_id: session.id,
+                        });
                       }
-                    );
+                    }
 
                     toast.success("Attendance data saved successfully!");
                   }}
